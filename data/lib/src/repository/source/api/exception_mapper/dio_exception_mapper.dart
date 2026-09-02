@@ -51,6 +51,9 @@ class DioExceptionMapper extends ExceptionMapper<RemoteException> {
             kind: RemoteExceptionKind.badCertificate,
             rootException: exception,
           );
+        case DioExceptionType.transformTimeout:
+          //todo dioExxceptionType.transformtimeout
+
         case DioExceptionType.connectionError:
           return RemoteException(kind: RemoteExceptionKind.network, rootException: exception);
         case DioExceptionType.unknown:

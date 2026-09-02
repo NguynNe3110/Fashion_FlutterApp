@@ -5,7 +5,7 @@ description: "A new Flutter project."
 version: 1.0.0+1
 
 environment:
-    sdk: ">=3.9.0 <4.0.0"
+    sdk: ">=3.10.0 <4.0.0"
 
 dependencies:
     flutter:
@@ -63,7 +63,14 @@ dev_dependencies:
 flutter:
     uses-material-design: true
     assets:
-        - assets/
+        - assets/images/app_logo.svg
+        - assets/images/camera.svg
+        - assets/images/circle_close.svg
+        - assets/images/error.svg
+        - assets/images/icon_back.svg
+        - assets/images/icon_close.svg
+        - assets/images/ios_app_icon.png
+        - assets/images/logo.svg
         - assets/raw/
         - .env
     fonts:

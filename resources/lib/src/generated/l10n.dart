@@ -13,7 +13,7 @@ import 'intl/messages_all.dart';
 // ignore_for_file: avoid_redundant_argument_values, avoid_escaping_inner_quotes
 
 class S {
-  S();
+  S([String? locale]);
 
   static S? _current;
 
