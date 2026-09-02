@@ -1,0 +1,49 @@
+sau khi thêm thư viện vào file pubspec.yaml thì phải build lại project
+> flutter pub get
+
+----
+----
+
+chạy để generate code file .g.dart
+> flutter pub run build_runner build --delete-conflicting-outputs
+Hoặc
+> dart run build_runner build --delete-conflicting-outputs
+
+Khi quản lý bằng melos thì phải build file melos.yaml và cấu hình sau đó run
+> dart pub global run melos run build
+----
+
+trường hợp bị lỗi thư viện cần xóa đi và tải lại
+> flutter clean
+flutter pub get
+
+đôi khi xóa đi k được có thể là do file yaml.lock đã nhớ package, trường hợp này cần xóa luôn file .lock này
+> Remove-Item pubspec.lock
+
+----
+
+lệnh để xóa toàn bộ file .g.dart
+> Get-ChildItem -Path . -Filter "*.g.dart" -Recurse | Remove-Item -Force
+
+----
+
+muốn thêm 1 thư viện cụ thể (tự động cài phiên bản) (vd: thư viện go_route)
+> flutter pub add go_router
+
+----
+
+ lệnh để ide tạo skeleton
+> dart create -t package name_package
+ hoặc là flutter (không thường dùng) - mặc dù tương đồng nhau.
+> flutter create --template=package name_package
+
+----
+các package đều phải dùng chung 1 build
+nếu cần nâng cấp, hãy luôn giữ chúng cùng 1 nhánh major. lệch sau giúp tự kéo tất cả lên cùng 1 phiên bản build
+> flutter pub upgrade --major-versions
+
+----
+nếu bị lỗi treo app thì chạy trong terminal
+> flutter clean
+flutter pub get
+flutter run

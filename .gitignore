@@ -44,6 +44,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-/.dart_tool
 .env
 .freezed.dart
+./afolder

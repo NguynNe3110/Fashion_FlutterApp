@@ -1,15 +1,15 @@
 name: fashion
-publish_to: 'none'
+publish_to: "none"
 description: "Root workspace for fashion app monorepo"
 
 environment:
-  sdk: ^3.12.1
+    sdk: ">=3.9.0 <4.0.0"
 
 workspace:
-  - app
-  - shared
-  - domain
-  - data
+    - app
+    - shared
+    - domain
+    - data
 
 dev_dependencies:
-  melos: ^6.3.2
+    melos: ^6.3.2

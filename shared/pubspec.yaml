@@ -1,11 +1,16 @@
-name: shared
-publish_to: 'none'
+﻿name: shared
+publish_to: "none"
 resolution: workspace
 
 environment:
-  sdk: ^3.12.1
+    sdk: ">=3.9.0 <4.0.0"
 
 dependencies:
-  path: ^1.9.0
-  intl: ^0.20.0
-
+    path: ^1.9.0
+    intl: ^0.20.0
+    android_id: ^0.4.0
+    device_info_plus: ^11.0.0
+    flutter_udid: ^4.0.0
+    package_info_plus: ^8.0.0
+    flutter_cache_manager: ^3.4.0
+    decimal: ^3.0.0

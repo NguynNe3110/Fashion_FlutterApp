@@ -4,12 +4,24 @@ version: 1.0.0
 # repository: https://github.com/my_org/my_repo
 
 environment:
-  sdk: ^3.12.1
+    sdk: ">=3.9.0 <4.0.0"
 
 # Add regular dependencies here.
 dependencies:
-  # path: ^1.9.0
+    flutter:
+        sdk: flutter
 
 dev_dependencies:
-  lints: ^5.0.0
-  test: ^1.25.6
+    lints: ^5.0.0
+    test: ^1.26.0
+    intl_utils: ^2.8.16
+
+flutter:
+    generate: true
+
+flutter_intl:
+    enabled: true
+    class_name: S
+    main_locale: en
+    arb_dir: lib/src/l10n
+    output_dir: lib/src/generated

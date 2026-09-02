@@ -1,0 +1,20 @@
+name: fashion_app
+
+packages:
+    - app
+    - shared
+    - domain # Uncomment khi có
+    - data # Uncomment khi có
+
+scripts:
+    # Lệnh gen code cho tất cả packages
+    build:
+        run: melos exec --scope=app -- dart run build_runner build --delete-conflicting-outputs
+
+    # Lệnh gen code và tự động theo dõi thay đổi (watch mode)
+    watch:
+        run: melos exec --scope=app -- dart run build_runner watch --delete-conflicting-outputs
+
+    # Lệnh clean
+    clean:
+        run: melos exec --flutter -- flutter clean

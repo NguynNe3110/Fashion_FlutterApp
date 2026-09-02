@@ -1,59 +1,79 @@
 name: app
-publish_to: 'none'
+publish_to: "none"
 resolution: workspace
 description: "A new Flutter project."
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.12.1
+    sdk: ">=3.9.0 <4.0.0"
 
 dependencies:
-  flutter:
-    sdk: flutter
-  cupertino_icons: ^1.0.8
+    flutter:
+        sdk: flutter
+    cupertino_icons: ^1.0.8
 
-  # ✅ Phụ thuộc các tầng nội bộ
-  shared:
-  domain:
-  data:
+    # ✅ Phụ thuộc các tầng nội bộ
+    shared:
+    domain:
+    data:
+    initializer:
+        path: ../initializer
+    resources:
+        path: ../resources
 
-  # ---------------- State Management ----------------
-  flutter_riverpod: ^2.6.1
-  riverpod_annotation: ^2.6.1
-  flutter_bloc: ^8.1.6
-  bloc: ^8.1.4
+    # ---------------- State Management ----------------
+    flutter_riverpod: ^2.6.1
+    riverpod_annotation: ^2.6.1
+    flutter_bloc: ^8.1.6
+    bloc: ^8.1.4
+    auto_route: ^10.1.2
+    flutter_localizations:
+        sdk: flutter
+    flutter_local_notifications: ^19.4.1
+    flutter_screenutil: ^5.9.3
+    infinite_scroll_pagination: ^5.1.1
+    injectable: ^2.5.1
+    provider: ^6.1.5+1
 
-  # ---------------- Navigation & DI ----------------
-  go_router: ^17.3.0
-  get_it: ^8.0.3
+    # ---------------- Navigation & DI ----------------
+    go_router: ^17.3.0
+    get_it: ^8.0.3
 
-  # ---------------- Utils & UI ----------------
-  flutter_dotenv: ^6.0.0
-  flutter_svg: ^2.2.0
-  image_picker: ^1.2.3
-  rxdart: ^0.28.0
-  sqlite3_flutter_libs: ^0.5.28
+    # ---------------- Utils & UI ----------------
+    flutter_dotenv: ^6.0.0
+    flutter_svg: ^2.2.0
+    image_picker: ^1.2.3
+    rxdart: ^0.28.0
+    sqlite3_flutter_libs: ^0.5.28
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^5.0.0
+    flutter_test:
+        sdk: flutter
+    flutter_lints: ^5.0.0
 
-  # Code Generation
-  build_runner: ^2.4.13
-  riverpod_generator: ^2.6.3
-  freezed: ^2.5.7
-  freezed_annotation: ^2.4.4
+    # Code Generation
+    build_runner: ^2.4.13
+    flutter_gen_runner: 5.9.0
+    auto_route_generator: ^10.2.3
+    injectable_generator: 2.7.0
+    riverpod_generator: ^2.6.3
+    freezed: ^2.5.7
+    freezed_annotation: ^2.4.4
 
 flutter:
-  uses-material-design: true
-  assets:
-    - assets/
-    - assets/raw/
-    - .env
-  fonts:
-    - family: Inter
-      fonts:
-        - asset: assets/fonts/Inter_24pt-Regular.ttf
-          weight: 400
-        # (Bạn giữ nguyên các font khác của bạn ở đây)
+    uses-material-design: true
+    assets:
+        - assets/
+        - assets/raw/
+        - .env
+    fonts:
+        - family: Inter
+          fonts:
+              - asset: assets/fonts/Inter_24pt-Regular.ttf
+                weight: 400
+              # (Bạn giữ nguyên các font khác của bạn ở đây)
+
+flutter_gen:
+    output: lib/resource/generated/
+    integrations:
+        flutter_svg: true

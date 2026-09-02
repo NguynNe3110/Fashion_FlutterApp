@@ -1,0 +1,98 @@
+// dart format width=80
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+// **************************************************************************
+// InjectableConfigGenerator
+// **************************************************************************
+
+// ignore_for_file: type=lint
+// coverage:ignore-file
+
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+
+import 'package:domain/domain.dart' as _i494;
+import 'package:domain/src/usecase/clear_current_user_data_use_case.dart'
+    as _i266;
+import 'package:domain/src/usecase/fake_login_use_case.dart' as _i245;
+import 'package:domain/src/usecase/forgot_password_use_case.dart' as _i785;
+import 'package:domain/src/usecase/get_initial_app_data_use_case.dart' as _i428;
+import 'package:domain/src/usecase/get_initial_home_data_use_case.dart'
+    as _i160;
+import 'package:domain/src/usecase/get_users_use_case.dart' as _i1037;
+import 'package:domain/src/usecase/is_logged_in_use_case.dart' as _i8;
+import 'package:domain/src/usecase/load_initial_resource_use_case.dart'
+    as _i482;
+import 'package:domain/src/usecase/load_more_users_use_case.dart' as _i905;
+import 'package:domain/src/usecase/login_use_case.dart' as _i847;
+import 'package:domain/src/usecase/logout_use_case.dart' as _i839;
+import 'package:domain/src/usecase/register_account_use_case.dart' as _i266;
+import 'package:domain/src/usecase/reset_password_use_case.dart' as _i528;
+import 'package:domain/src/usecase/save_is_dark_mode_use_case.dart' as _i301;
+import 'package:domain/src/usecase/save_is_first_launch_app_use_case.dart'
+    as _i319;
+import 'package:domain/src/usecase/save_language_code_use_case.dart' as _i95;
+import 'package:get_it/get_it.dart' as _i174;
+import 'package:injectable/injectable.dart' as _i526;
+
+extension GetItInjectableX on _i174.GetIt {
+  // initializes the registration of main-scope dependencies inside of GetIt
+  _i174.GetIt init({
+    String? environment,
+    _i526.EnvironmentFilter? environmentFilter,
+  }) {
+    final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.factory<_i839.LogoutUseCase>(
+      () =>
+          _i839.LogoutUseCase(gh<_i494.Repository>(), gh<_i494.AppNavigator>()),
+    );
+    gh.factory<_i245.FakeLoginUseCase>(
+      () => _i245.FakeLoginUseCase(
+        gh<_i494.AppNavigator>(),
+        gh<_i494.Repository>(),
+      ),
+    );
+    gh.factory<_i266.ClearCurrentUserDataUseCase>(
+      () => _i266.ClearCurrentUserDataUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i785.ForgotPasswordUseCase>(
+      () => _i785.ForgotPasswordUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i428.GetInitialAppDataUseCase>(
+      () => _i428.GetInitialAppDataUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i160.GetInitialHomeDataUseCase>(
+      () => _i160.GetInitialHomeDataUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i1037.GetUsersUseCase>(
+      () => _i1037.GetUsersUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i8.IsLoggedInUseCase>(
+      () => _i8.IsLoggedInUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i482.LoadInitialResourceUseCase>(
+      () => _i482.LoadInitialResourceUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i905.LoadMoreUsersUseCase>(
+      () => _i905.LoadMoreUsersUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i847.LoginUseCase>(
+      () => _i847.LoginUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i266.RegisterAccountUseCase>(
+      () => _i266.RegisterAccountUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i528.ResetPasswordUseCase>(
+      () => _i528.ResetPasswordUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i301.SaveIsDarkModeUseCase>(
+      () => _i301.SaveIsDarkModeUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i319.SaveIsFirstLaunchAppUseCase>(
+      () => _i319.SaveIsFirstLaunchAppUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i95.SaveLanguageCodeUseCase>(
+      () => _i95.SaveLanguageCodeUseCase(gh<_i494.Repository>()),
+    );
+    return this;
+  }
+}
