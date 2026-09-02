@@ -1,0 +1,11 @@
+name: shared
+publish_to: 'none'
+resolution: workspace
+
+environment:
+  sdk: ^3.12.1
+
+dependencies:
+  path: ^1.9.0
+  intl: ^0.20.0
+
