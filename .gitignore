@@ -44,6 +44,12 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# Melos
+pubspec_overrides.yaml
+**/pubspec_overrides.yaml
+
 .env
 .freezed.dart
+.g.dart
+
 ./afolder
