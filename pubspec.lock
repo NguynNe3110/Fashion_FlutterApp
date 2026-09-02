@@ -909,13 +909,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.1"
-  initializer:
-    dependency: transitive
-    description:
-      path: initializer
-      relative: true
-    source: path
-    version: "1.0.0"
   injectable:
     dependency: transitive
     description:
@@ -1380,13 +1373,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.0"
-  resources:
-    dependency: transitive
-    description:
-      path: resources
-      relative: true
-    source: path
-    version: "1.0.0"
   retrofit:
     dependency: transitive
     description:

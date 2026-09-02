@@ -1,20 +1,38 @@
-name: fashion_app
+name: fashion
 
 packages:
-    - app
-    - shared
-    - domain # Uncomment khi có
-    - data # Uncomment khi có
+  - app
+  - shared
+  - domain
+  - data
+  - initializer
+  - resources
+
+command:
+  bootstrap:
+    usePubspecOverlap: false
 
 scripts:
-    # Lệnh gen code cho tất cả packages
-    build:
-        run: melos exec --scope=app -- dart run build_runner build --delete-conflicting-outputs
+  bootstrap:
+    run: melos pub get
+    description: Install dependencies for all packages
 
-    # Lệnh gen code và tự động theo dõi thay đổi (watch mode)
-    watch:
-        run: melos exec --scope=app -- dart run build_runner watch --delete-conflicting-outputs
+  pubget:
+    run: melos exec --no-private -- flutter pub get
+    description: Run flutter pub get in all packages
 
-    # Lệnh clean
-    clean:
-        run: melos exec --flutter -- flutter clean
+  build:
+    run: melos exec -- dart run build_runner build --delete-conflicting-outputs
+    description: Run build_runner in all packages
+
+  analyze:
+    run: melos exec -- dart analyze
+    description: Run dart analyze in all packages
+
+  clean:
+    run: melos exec -- flutter clean
+    description: Clean all packages
+
+  setup:
+    run: melos bootstrap && melos build
+    description: Full setup - bootstrap and build

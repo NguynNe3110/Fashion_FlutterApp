@@ -60,6 +60,9 @@ dev_dependencies:
     freezed: ^2.5.7
     freezed_annotation: ^2.4.4
 
+    #env
+    flutter_dotenv: ^6.0.0
+
 flutter:
     uses-material-design: true
     assets:

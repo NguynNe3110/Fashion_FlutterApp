@@ -12,7 +12,27 @@ Hoặc
 Khi quản lý bằng melos thì phải build file melos.yaml và cấu hình sau đó run
 > dart pub global run melos run build
 ----
+# Đồng bộ tất cả dependencies (chạy SAU KHI sửa pubspec.yaml)
+melos bootstrap
 
+# Chạy flutter pub get cho TẤT CẢ packages
+melos exec -- flutter pub get
+
+# Chạy flutter pub get cho MỘT package cụ thể
+melos exec --scope="data" -- flutter pub get
+
+# Xem danh sách tất cả packages trong monorepo
+melos list
+
+# Chạy script định nghĩa trong melos.yaml (nếu có)
+melos run <script-name>
+
+# Chạy flutter analyze cho tất cả packages
+melos exec -- flutter analyze
+
+# Chạy flutter test cho tất cả packages
+melos exec -- flutter test
+----
 trường hợp bị lỗi thư viện cần xóa đi và tải lại
 > flutter clean
 flutter pub get
