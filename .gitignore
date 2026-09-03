@@ -53,4 +53,4 @@ pubspec_overrides.yaml
 .g.dart
 .config.dart
 
-./afolder
+/afolder/
