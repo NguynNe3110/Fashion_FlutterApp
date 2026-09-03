@@ -5,6 +5,7 @@ import 'package:objectbox/objectbox.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared/shared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../objectbox.g.dart';
 
@@ -12,7 +13,11 @@ import 'di.config.dart';
 
 @module
 abstract class ServiceModule {
-  @preResolve
+  // khoi tao supabase client
+  @singleton
+  SupabaseClient get supabaseClient => Supabase.instance.client;
+
+  @preResolve // chờ await xong
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
 
   @preResolve
@@ -35,5 +40,5 @@ abstract class ServiceModule {
 
 final GetIt getIt = GetIt.instance;
 
-@injectableInit
+@injectableInit // tạo ra file config.dart
 void configureInjection() => getIt.init();

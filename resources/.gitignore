@@ -5,3 +5,9 @@
 # Avoid committing pubspec.lock for library packages; see
 # https://dart.dev/tools/pub/private-files#pubspec-lock.
 pubspec.lock
+.env
+.freezed.dart
+.g.dart
+.config.dart
+
+./afolder

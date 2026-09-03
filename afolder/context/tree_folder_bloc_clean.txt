@@ -1,0 +1,495 @@
+# 🏗️ PROJECT ORGANIZATION - CẤU TRÚC THƯ MỤC TOÀN DIỆN
+
+---
+
+## CÂY THƯ MỤC ĐẦY ĐỦ
+
+```
+module/
+│
+├── 📦 app/                               # 🔴 App Layer - UI, BLoC, Navigation, Resources
+│   └── lib/
+│       ├── main.dart                     # Entry point của ứng dụng
+│       ├── app.dart                     # Module export file
+│       │
+│       ├── di/
+│       │   └── di.dart                  # GetIt / Injectable setup
+│       │
+│       ├── config/
+│       │   └── app_config.dart          # App-wide configs
+│       │
+│       ├── base/
+│       │   ├── base_page_state.dart
+│       │   └── bloc/
+│       │       ├── app_bloc_observer.dart
+│       │       ├── base_bloc.dart
+│       │       ├── base_bloc_event.dart
+│       │       ├── base_bloc_state.dart
+│       │       ├── common/
+│       │       │   ├── common_bloc.dart
+│       │       │   ├── common_event.dart
+│       │       │   └── common_state.dart
+│       │       └── mixin/
+│       │           └── event_transformer_mixin.dart
+│       │
+│       ├── app/
+│       │   └── bloc/
+│       │       ├── app_bloc.dart
+│       │       ├── app_event.dart
+│       │       └── app_state.dart
+│       │
+│       ├── ui/                          # 🏠 Feature Screens
+│       │   ├── home/
+│       │   │   └── home_page.dart
+│       │   ├── main/
+│       │   │   └── main_page.dart
+│       │   ├── login/
+│       │   │   └── login_page.dart
+│       │   ├── search/
+│       │   │   └── search_page.dart
+│       │   ├── my_page/
+│       │   │   └── my_page_page.dart
+│       │   └── item_detail/
+│       │       └── item_detail_page.dart
+│       │
+│       ├── navigation/
+│       │   ├── app_navigator_impl.dart
+│       │   ├── base/
+│       │   │   ├── base_popup_info_mapper.dart
+│       │   │   └── base_route_info_mapper.dart
+│       │   ├── mapper/
+│       │   │   ├── app_popup_info_mapper.dart
+│       │   │   └── app_route_info_mapper.dart
+│       │   ├── middleware/
+│       │   │   └── route_guard.dart
+│       │   ├── observer/
+│       │   │   └── app_navigator_observer.dart
+│       │   └── routes/
+│       │       ├── app_router.dart
+│       │       └── app_router.gr.dart     # Generated
+│       │
+│       ├── common_view/                  # 📦 Shared UI components
+│       │   ├── common_app_bar.dart
+│       │   ├── common_scaffold.dart
+│       │   ├── popup/
+│       │   │   ├── common_dialog.dart
+│       │   │   ├── popup_button.dart
+│       │   │   └── popup_type.dart
+│       │   ├── shimmer/
+│       │   │   ├── circle_shimmer.dart
+│       │   │   ├── rounded_rectangle_shimmer.dart
+│       │   │   ├── shimmer.dart
+│       │   │   └── shimmer_loading.dart
+│       │   └── paged_view/              # Pagination components
+│       │       ├── common_paged_grid_view.dart
+│       │       ├── common_paged_list_view.dart
+│       │       ├── common_paged_sliver_grid.dart
+│       │       ├── common_paged_sliver_list.dart
+│       │       ├── controller/
+│       │       │   └── common_paging_controller.dart
+│       │       ├── error_view/
+│       │       │   ├── common_first_page_error_indicator.dart
+│       │       │   └── common_new_page_error_indicator.dart
+│       │       ├── loading_view/
+│       │       │   ├── common_first_page_progress_indicator.dart
+│       │       │   └── common_new_page_progress_indicator.dart
+│       │       ├── no_items_found_view/
+│       │       │   └── common_no_items_found_indicator.dart
+│       │       ├── no_more_items_view/
+│       │       │   └── common_no_more_items_indicator.dart
+│       │       └── physics/
+│       │           └── common_paging_scroll_snap_physics.dart
+│       │
+│       ├── shared_view/
+│       │   └── app_text_field.dart
+│       │
+│       ├── resource/
+│       │   ├── dimens/
+│       │   │   ├── dimens.dart
+│       │   │   └── app_dimen.dart
+│       │   ├── styles/
+│       │   │   ├── app_colors.dart
+│       │   │   ├── app_text_styles.dart
+│       │   │   └── app_themes.dart
+│       │   └── generated/
+│       │       └── assets.gen.dart        # Generated assets
+│       │
+│       ├── utils/
+│       │   └── app_utils.dart
+│       │
+│       ├── helper/
+│       │   └── local_push_notification_helper.dart
+│       │
+│       └── exception_handler/
+│           ├── exception_handler.dart
+│           └── exception_message_mapper.dart
+│
+├── 📦 data/                            # 🔵 Data Layer
+│   └── lib/
+│       ├── data.dart                   # Module export file
+│       │
+│       ├── src/
+│       │   ├── di/
+│       │   │   └── di.dart            # Register data dependencies
+│       │   │
+│       │   ├── config/
+│       │   │   └── data_config.dart
+│       │   │
+│       │   └── repository/
+│       │       ├── repository_impl.dart
+│       │       │
+│       │       └── source/             # Data sources (API, DB, Prefs)
+│       │           ├── api/
+│       │           │   ├── app_api_service.dart
+│       │           │   ├── refresh_token_api_service.dart
+│       │           │   ├── model/
+│       │           │   │   ├── api_auth_response_data.dart
+│       │           │   │   ├── api_image_url_data.dart
+│       │           │   │   ├── api_notification_data.dart
+│       │           │   │   ├── api_refresh_token_data.dart
+│       │           │   │   ├── api_token_data.dart
+│       │           │   │   ├── api_user_data.dart
+│       │           │   │   ├── api_user_response_data.dart
+│       │           │   │   ├── base/
+│       │           │   │   │   ├── data_response.dart
+│       │           │   │   │   ├── records_response.dart
+│       │           │   │   │   └── results_response.dart
+│       │           │   │   └── mock/
+│       │           │   │       └── mock_data.dart
+│       │           │   ├── client/
+│       │           │   │   ├── auth_app_server_api_client.dart
+│       │           │   │   ├── none_auth_app_server_api_client.dart
+│       │           │   │   ├── random_user_api_client.dart
+│       │           │   │   ├── raw_api_client.dart
+│       │           │   │   ├── refresh_token_api_client.dart
+│       │           │   │   └── base/
+│       │           │   │       ├── api_client_default_settings.dart
+│       │           │   │       ├── dio_builder.dart
+│       │           │   │       └── rest_api_client.dart
+│       │           │   ├── mapper/
+│       │           │   │   ├── api_image_url_data_mapper.dart
+│       │           │   │   ├── api_notification_data_mapper.dart
+│       │           │   │   ├── api_token_data_mapper.dart
+│       │           │   │   ├── api_user_data_mapper.dart
+│       │           │   │   └── base/
+│       │           │   │       ├── base_error_response_mapper.dart
+│       │           │   │       ├── base_success_response_mapper.dart
+│       │           │   │       └── base_success_response_mapper/
+│       │           │   │           ├── data_json_array_response_mapper.dart
+│       │           │   │           ├── data_json_object_reponse_mapper.dart
+│       │           │   │           ├── json_array_response_mapper.dart
+│       │           │   │           ├── json_object_reponse_mapper.dart
+│       │           │   │           ├── plain_response_mapper.dart
+│       │           │   │           ├── records_json_array_response_mapper.dart
+│       │           │   │           └── results_json_array_response_mapper.dart
+│       │           │   ├── middleware/
+│       │           │   │   ├── access_token_interceptor.dart
+│       │           │   │   ├── base_interceptor.dart
+│       │           │   │   ├── basic_auth_interceptor.dart
+│       │           │   │   ├── connectivity_interceptor.dart
+│       │           │   │   ├── custom_log_interceptor.dart
+│       │           │   │   ├── header_interceptor.dart
+│       │           │   │   ├── refresh_token_interceptor.dart
+│       │           │   │   └── retry_on_error_interceptor.dart
+│       │           │   └── exception_mapper/
+│       │           │       └── dio_exception_mapper.dart
+│       │           │
+│       │           ├── database/
+│       │           │   ├── app_database.dart
+│       │           │   ├── mapper/
+│       │           │   │   ├── local_image_url_data_mapper.dart
+│       │           │   │   └── local_user_data_mapper.dart
+│       │           │   └── model/
+│       │           │       ├── local_image_url_data.dart
+│       │           │       └── local_user_data.dart
+│       │           │
+│       │           ├── preference/
+│       │           │   ├── app_preferences.dart
+│       │           │   ├── mapper/
+│       │           │   │   └── preference_user_data_mapper.dart
+│       │           │   └── model/
+│       │           │       └── preference_user_data.dart
+│       │           │
+│       │           └── shared/
+│       │               └── mapper/
+│       │                   ├── gender_data_mapper.dart
+│       │                   └── language_code_data_mapper.dart
+│       │
+│       └── base/
+│           └── base_data_mapper.dart
+│
+├── 📦 domain/                          # 🟣 Domain Layer
+│   └── lib/
+│       ├── domain.dart                 # Module export file
+│       │
+│       ├── src/
+│       │   ├── di/
+│       │   │   └── di.dart            # Register use cases
+│       │   │
+│       │   ├── config/
+│       │   │   └── domain_config.dart
+│       │   │
+│       │   ├── entity/
+│       │   │   ├── app_notification.dart
+│       │   │   ├── image_url.dart
+│       │   │   ├── token.dart
+│       │   │   ├── user.dart
+│       │   │   ├── enum/
+│       │   │   │   └── enum.dart
+│       │   │   └── base/
+│       │   │       ├── paged_list.dart
+│       │   │       └── process_state.dart
+│       │   │
+│       │   ├── navigation/             # Navigation interfaces
+│       │   │   ├── app_navigator.dart
+│       │   │   ├── app_popup_info.dart
+│       │   │   └── app_route_info.dart
+│       │   │
+│       │   ├── repository/
+│       │   │   └── repository.dart    # All repository interfaces
+│       │   │
+│       │   └── usecase/
+│       │       ├── base/
+│       │       │   ├── base_use_case.dart
+│       │       │   ├── base_input.dart
+│       │       │   ├── base_output.dart
+│       │       │   ├── sync/
+│       │       │   │   └── base_sync_use_case.dart
+│       │       │   ├── stream/
+│       │       │   │   └── base_stream_use_case.dart
+│       │       │   └── future/
+│       │       │       ├── base_future_use_case.dart
+│       │       │       └── base_load_more_use_case.dart
+│       │       │
+│       │       ├── login_usecase.dart
+│       │       ├── logout_usecase.dart
+│       │       ├── fake_login_use_case.dart
+│       │       ├── forgot_password_use_case.dart
+│       │       ├── register_account_use_case.dart
+│       │       ├── reset_password_use_case.dart
+│       │       ├── is_logged_in_use_case.dart
+│       │       ├── get_users_use_case.dart
+│       │       ├── load_more_users_use_case.dart
+│       │       ├── get_initial_app_data_use_case.dart
+│       │       ├── get_initial_home_data_use_case.dart
+│       │       ├── clear_current_user_data_use_case.dart
+│       │       ├── load_initial_resource_use_case.dart
+│       │       ├── save_is_dark_mode_use_case.dart
+│       │       ├── save_is_first_launch_app_use_case.dart
+│       │       └── save_language_code_use_case.dart
+│       │
+│       └── io/
+│           ├── base_input.dart
+│           ├── base_output.dart
+│           └── load_more_output.dart
+│
+├── 📦 shared/                          # 🟢 Shared Utilities
+│   └── lib/
+│       ├── shared.dart                 # Module export file
+│       │
+│       ├── src/
+│       │   ├── di/
+│       │   │   └── di.dart
+│       │   │
+│       │   ├── config/
+│       │   │   ├── config.dart
+│       │   │   ├── log_config.dart
+│       │   │   └── shared_config.dart
+│       │   │
+│       │   ├── constants/
+│       │   │   ├── database_constants.dart
+│       │   │   ├── duration_constants.dart
+│       │   │   ├── env_constants.dart
+│       │   │   ├── locale_constants.dart
+│       │   │   ├── symbol_constants.dart
+│       │   │   ├── uni_links_constants.dart
+│       │   │   ├── url_constants.dart
+│       │   │   ├── firebase/
+│       │   │   │   ├── firebase_firestore_constants.dart
+│       │   │   │   ├── firebase_messaging_constants.dart
+│       │   │   │   └── firebase_remote_config_constants.dart
+│       │   │   ├── format/
+│       │   │   │   ├── date_time_format_constants.dart
+│       │   │   │   └── number_format_constants.dart
+│       │   │   ├── server/
+│       │   │   │   ├── retry_on_error_constants.dart
+│       │   │   │   ├── server_error_constants.dart
+│       │   │   │   ├── server_request_response_constants.dart
+│       │   │   │   └── server_timeout_constants.dart
+│       │   │   ├── ui/
+│       │   │   │   ├── device_constants.dart
+│       │   │   │   ├── paging_constants.dart
+│       │   │   │   └── ui_constants.dart
+│       │   │   └── shared_preference_constants.dart
+│       │   │
+│       │   ├── exception/
+│       │   │   ├── base/
+│       │   │   │   ├── app_exception.dart
+│       │   │   │   ├── app_exception_wrapper.dart
+│       │   │   │   └── exception_mapper.dart
+│       │   │   ├── parse/
+│       │   │   │   └── parse_exception.dart
+│       │   │   ├── remote/
+│       │   │   │   ├── remote_exception.dart
+│       │   │   │   ├── server_error.dart
+│       │   │   │   └── server_error_detail.dart
+│       │   │   ├── remote_config/
+│       │   │   │   └── remote_config_exception.dart
+│       │   │   ├── uncaught/
+│       │   │   │   └── app_uncaught_exception.dart
+│       │   │   └── validation/
+│       │   │       └── validation_exception.dart
+│       │   │
+│       │   ├── utils/
+│       │   │   ├── collection_utils.dart
+│       │   │   ├── date_time_utils.dart
+│       │   │   ├── device_utils.dart
+│       │   │   ├── file_utils.dart
+│       │   │   ├── intent_utils.dart
+│       │   │   ├── log_utils.dart
+│       │   │   ├── num_utils.dart
+│       │   │   ├── number_format_utils.dart
+│       │   │   ├── object_utils.dart
+│       │   │   ├── parse_utils.dart
+│       │   │   ├── string_utils.dart
+│       │   │   ├── validation_utils.dart
+│       │   │   └── view_utils.dart
+│       │   │
+│       │   ├── helper/
+│       │   │   ├── app_info.dart
+│       │   │   ├── function/
+│       │   │   │   └── function.dart
+│       │   │   ├── run_catching/
+│       │   │   │   ├── result.dart
+│       │   │   │   └── run_catching.dart
+│       │   │   └── stream/
+│       │   │       ├── disposable.dart
+│       │   │       ├── dispose_bag.dart
+│       │   │       └── stream_logger.dart
+│       │   │
+│       │   ├── model/
+│       │   │   ├── big_decimal.dart
+│       │   │   ├── shared_enum.dart
+│       │   │   └── typedef.dart
+│       │   │
+│       │   └── mixin/
+│       │       └── log_mixin.dart
+│       │
+│       └── utils/                       # Additional utils at root
+│
+├── 📦 initializer/                    # 🟡 Initializer
+│   └── lib/
+│       ├── initializer.dart             # Module export file
+│       └── src/
+│           └── app_initializer.dart
+│
+├── 📦 resources/                       # 🟠 Resources
+│   └── lib/
+│       ├── resources.dart              # Module export file
+│       └── src/
+│           └── generated/
+│               └── l10n.dart            # Generated localization
+│
+├── melos.yaml
+├── pubspec.yaml
+└── project_organization_complete.artifact.md
+```
+
+---
+
+## SƠ ĐỒ MỐI QUAN HỆ GIỮA CÁC MODULES
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         MODULE DEPENDENCY GRAPH                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+                                    ┌─────────────┐
+                                    │  resources  │ ◄── Localization (i18n)
+                                    │    (🟠)     │
+                                    └──────┬──────┘
+                                           │
+                                           ▼
+    ┌─────────────────────────────────────────────────────────────────────┐
+    │                                                                     │
+    │    ┌─────────────┐     import     ┌─────────────┐                  │
+    │    │   shared   │ ◄──────────────│    app     │                  │
+    │    │   (🟢)     │                │   (🔴)     │                  │
+    │    └──────┬─────┘                └──────┬─────┘                  │
+    │           │                              │                          │
+    │           ▼                              ▼                          │
+    │    ┌─────────────┐                ┌─────────────┐                 │
+    │    │   domain    │ ─────────────► │    data     │                 │
+    │    │   (🟣)     │ implement       │   (🔵)     │                 │
+    │    └──────┬─────┘                └──────┬─────┘                 │
+    │           │                              │                          │
+    │           ▼                              ▼                          │
+    └─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+                           ┌─────────────┐
+                           │ initializer │ ◄── Khởi tạo app
+                           │   (🟡)     │
+                           └─────────────┘
+```
+
+---
+
+## MÔ TẢ CHI TIẾT TỪNG MODULE
+
+| Module | Màu | Trách nhiệm chính | Phụ thuộc |
+|--------|-----|-------------------|-----------|
+| **shared** | 🟢 | Utils, Constants, DI, Helpers, Exceptions, Mixins | (độc lập) |
+| **domain** | 🟣 | Entities, Repository interfaces, Use Cases, Navigation interfaces | (độc lập) |
+| **data** | 🔵 | Repository impl, API (Dio), DB, Preferences | domain, shared |
+| **app** | 🔴 | UI screens, BLoC, Navigation impl, Resources | shared, domain, resources |
+| **initializer** | 🟡 | Quản lý thứ tự khởi tạo app | shared, data, domain, app |
+| **resources** | 🟠 | Localization (l10n) | (độc lập) |
+
+---
+
+## QUY TẮC PHỤ THUỘC
+
+```
+✅ ĐƯỢC PHÉP:
+  app     → shared, domain, resources
+  data    → domain, shared
+  shared  → (độc lập)
+  domain  → (độc lập)
+  initializer → shared, data, domain, app
+  resources → (độc lập)
+
+❌ KHÔNG ĐƯỢC PHÉP:
+  • Chỉ `app` được phép implement Navigation
+  • Chỉ `data` được phép gọi Dio/HTTP client
+  • Chỉ `data` được phép gọi database
+  • `shared` không được import bất kỳ module nào khác
+  • `domain` không được import bất kỳ module nào khác
+```
+
+---
+
+## CÁC CONVENTION ĐẶT TÊN
+
+| Loại | Pattern | Ví dụ |
+|------|---------|-------|
+| File Dart | snake_case | `home_page.dart`, `app_bloc.dart` |
+| Class | PascalCase | `HomePage`, `AppBloc`, `HomeEvent` |
+| Private member | _camelCase | `_myVariable`, `_handleTap()` |
+| Constant | camelCase hoặc SCREAMING_SNAKE | `maxWidth`, `API_TIMEOUT` |
+| Folder | snake_case | `home`, `common_view`, `app_bloc` |
+| Generated file | *.gr.dart | `app_router.gr.dart` |
+| API model | *data.dart | `api_user_data.dart` |
+| Local model | *data.dart | `local_user_data.dart` |
+| Mapper | *mapper.dart | `api_user_data_mapper.dart` |
+
+---
+
+## LỢI ÍCH CỦA CẤU TRÚC NÀY
+
+1. **Separation of Concerns** - Mỗi layer/module có trách nhiệm rõ ràng
+2. **Testability** - BLoC, Repository, UseCase đều có interface, dễ mock
+3. **Scalability** - Thêm feature mới chỉ cần tạo folder trong `ui/`
+4. **Maintainability** - Thay đổi một phần không ảnh hưởng các phần khác
+5. **Reusability** - `common_view`, `shared` có thể share giữa các feature
+6. **Team Collaboration** - Nhiều người có thể làm việc trên các feature khác nhau song song

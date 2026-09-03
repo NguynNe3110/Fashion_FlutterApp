@@ -74,6 +74,7 @@ import 'package:injectable/injectable.dart' as _i526;
 import 'package:objectbox/objectbox.dart' as _i1034;
 import 'package:shared/shared.dart' as _i811;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
+import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -133,6 +134,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i647.LanguageCodeDataMapper>(
       () => _i647.LanguageCodeDataMapper(),
     );
+
+    gh.singleton<_i454.SupabaseClient>(() => serviceModule.supabaseClient);
+
     gh.lazySingleton<_i522.RandomUserApiClient>(
       () => _i522.RandomUserApiClient(),
     );

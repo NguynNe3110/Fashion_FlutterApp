@@ -23,6 +23,7 @@ export 'src/constants/ui/device_constants.dart';
 export 'src/constants/ui/paging_constants.dart';
 export 'src/constants/ui/ui_constants.dart';
 export 'src/constants/uni_links_constants.dart';
+export 'src/constants/supabase/supabase_constants.dart';
 export 'src/constants/url_constants.dart';
 export 'src/di/di.dart';
 export 'src/exception/base/app_exception.dart';

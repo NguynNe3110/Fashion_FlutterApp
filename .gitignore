@@ -51,5 +51,6 @@ pubspec_overrides.yaml
 .env
 .freezed.dart
 .g.dart
+.config.dart
 
 ./afolder
