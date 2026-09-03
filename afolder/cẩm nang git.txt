@@ -1,2 +1,0 @@
-lỡ commit phải file k muốn, muốn hủy commit (xóa commit)
-> git reset HEAD~1
