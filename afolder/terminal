@@ -2,6 +2,8 @@ sau khi thêm thư viện vào file pubspec.yaml thì phải build lại proj
 > flutter pub get
 
 ----
+xóa file  bằng tìm kiếm nhị phân
+> Get-ChildItem -Path . -Recurse -Filter "pubspec_overrides.yaml" | Remove-Item -Force
 ----
 
 chạy để generate code file .g.dart

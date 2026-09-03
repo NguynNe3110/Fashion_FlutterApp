@@ -8,15 +8,11 @@ packages:
   - initializer
   - resources
 
-command:
-  bootstrap:
-    usePubspecOverlap: false
+# Dart Workspaces tự link các package trong monorepo.
+# Không cần melos bootstrap nữa - dùng `flutter pub get` ở root là đủ.
+# Bỏ script 'bootstrap' vì nó gây vòng lặp và tự sinh pubspec_overrides.yaml.
 
 scripts:
-  bootstrap:
-    run: melos pub get
-    description: Install dependencies for all packages
-
   pubget:
     run: melos exec --no-private -- flutter pub get
     description: Run flutter pub get in all packages
@@ -34,5 +30,5 @@ scripts:
     description: Clean all packages
 
   setup:
-    run: melos bootstrap && melos build
-    description: Full setup - bootstrap and build
+    run: melos pubget && melos build
+    description: Full setup - install deps and build

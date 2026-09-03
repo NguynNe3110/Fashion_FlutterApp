@@ -12,14 +12,12 @@ dependencies:
         sdk: flutter
     cupertino_icons: ^1.0.8
 
-    # ✅ Phụ thuộc các tầng nội bộ
+    # ✅ Phụ thuộc các tầng nội bộ (Dart Workspaces tự resolve)
     shared:
     domain:
     data:
     initializer:
-        path: ../initializer
     resources:
-        path: ../resources
 
     # ---------------- State Management ----------------
     flutter_riverpod: ^2.6.1
@@ -40,7 +38,7 @@ dependencies:
     get_it: ^8.0.3
 
     # ---------------- Utils & UI ----------------
-    flutter_dotenv: ^6.0.0
+#    flutter_dotenv: ^6.0.0
     flutter_svg: ^2.2.0
     image_picker: ^1.2.3
     rxdart: ^0.28.0
@@ -77,11 +75,34 @@ flutter:
         - assets/raw/
         - .env
     fonts:
-        - family: Inter
-          fonts:
-              - asset: assets/fonts/Inter_24pt-Regular.ttf
-                weight: 400
-              # (Bạn giữ nguyên các font khác của bạn ở đây)
+      - family: Inter
+        fonts:
+          - asset: assets/fonts/Inter_24pt-Thin.ttf
+            weight: 100
+
+          - asset: assets/fonts/Inter_24pt-ExtraLight.ttf
+            weight: 200
+
+          - asset: assets/fonts/Inter_24pt-Light.ttf
+            weight: 300
+
+          - asset: assets/fonts/Inter_24pt-Regular.ttf
+            weight: 400
+
+          - asset: assets/fonts/Inter_24pt-Medium.ttf
+            weight: 500
+
+          - asset: assets/fonts/Inter_24pt-SemiBold.ttf
+            weight: 600
+
+          - asset: assets/fonts/Inter_24pt-Bold.ttf
+            weight: 700
+
+          - asset: assets/fonts/Inter_24pt-ExtraBold.ttf
+            weight: 800
+
+          - asset: assets/fonts/Inter_24pt-Black.ttf
+            weight: 900
 
 flutter_gen:
     output: lib/resource/generated/
