@@ -11,7 +11,10 @@ void main(List<String> args) {
     exitCode = 1;
     return;
   }
-
+// menufacture
+  //Tự động export vào file của package
+  // > dart run tools/gen_exports.dart X  ---> Với X là tên package
+  // >> Ví dụ dart run tools/gen_exports.dart data (nó sẽ được export vào file data.dart của package data)
   final packageName = args[0];
 
   // Ví dụ:
@@ -25,6 +28,7 @@ void main(List<String> args) {
   //   -> domain/lib/domain.dart
   //
   // Tool CHỈ hoạt động trong package được truyền vào.
+
 
   final packageDir = Directory(packageName);
   final srcDir = Directory('$packageName/lib/src');
