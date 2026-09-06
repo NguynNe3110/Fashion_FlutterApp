@@ -14,6 +14,14 @@ import 'package:domain/domain.dart' as _i494;
 import 'package:domain/src/usecase/clear_current_user_data_use_case.dart'
     as _i266;
 import 'package:domain/src/usecase/fake_login_use_case.dart' as _i245;
+import 'package:domain/src/usecase/fashion_usecase/product/get_featured_products_usecase.dart'
+    as _i756;
+import 'package:domain/src/usecase/fashion_usecase/product/get_product_by_id_usecase.dart'
+    as _i747;
+import 'package:domain/src/usecase/fashion_usecase/product/get_products_by_category_usecase.dart'
+    as _i224;
+import 'package:domain/src/usecase/fashion_usecase/product/get_products_usecase.dart'
+    as _i961;
 import 'package:domain/src/usecase/forgot_password_use_case.dart' as _i785;
 import 'package:domain/src/usecase/get_initial_app_data_use_case.dart' as _i428;
 import 'package:domain/src/usecase/get_initial_home_data_use_case.dart'
@@ -50,6 +58,18 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i494.AppNavigator>(),
         gh<_i494.Repository>(),
       ),
+    );
+    gh.factory<_i756.GetFeaturedProductsUseCase>(
+      () => _i756.GetFeaturedProductsUseCase(gh<_i494.ProductRepository>()),
+    );
+    gh.factory<_i224.GetProductsByCategoryUseCase>(
+      () => _i224.GetProductsByCategoryUseCase(gh<_i494.ProductRepository>()),
+    );
+    gh.factory<_i961.GetProductsUseCase>(
+      () => _i961.GetProductsUseCase(gh<_i494.ProductRepository>()),
+    );
+    gh.factory<_i747.GetProductByIdUseCase>(
+      () => _i747.GetProductByIdUseCase(gh<_i494.ProductRepository>()),
     );
     gh.factory<_i266.ClearCurrentUserDataUseCase>(
       () => _i266.ClearCurrentUserDataUseCase(gh<_i494.Repository>()),
