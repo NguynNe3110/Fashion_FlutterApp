@@ -7,8 +7,9 @@
 pubspec.lock
 
 .env
-.freezed.dart
-.g.dart
-.config.dart
+# gen file
+*.freezed.dart
+*.g.dart
+*.config.dart
 
 ./afolder
