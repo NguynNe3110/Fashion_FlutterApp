@@ -45,7 +45,7 @@ class S {
     final instance = S.maybeOf(context);
     assert(
       instance != null,
-      'No instance of S present in the widget tree. Did you add S.delegate in localizationsDelegates?',
+      'No instance of S present in the widget tree. Did you machine_learning S.delegate in localizationsDelegates?',
     );
     return instance!;
   }
