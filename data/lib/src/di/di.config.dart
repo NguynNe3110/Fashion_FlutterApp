@@ -67,6 +67,8 @@ import 'package:data/src/repository/source/shared/mapper/gender_data_mapper.dart
     as _i174;
 import 'package:data/src/repository/source/shared/mapper/language_code_data_mapper.dart'
     as _i647;
+import 'package:data/src/repository/source/supabase/service/product_supabase_service.dart'
+    as _i988;
 import 'package:domain/domain.dart' as _i494;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i558;
 import 'package:get_it/get_it.dart' as _i174;
@@ -134,15 +136,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i647.LanguageCodeDataMapper>(
       () => _i647.LanguageCodeDataMapper(),
     );
-
     gh.singleton<_i454.SupabaseClient>(() => serviceModule.supabaseClient);
-
     gh.lazySingleton<_i522.RandomUserApiClient>(
       () => _i522.RandomUserApiClient(),
     );
     gh.lazySingleton<_i324.RawApiClient>(() => _i324.RawApiClient());
     gh.lazySingleton<_i905.AppDatabase>(
       () => _i905.AppDatabase(gh<_i1034.Store>()),
+    );
+    gh.lazySingleton<_i988.ProductSupabaseService>(
+      () => _i988.ProductSupabaseService(gh<_i454.SupabaseClient>()),
     );
     gh.factory<_i19.LocalUserDataMapper>(
       () => _i19.LocalUserDataMapper(
