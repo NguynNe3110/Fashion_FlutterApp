@@ -224,6 +224,15 @@ class S {
     );
   }
 
+  String get noItemSelected {
+    return Intl.message(
+      'noItemSelected',
+      name: 'noItemSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `OK`
   String get ok {
     return Intl.message('OK', name: 'ok', desc: '', args: []);

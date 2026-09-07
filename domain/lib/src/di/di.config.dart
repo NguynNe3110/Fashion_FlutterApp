@@ -14,6 +14,36 @@ import 'package:domain/domain.dart' as _i494;
 import 'package:domain/src/usecase/clear_current_user_data_use_case.dart'
     as _i266;
 import 'package:domain/src/usecase/fake_login_use_case.dart' as _i245;
+import 'package:domain/src/usecase/fashion_usecase/address/create_address_use_case.dart'
+    as _i429;
+import 'package:domain/src/usecase/fashion_usecase/address/delete_address_use_case.dart'
+    as _i647;
+import 'package:domain/src/usecase/fashion_usecase/address/get_addresses_use_case.dart'
+    as _i578;
+import 'package:domain/src/usecase/fashion_usecase/address/update_address_use_case.dart'
+    as _i156;
+import 'package:domain/src/usecase/fashion_usecase/cart_item/checkout_selected_items_use_case.dart'
+    as _i453;
+import 'package:domain/src/usecase/fashion_usecase/cart_item/delete_cart_item_use_case.dart'
+    as _i829;
+import 'package:domain/src/usecase/fashion_usecase/cart_item/get_cart_items_use_case.dart'
+    as _i49;
+import 'package:domain/src/usecase/fashion_usecase/cart_item/update_cart_item_quantity_use_case.dart'
+    as _i11;
+import 'package:domain/src/usecase/fashion_usecase/category/get_categories_use_case.dart'
+    as _i896;
+import 'package:domain/src/usecase/fashion_usecase/category/get_category_by_id_use_case.dart'
+    as _i151;
+import 'package:domain/src/usecase/fashion_usecase/favorite/get_favorites_use_case.dart'
+    as _i200;
+import 'package:domain/src/usecase/fashion_usecase/order/create_order_use_case.dart'
+    as _i546;
+import 'package:domain/src/usecase/fashion_usecase/order/get_order_by_id_use_case.dart'
+    as _i479;
+import 'package:domain/src/usecase/fashion_usecase/order/get_orders_use_case.dart'
+    as _i155;
+import 'package:domain/src/usecase/fashion_usecase/order_item/get_order_items_use_case.dart'
+    as _i150;
 import 'package:domain/src/usecase/fashion_usecase/product/get_featured_products_usecase.dart'
     as _i756;
 import 'package:domain/src/usecase/fashion_usecase/product/get_product_by_id_usecase.dart'
@@ -22,6 +52,16 @@ import 'package:domain/src/usecase/fashion_usecase/product/get_products_by_categ
     as _i224;
 import 'package:domain/src/usecase/fashion_usecase/product/get_products_usecase.dart'
     as _i961;
+import 'package:domain/src/usecase/fashion_usecase/product_image/get_product_images_use_case.dart'
+    as _i120;
+import 'package:domain/src/usecase/fashion_usecase/profile/get_profile_use_case.dart'
+    as _i529;
+import 'package:domain/src/usecase/fashion_usecase/review/create_review_use_case.dart'
+    as _i1051;
+import 'package:domain/src/usecase/fashion_usecase/review/delete_review_use_case.dart'
+    as _i757;
+import 'package:domain/src/usecase/fashion_usecase/review/get_reviews_use_case.dart'
+    as _i655;
 import 'package:domain/src/usecase/forgot_password_use_case.dart' as _i785;
 import 'package:domain/src/usecase/get_initial_app_data_use_case.dart' as _i428;
 import 'package:domain/src/usecase/get_initial_home_data_use_case.dart'
@@ -49,15 +89,54 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.factory<_i546.CreateOrderUseCase>(
+      () => _i546.CreateOrderUseCase(gh<_i494.OrderRepository>()),
+    );
+    gh.factory<_i155.GetOrdersUseCase>(
+      () => _i155.GetOrdersUseCase(gh<_i494.OrderRepository>()),
+    );
+    gh.factory<_i479.GetOrderByIdUseCase>(
+      () => _i479.GetOrderByIdUseCase(gh<_i494.OrderRepository>()),
+    );
+    gh.factory<_i1051.CreateReviewUseCase>(
+      () => _i1051.CreateReviewUseCase(gh<_i494.ReviewRepository>()),
+    );
+    gh.factory<_i757.DeleteReviewUseCase>(
+      () => _i757.DeleteReviewUseCase(gh<_i494.ReviewRepository>()),
+    );
+    gh.factory<_i655.GetReviewsUseCase>(
+      () => _i655.GetReviewsUseCase(gh<_i494.ReviewRepository>()),
+    );
     gh.factory<_i839.LogoutUseCase>(
       () =>
           _i839.LogoutUseCase(gh<_i494.Repository>(), gh<_i494.AppNavigator>()),
+    );
+    gh.factory<_i150.GetOrderItemsUseCase>(
+      () => _i150.GetOrderItemsUseCase(gh<_i494.OrderItemRepository>()),
     );
     gh.factory<_i245.FakeLoginUseCase>(
       () => _i245.FakeLoginUseCase(
         gh<_i494.AppNavigator>(),
         gh<_i494.Repository>(),
       ),
+    );
+    gh.factory<_i578.GetAddressesUseCase>(
+      () => _i578.GetAddressesUseCase(gh<_i494.AddressRepository>()),
+    );
+    gh.factory<_i429.CreateAddressUseCase>(
+      () => _i429.CreateAddressUseCase(gh<_i494.AddressRepository>()),
+    );
+    gh.factory<_i647.DeleteAddressUseCase>(
+      () => _i647.DeleteAddressUseCase(gh<_i494.AddressRepository>()),
+    );
+    gh.factory<_i156.UpdateAddressUseCase>(
+      () => _i156.UpdateAddressUseCase(gh<_i494.AddressRepository>()),
+    );
+    gh.factory<_i200.GetFavoritesUseCase>(
+      () => _i200.GetFavoritesUseCase(gh<_i494.FavoriteRepository>()),
+    );
+    gh.factory<_i120.GetProductImagesUseCase>(
+      () => _i120.GetProductImagesUseCase(gh<_i494.ProductImageRepository>()),
     );
     gh.factory<_i756.GetFeaturedProductsUseCase>(
       () => _i756.GetFeaturedProductsUseCase(gh<_i494.ProductRepository>()),
@@ -112,6 +191,31 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i95.SaveLanguageCodeUseCase>(
       () => _i95.SaveLanguageCodeUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i453.CheckoutSelectedItemsUseCase>(
+      () => _i453.CheckoutSelectedItemsUseCase(
+        gh<_i494.CartItemRepository>(),
+        gh<_i494.OrderRepository>(),
+        gh<_i494.OrderItemRepository>(),
+      ),
+    );
+    gh.factory<_i529.GetProfileUseCase>(
+      () => _i529.GetProfileUseCase(gh<_i494.ProfileRepository>()),
+    );
+    gh.factory<_i49.GetCartItemsUseCase>(
+      () => _i49.GetCartItemsUseCase(gh<_i494.CartItemRepository>()),
+    );
+    gh.factory<_i829.DeleteCartItemUseCase>(
+      () => _i829.DeleteCartItemUseCase(gh<_i494.CartItemRepository>()),
+    );
+    gh.factory<_i11.UpdateCartItemQuantityUseCase>(
+      () => _i11.UpdateCartItemQuantityUseCase(gh<_i494.CartItemRepository>()),
+    );
+    gh.factory<_i896.GetCategoriesUseCase>(
+      () => _i896.GetCategoriesUseCase(gh<_i494.CategoryRepository>()),
+    );
+    gh.factory<_i151.GetCategoryByIdUseCase>(
+      () => _i151.GetCategoryByIdUseCase(gh<_i494.CategoryRepository>()),
     );
     return this;
   }

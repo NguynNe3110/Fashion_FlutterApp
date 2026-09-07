@@ -33,7 +33,7 @@ abstract class BaseBlocDelegate<E extends BaseBlocEvent, S extends BaseBlocState
     if (!isClosed) {
       super.add(event);
     } else {
-      Log.e('Cannot add new event $event because $runtimeType was closed');
+      Log.e('Cannot machine_learning new event $event because $runtimeType was closed');
     }
   }
 

@@ -18,5 +18,6 @@ enum ValidationExceptionKind {
   invalidUserName,
   invalidPhoneNumber,
   invalidDateTime,
+  noItemSelected,
   passwordsAreNotMatch,
 }

@@ -30,6 +30,8 @@ class ExceptionMessageMapper {
           ValidationExceptionKind.invalidPhoneNumber => S.current.invalidPhoneNumber,
           ValidationExceptionKind.invalidDateTime => S.current.invalidDateTime,
           ValidationExceptionKind.passwordsAreNotMatch => S.current.passwordsAreNotMatch,
+          ValidationExceptionKind.noItemSelected => S.current.noItemSelected,
+
         },
       AppExceptionType.remoteConfig => S.current.unknownException('UE-100'),
     };

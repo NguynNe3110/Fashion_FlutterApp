@@ -8,7 +8,7 @@ abstract class BaseDataMapper<R, E> {
   }
 }
 
-/// Optional: if need map from entity to  data
+/// Optional: if need map from entity to  data (khi can cap nhat or sync to database)
 mixin DataMapperMixin<R, E> on BaseDataMapper<R, E> {
   R mapToData(E entity);
 
