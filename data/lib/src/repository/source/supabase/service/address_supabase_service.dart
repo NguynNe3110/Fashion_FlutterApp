@@ -66,7 +66,7 @@ class AddressSupabaseService {
             .select()
             .single();
 
-        return AddressResponseDto.fromJson(response);
+        return AddressResponseDto.fromJson(response );
       },
     );
   }

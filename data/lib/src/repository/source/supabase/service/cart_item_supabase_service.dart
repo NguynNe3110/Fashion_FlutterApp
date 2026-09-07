@@ -49,9 +49,9 @@ class CartItemSupabaseService {
             .update({'quantity': quantity})
             .eq('id', id)
             .select()
-            .single();
+            .single(); // luôn trả về Map<String, dynamic>
 
-        return CartItemResponseDto.fromJson(response as Map<String, dynamic>);
+        return CartItemResponseDto.fromJson(response as Map<String, dynamic>); // có thể khoogn cần as..., Nhugnw vẫn nên thêm vào cho  đẳng cắp
       },
     );
   }
