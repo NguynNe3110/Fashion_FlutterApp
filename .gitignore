@@ -54,5 +54,6 @@ pubspec_overrides.yaml
 *.freezed.dart
 *.g.dart
 *.config.dart
+*.gr.dart
 
 /afolder/
