@@ -29,6 +29,17 @@ class OrderMapper extends BaseDataMapper<OrderResponseDto, OrderEntity> {
     );
   }
 
+  Map<String, dynamic> mapToDataMap(CreateOrderRequestEntity data) {
+    return <String, dynamic>{
+      'user_id': data.userId,
+      'total_price': data.totalPrice,
+      'address_line': data.addressLine,
+      if (data.paymentMethod != null) 'payment_method': data.paymentMethod,
+      if (data.status != null) 'status': data.status,
+      if (data.note != null) 'note': data.note,
+    };
+  }
+
   OrderStatus _mapOrderStatus(OrderStatusResponseDto? dto) {
     switch (dto) {
       case OrderStatusResponseDto.pending:

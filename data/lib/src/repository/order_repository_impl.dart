@@ -24,15 +24,8 @@ class OrderRepositoryImpl extends OrderRepository {
 
   @override
   Future<OrderEntity> createOrder({required CreateOrderRequestEntity data}) async {
-    final json = <String, dynamic>{
-      'user_id': data.userId,
-      'total_price': data.totalPrice,
-      'address_line': data.addressLine,
-      if (data.paymentMethod != null) 'payment_method': data.paymentMethod,
-      if (data.status != null) 'status': data.status,
-      if (data.note != null) 'note': data.note,
-    };
-    final dto = await _orderSupabaseService.createOrder(data: json);
+    final dataMap = _orderMapper.mapToDataMap(data);
+    final dto = await _orderSupabaseService.createOrder(data: dataMap);
     return _orderMapper.mapToEntity(dto);
   }
 }

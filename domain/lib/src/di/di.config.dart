@@ -36,6 +36,8 @@ import 'package:domain/src/usecase/fashion_usecase/category/get_category_by_id_u
     as _i151;
 import 'package:domain/src/usecase/fashion_usecase/favorite/get_favorites_use_case.dart'
     as _i200;
+import 'package:domain/src/usecase/fashion_usecase/favorite/toggle_favorite_use_case.dart'
+    as _i523;
 import 'package:domain/src/usecase/fashion_usecase/order/create_order_use_case.dart'
     as _i546;
 import 'package:domain/src/usecase/fashion_usecase/order/get_order_by_id_use_case.dart'
@@ -56,6 +58,8 @@ import 'package:domain/src/usecase/fashion_usecase/product_image/get_product_ima
     as _i120;
 import 'package:domain/src/usecase/fashion_usecase/profile/get_profile_use_case.dart'
     as _i529;
+import 'package:domain/src/usecase/fashion_usecase/profile/update_profile_use_case.dart'
+    as _i329;
 import 'package:domain/src/usecase/fashion_usecase/review/create_review_use_case.dart'
     as _i1051;
 import 'package:domain/src/usecase/fashion_usecase/review/delete_review_use_case.dart'
@@ -135,6 +139,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i200.GetFavoritesUseCase>(
       () => _i200.GetFavoritesUseCase(gh<_i494.FavoriteRepository>()),
     );
+    gh.factory<_i523.ToggleFavoriteUseCase>(
+      () => _i523.ToggleFavoriteUseCase(gh<_i494.FavoriteRepository>()),
+    );
     gh.factory<_i120.GetProductImagesUseCase>(
       () => _i120.GetProductImagesUseCase(gh<_i494.ProductImageRepository>()),
     );
@@ -201,6 +208,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i529.GetProfileUseCase>(
       () => _i529.GetProfileUseCase(gh<_i494.ProfileRepository>()),
+    );
+    gh.factory<_i329.UpdateProfileUseCase>(
+      () => _i329.UpdateProfileUseCase(gh<_i494.ProfileRepository>()),
     );
     gh.factory<_i49.GetCartItemsUseCase>(
       () => _i49.GetCartItemsUseCase(gh<_i494.CartItemRepository>()),

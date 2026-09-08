@@ -21,4 +21,17 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
     final dto = await _favoriteSupabaseService.getFavoriteById(id: id);
     return _favoriteMapper.mapToEntity(dto);
   }
+
+  @override
+  Future<FavoriteEntity> addFavorite({required String userId, required String productId}) async {
+    final dto = await _favoriteSupabaseService.addFavorite(
+      data: {'user_id': userId, 'product_id': productId},
+    );
+    return _favoriteMapper.mapToEntity(dto);
+  }
+
+  @override
+  Future<void> deleteFavorite({required String userId, required String productId}) async {
+    await _favoriteSupabaseService.deleteFavorite(userId: userId, productId: productId);
+  }
 }

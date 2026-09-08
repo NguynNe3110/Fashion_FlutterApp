@@ -37,4 +37,30 @@ class FavoriteSupabaseService {
       },
     );
   }
+
+  Future<FavoriteResponseDto> addFavorite({required Map<String, dynamic> data}) {
+    return runSupabaseCatching(
+      action: () async {
+        final response = await _supabaseClient
+            .from('favorites')
+            .insert(data)
+            .select()
+            .single();
+
+        return FavoriteResponseDto.fromJson(response as Map<String, dynamic>);
+      },
+    );
+  }
+
+  Future<void> deleteFavorite({required String userId, required String productId}) {
+    return runSupabaseCatching(
+      action: () async {
+        await _supabaseClient
+            .from('favorites')
+            .delete()
+            .eq('user_id', userId)
+            .eq('product_id', productId);
+      },
+    );
+  }
 }

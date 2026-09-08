@@ -17,4 +17,13 @@ class ReviewMapper extends BaseDataMapper<ReviewResponseDto, ReviewEntity> {
       updatedAt: DateTime.tryParse(data?.updatedAt ?? ''),
     );
   }
+
+  Map<String, dynamic> mapToDataMap(CreateReviewRequestEntity data) {
+    return <String, dynamic>{
+      'product_id': data.productId,
+      'user_id': data.userId,
+      'rating': data.rating,
+      if (data.comment != null) 'comment': data.comment,
+    };
+  }
 }

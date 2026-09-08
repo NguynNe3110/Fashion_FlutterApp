@@ -24,13 +24,8 @@ class ReviewRepositoryImpl extends ReviewRepository {
 
   @override
   Future<ReviewEntity> createReview({required CreateReviewRequestEntity data}) async {
-    final json = <String, dynamic>{
-      'product_id': data.productId,
-      'user_id': data.userId,
-      'rating': data.rating,
-      if (data.comment != null) 'comment': data.comment,
-    };
-    final dto = await _reviewSupabaseService.createReview(data: json);
+    final dataMap = _reviewMapper.mapToDataMap(data);
+    final dto = await _reviewSupabaseService.createReview(data: dataMap);
     return _reviewMapper.mapToEntity(dto);
   }
 

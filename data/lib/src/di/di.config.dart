@@ -21,6 +21,7 @@ import 'package:data/src/repository/order_repository_impl.dart' as _i677;
 import 'package:data/src/repository/product_image_repository_impl.dart'
     as _i537;
 import 'package:data/src/repository/product_repository_impl.dart' as _i118;
+import 'package:data/src/repository/profile_repository_impl.dart' as _i894;
 import 'package:data/src/repository/repository_impl.dart' as _i1013;
 import 'package:data/src/repository/review_repository_impl.dart' as _i538;
 import 'package:data/src/repository/source/api/app_api_service.dart' as _i865;
@@ -296,6 +297,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i756.NoneAuthAppServerApiClient>(
       () => _i756.NoneAuthAppServerApiClient(gh<_i437.HeaderInterceptor>()),
+    );
+    gh.lazySingleton<_i494.ProfileRepository>(
+      () => _i894.ProfileRepositoryImpl(
+        gh<_i437.ProfileMapper>(),
+        gh<_i437.ProfileSupabaseService>(),
+      ),
     );
     gh.lazySingleton<_i494.CartItemRepository>(
       () => _i23.CartItemRepositoryImpl(
