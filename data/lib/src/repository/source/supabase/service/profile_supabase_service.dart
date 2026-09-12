@@ -8,7 +8,7 @@ class ProfileSupabaseService {
 
   ProfileSupabaseService(this._supabaseClient);
 
-  Future<ProfileResponseDto> getProfile({required String userId}) {
+  Future<ProfileResponseDto> getProfileById({required String userId}) {
     return runSupabaseCatching(
       action: () async {
         final response = await _supabaseClient
@@ -39,4 +39,25 @@ class ProfileSupabaseService {
       },
     );
   }
+
+  // Lấy profile dựa trên user ID hiện tại
+  Future<ProfileResponseDto?> getProfile() async { // có  thể trả về null
+    final userId = _supabaseClient.auth.currentUser?.id;
+    if (userId == null) throw Exception('User not authenticated');
+
+    return runSupabaseCatching(
+        action: () async {
+          final response = await _supabaseClient
+              .from('profiles')
+              .select()
+              .eq('id', userId)
+              .maybeSingle(); // chỉ lấy 1 record
+
+          if(response == null) return null;
+
+          return ProfileResponseDto.fromJson(response);
+        }
+    );
+  }
+
 }

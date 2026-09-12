@@ -13,7 +13,7 @@ class GetProfileUseCase extends BaseFutureUseCase<GetProfileUseCaseInput, GetPro
   @protected
   @override
   Future<GetProfileUseCaseOutput> buildUseCase(GetProfileUseCaseInput input) async {
-    final profile = await _profileRepository.getProfile(userId: input.userId);
+    final profile = await _profileRepository.getProfileById(userId: input.userId);
     return GetProfileUseCaseOutput(profile: profile);
   }
 }

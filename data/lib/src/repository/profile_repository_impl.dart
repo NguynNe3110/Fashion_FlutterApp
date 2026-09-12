@@ -11,8 +11,8 @@ class ProfileRepositoryImpl extends ProfileRepository {
   ProfileRepositoryImpl(this._profileMapper, this._profileSupabaseService);
 
   @override
-  Future<ProfileEntity> getProfile({required String userId}) async {
-    final dto = await _profileSupabaseService.getProfile(userId: userId);
+  Future<ProfileEntity> getProfileById({required String userId}) async {
+    final dto = await _profileSupabaseService.getProfileById(userId: userId);
     return _profileMapper.mapToEntity(dto);
   }
 
@@ -26,6 +26,12 @@ class ProfileRepositoryImpl extends ProfileRepository {
       userId: userId,
       data: dataMap,
     );
+    return _profileMapper.mapToEntity(dto);
+  }
+
+  @override
+  Future<ProfileEntity> getProfile() async {
+    final dto = await _profileSupabaseService.getProfile();
     return _profileMapper.mapToEntity(dto);
   }
 }
