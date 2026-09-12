@@ -1,6 +1,5 @@
 library shared;
 
-export 'shared.dart';
 export 'src/config/config.dart';
 export 'src/config/log_config.dart';
 export 'src/config/shared_config.dart';
@@ -18,12 +17,12 @@ export 'src/constants/server/server_error_constants.dart';
 export 'src/constants/server/server_request_response_constants.dart';
 export 'src/constants/server/server_timeout_constants.dart';
 export 'src/constants/shared_preference_constants.dart';
+export 'src/constants/supabase/supabase_constants.dart';
 export 'src/constants/symbol_constants.dart';
 export 'src/constants/ui/device_constants.dart';
 export 'src/constants/ui/paging_constants.dart';
 export 'src/constants/ui/ui_constants.dart';
 export 'src/constants/uni_links_constants.dart';
-export 'src/constants/supabase/supabase_constants.dart';
 export 'src/constants/url_constants.dart';
 export 'src/di/di.dart';
 export 'src/exception/base/app_exception.dart';
@@ -47,6 +46,7 @@ export 'src/mixin/log_mixin.dart';
 export 'src/model/big_decimal.dart';
 export 'src/model/shared_enum.dart';
 export 'src/model/typedef.dart';
+export 'src/shared_base.dart';
 export 'src/utils/collection_utils.dart';
 export 'src/utils/date_time_utils.dart';
 export 'src/utils/device_utils.dart';
