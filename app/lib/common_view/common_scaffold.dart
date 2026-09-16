@@ -10,6 +10,7 @@ class CommonScaffold extends StatelessWidget {
     this.floatingActionButton,
     this.drawer,
     this.backgroundColor,
+    this.bottomNavigationBar,
     this.hideKeyboardWhenTouchOutside = false,
     super.key,
   });
@@ -18,6 +19,7 @@ class CommonScaffold extends StatelessWidget {
   final PreferredSizeWidget? appBar;
   final Widget? drawer;
   final Widget? floatingActionButton;
+  final Widget? bottomNavigationBar;
   final Color? backgroundColor;
   final bool hideKeyboardWhenTouchOutside;
 
@@ -29,6 +31,7 @@ class CommonScaffold extends StatelessWidget {
       appBar: appBar,
       drawer: drawer,
       floatingActionButton: floatingActionButton,
+      bottomNavigationBar: bottomNavigationBar,
     );
 
     return hideKeyboardWhenTouchOutside
