@@ -13,7 +13,7 @@ class ReviewSupabaseService {
       action: () async {
         final response = await _supabaseClient
             .from('reviews')
-            .select()
+            .select('*, profiles(full_name, avatar_url)')
             .eq('product_id', productId)
             .order('created_at', ascending: false);
 

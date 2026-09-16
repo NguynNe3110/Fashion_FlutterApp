@@ -13,8 +13,20 @@ sealed class ReviewResponseDto with _$ReviewResponseDto {
     @JsonKey(name: 'comment') String? comment,
     @JsonKey(name: 'created_at') required String createdAt,
     @JsonKey(name: 'updated_at') required String updatedAt,
+    @JsonKey(name: 'profiles') ReviewProfileResponseDto? profile,
   }) = _ReviewResponseDto;
 
   factory ReviewResponseDto.fromJson(Map<String, dynamic> json) =>
       _$ReviewResponseDtoFromJson(json);
+}
+
+@freezed
+sealed class ReviewProfileResponseDto with _$ReviewProfileResponseDto {
+  const factory ReviewProfileResponseDto({
+    @JsonKey(name: 'full_name') String? fullName,
+    @JsonKey(name: 'avatar_url') String? avatarUrl,
+  }) = _ReviewProfileResponseDto;
+
+  factory ReviewProfileResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$ReviewProfileResponseDtoFromJson(json);
 }
