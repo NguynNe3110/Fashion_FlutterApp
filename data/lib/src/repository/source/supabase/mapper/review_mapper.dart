@@ -10,6 +10,8 @@ class ReviewMapper extends BaseDataMapper<ReviewResponseDto, ReviewEntity> {
       id: data?.id ?? '',
       productId: data?.productId ?? '',
       userId: data?.userId ?? '',
+      userName: data?.profile?.fullName ?? 'Khách hàng',
+      userAvatar: data?.profile?.avatarUrl,
       rating: data?.rating ?? 0,
       comment: data?.comment,
       imageUrls: const [], // Enrich từ review_images table sau

@@ -8,6 +8,8 @@ class ReviewEntity with _$ReviewEntity {
     required String id,
     required String productId,
     required String userId,
+    @Default('Khách hàng') String userName,
+    String? userAvatar,
     required int rating,
     String? comment,
     @Default([]) List<String> imageUrls,
