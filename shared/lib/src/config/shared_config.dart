@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../shared.dart';
@@ -14,6 +15,7 @@ class SharedConfig extends Config {
 
   @override
   Future<void> config() async {
+    await dotenv.load(fileName: '.env');
     di.configureInjection();
     await GetIt.instance.get<AppInfo>().init();
   }

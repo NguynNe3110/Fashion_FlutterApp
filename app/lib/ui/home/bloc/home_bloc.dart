@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 import '../../../app.dart';
 import 'home.dart';
 
-@Injectable()
+@injectable
 class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
   HomeBloc(
       this._getProductsUseCase,

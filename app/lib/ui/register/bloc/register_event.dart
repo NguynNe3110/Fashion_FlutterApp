@@ -16,18 +16,18 @@ class NameTextFieldChanged extends RegisterEvent with _$NameTextFieldChanged {
 }
 
 @freezed
-class EmailTextFieldChanged extends RegisterEvent with _$EmailTextFieldChanged {
-  const factory EmailTextFieldChanged({
+class EmailTextFieldRegisterChanged extends RegisterEvent with _$EmailTextFieldRegisterChanged {
+  const factory EmailTextFieldRegisterChanged({
     required String email,
-  }) = _EmailTextFieldChanged;
+  }) = _EmailTextFieldRegisterChanged;
 }
 
 @freezed
-class PasswordTextFieldChanged extends RegisterEvent
-    with _$PasswordTextFieldChanged {
-  const factory PasswordTextFieldChanged({
+class PasswordTextFieldRegisterChanged extends RegisterEvent
+    with _$PasswordTextFieldRegisterChanged {
+  const factory PasswordTextFieldRegisterChanged({
     required String password,
-  }) = _PasswordTextFieldChanged;
+  }) = _PasswordTextFieldRegisterChanged;
 }
 
 @freezed
@@ -39,8 +39,8 @@ class ConfirmPasswordTextFieldChanged extends RegisterEvent
 }
 
 @freezed
-class EyeIconPressed extends RegisterEvent with _$EyeIconPressed {
-  const factory EyeIconPressed() = _EyeIconPressed;
+class EyeIconRegisterPressed extends RegisterEvent with _$EyeIconRegisterPressed {
+  const factory EyeIconRegisterPressed() = _EyeIconRegisterPressed;
 }
 
 @freezed

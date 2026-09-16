@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:app/app.dart';
 import 'package:shared/shared.dart';
 
-@Injectable()
+@injectable
 class MyPageBloc extends BaseBloc<MyPageEvent, MyPageState> {
   MyPageBloc(
       this._getMeUseCase,

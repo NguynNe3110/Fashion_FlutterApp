@@ -13,10 +13,10 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
     this._registerAccountUseCase,
   ) : super(const RegisterState()) {
     on<NameTextFieldChanged>(_onNameTextFieldChanged);
-    on<EmailTextFieldChanged>(_onEmailTextFieldChanged);
-    on<PasswordTextFieldChanged>(_onPasswordTextFieldChanged);
+    on<EmailTextFieldRegisterChanged>(_onEmailTextFieldChanged);
+    on<PasswordTextFieldRegisterChanged>(_onPasswordTextFieldChanged);
     on<ConfirmPasswordTextFieldChanged>(_onConfirmPasswordTextFieldChanged);
-    on<EyeIconPressed>(_onEyeIconPressed);
+    on<EyeIconRegisterPressed>(_onEyeIconPressed);
     on<ConfirmEyeIconPressed>(_onConfirmEyeIconPressed);
     on<TermsCheckboxToggled>(_onTermsCheckboxToggled);
     on<RegisterButtonPressed>(_onRegisterButtonPressed);
@@ -53,7 +53,7 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
   }
 
   void _onEmailTextFieldChanged(
-    EmailTextFieldChanged event,
+    EmailTextFieldRegisterChanged event,
     Emitter<RegisterState> emit,
   ) {
     emit(state.copyWith(
@@ -69,7 +69,7 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
   }
 
   void _onPasswordTextFieldChanged(
-    PasswordTextFieldChanged event,
+    PasswordTextFieldRegisterChanged event,
     Emitter<RegisterState> emit,
   ) {
     emit(state.copyWith(
@@ -101,7 +101,7 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
   }
 
   void _onEyeIconPressed(
-    EyeIconPressed event,
+    EyeIconRegisterPressed event,
     Emitter<RegisterState> emit,
   ) {
     emit(state.copyWith(obscureText: !state.obscureText));

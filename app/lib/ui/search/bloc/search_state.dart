@@ -1,3 +1,4 @@
+import 'package:domain/domain.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:shared/shared.dart';
 
@@ -9,7 +10,8 @@ part 'search_state.freezed.dart';
 sealed class SearchState extends BaseBlocState with _$SearchState {
   const SearchState._();
   const factory SearchState({
-    @Default('') String id,
+    @Default('') String keyword,
+    @Default([]) List<ProductEntity> searchResults,
     @Default(false) bool isShimmerLoading,
     AppException? loadException,
   }) = _SearchState;

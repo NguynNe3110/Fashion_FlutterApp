@@ -10,7 +10,6 @@ import '../../app.dart';
 import 'widgets/home_categories.dart';
 import 'widgets/home_editorial_banner.dart';
 import 'widgets/home_flash_sale.dart';
-import 'widgets/home_grid_loader.dart';
 import 'widgets/home_header.dart';
 import 'widgets/home_product_grid.dart';
 import 'widgets/home_section_title.dart';
@@ -29,7 +28,7 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
   late final _pagingController = CommonPagingController<ProductEntity>()..disposeBy(disposeBag);
 
   @override
-  void initState() { // khoi tao
+  void initState() {
     super.initState();
     bloc.add(const HomePageInitiated());
     _pagingController.listen(
@@ -39,7 +38,6 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
 
   @override
   Widget buildPageListeners({required Widget child}) {
-    //dùng multiBLocListener để tách biệt việc sử lý side-effect
     return MultiBlocListener(
       listeners: [
         BlocListener<HomeBloc, HomeState>(
@@ -62,7 +60,7 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
   @override
   Widget buildPage(BuildContext context) {
     return CommonScaffold(
-      backgroundColor: const Color(0xFFFAFAF7),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: BlocBuilder<HomeBloc, HomeState>(
           buildWhen: (previous, current) =>
@@ -70,8 +68,13 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
               previous.categories != current.categories ||
               previous.profile != current.profile ||
               previous.favoriteProductIds != current.favoriteProductIds ||
-              previous.isShimmerLoading != current.isShimmerLoading,
+              previous.isShimmerLoading != current.isShimmerLoading ||
+              previous.loadException != current.loadException,
           builder: (context, state) {
+            if (state.loadException != null && state.products.data.isEmpty) {
+              return _buildErrorState();
+            }
+
             return RefreshIndicator(
               onRefresh: () {
                 final completer = Completer<void>();
@@ -82,21 +85,23 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
                 slivers: [
                   HomeHeader(
                     profile: state.profile,
-                    onSearchTap: () {}, // TODO(nals): Implement search
-                    onNotificationTap: () {}, // TODO(nals): Implement notifications
+                    onSearchTap: _onSearchTap,
+                    onNotificationTap: _onNotificationTap,
                   ),
-                  const HomeFlashSale(),
+                  HomeFlashSale(
+                    onBuyNowTap: _onFlashSaleTap,
+                  ),
                   HomeCategories(
                     categories: state.categories,
-                    onSeeAll: () {}, // TODO(nals): Navigate to category list
-                    onCategoryTap: (category) {}, // TODO(nals): Navigate to category detail
+                    onSeeAll: _onSeeAllCategories,
+                    onCategoryTap: _onCategoryTap,
                   ),
                   const HomeSectionTitle(
                     title: 'Mới về',
                     eyebrow: 'TUẦN NÀY',
                   ),
                   HomeProductGrid(
-                    products: state.products.data.take(2).toList(),
+                    products: state.products.data.take(4).toList(),
                     favoriteProductIds: state.favoriteProductIds,
                     onFavoriteTap: _onToggleFavorite,
                     onProductTap: _onProductTap,
@@ -104,22 +109,15 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
                   const HomeEditorialBanner(),
                   const HomeSectionTitle(
                     title: 'Bán chạy',
+                    eyebrow: 'PHỔ BIẾN',
                   ),
                   HomeProductGrid(
-                    products: state.products.data.skip(2).take(4).toList(),
+                    products: state.products.data.skip(4).take(4).toList(),
                     favoriteProductIds: state.favoriteProductIds,
                     onFavoriteTap: _onToggleFavorite,
                     onProductTap: _onProductTap,
                   ),
-                  // Grid loader for more products
-                  SliverPadding(
-                    padding: EdgeInsets.symmetric(horizontal: Dimens.d20.responsive()),
-                    sliver: SliverToBoxAdapter(
-                      child: state.isShimmerLoading && state.products.data.isEmpty
-                          ? const HomeGridLoader()
-                          : const SizedBox.shrink(),
-                    ),
-                  ),
+                  SliverToBoxAdapter(child: SizedBox(height: Dimens.d40.responsive())),
                 ],
               ),
             );
@@ -129,14 +127,51 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
     );
   }
 
-  void _onToggleFavorite(ProductEntity product, bool isFavorited) {
-    bloc.add(HomeToggleFavorite(
-      productId: product.id,
-      isFavorited: isFavorited,
+  Widget _buildErrorState() {
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.all(Dimens.d24.responsive()),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.cloud_off_rounded, size: Dimens.d60.responsive(), color: AppColors.ink4),
+            SizedBox(height: Dimens.d12.responsive()),
+            Text('Không thể kết nối', style: AppTextStyles.h2Serif()),
+            SizedBox(height: Dimens.d20.responsive()),
+            GestureDetector(
+              onTap: () => bloc.add(const HomePageInitiated()),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: Dimens.d32.responsive(), vertical: Dimens.d12.responsive()),
+                decoration: BoxDecoration(
+                  color: AppColors.ink,
+                  borderRadius: BorderRadius.circular(Dimens.d100.responsive()),
+                ),
+                child: Text('Thử lại', style: AppTextStyles.s14w400Primary().copyWith(color: Colors.white)),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _onSearchTap() => navigator.push(const AppRouteInfo.search());
+  void _onNotificationTap() => navigator.push(const AppRouteInfo.notification());
+  void _onFlashSaleTap() => navigator.push(const AppRouteInfo.search());
+  void _onSeeAllCategories() => navigator.push(const AppRouteInfo.search());
+  
+  void _onCategoryTap(CategoryEntity category) {
+    navigator.push(AppRouteInfo.categoryProducts(
+      categoryId: category.id,
+      categoryName: category.name,
     ));
   }
 
+  void _onToggleFavorite(ProductEntity product, bool isFavorited) {
+    bloc.add(HomeToggleFavorite(productId: product.id, isFavorited: isFavorited));
+  }
+
   void _onProductTap(ProductEntity product) {
-    // TODO(nals): Navigate to product detail
+    navigator.push(AppRouteInfo.itemDetail(product));
   }
 }

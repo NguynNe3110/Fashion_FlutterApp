@@ -51,28 +51,28 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
   @override
   Widget buildPage(BuildContext context) {
     return CommonScaffold(
-      backgroundColor: const Color(0xFFFAFAF7),
+      backgroundColor: AppColors.background,
       appBar: CommonAppBar(
         text: 'Yêu thích',
-        titleTextStyle: AppTextStyles.s14w400Primary().copyWith(
+        titleTextStyle: AppTextStyles.h2Serif().copyWith(
           fontSize: Dimens.d20.responsive(),
-          fontWeight: FontWeight.w500,
-          fontFamily: 'Instrument Serif', // Matches the design's serif font
           fontStyle: FontStyle.italic,
         ),
         centerTitle: true,
         leadingIcon: LeadingIcon.none,
         actions: [
           IconButton(
-            onPressed: () => navigator.push(AppRouteInfo.search()),
-            icon: Icon(Icons.search_rounded, size: Dimens.d24.responsive()),
+            onPressed: () => navigator.push(const AppRouteInfo.search()),
+            icon: Icon(Icons.search_rounded, size: Dimens.d24.responsive(), color: AppColors.ink),
           ),
+          SizedBox(width: Dimens.d8.responsive()),
         ],
       ),
       body: SafeArea(
         child: Column(
           children: [
             _buildSubHeader(),
+            Divider(height: 1, color: AppColors.line2),
             Expanded(
               child: BlocBuilder<FavoriteBloc, FavoriteState>(
                 buildWhen: (previous, current) =>
@@ -89,10 +89,7 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
 
                   return CommonPagedGridView<ProductEntity>(
                     pagingController: _pagingController,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: Dimens.d20.responsive(),
-                      vertical: Dimens.d16.responsive(),
-                    ),
+                    padding: EdgeInsets.all(Dimens.d20.responsive()),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       mainAxisSpacing: Dimens.d24.responsive(),
@@ -102,16 +99,16 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
                     itemBuilder: (context, product, index) {
                       return ProductCard(
                         product: product,
-                        isFavorited: true, // It's the favorite screen
+                        isFavorited: true,
                         onFavoriteTap: () {
                           bloc.add(FavoriteToggleFavorite(
                             productId: product.id,
                             isFavorited: true,
                           ));
                         },
-                        onTap: () {
-                          // Navigate to detail
-                        },
+                        onTap: () => navigator.push(
+                          AppRouteInfo.itemDetail(product),
+                        ),
                       );
                     },
                   );
@@ -131,44 +128,31 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
         return Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Dimens.d20.responsive(),
-            vertical: Dimens.d12.responsive(),
+            vertical: Dimens.d16.responsive(),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                '${state.products.data.length} sản phẩm',
-                style: AppTextStyles.s14w400Secondary().copyWith(
-                  fontSize: Dimens.d12.responsive(),
-                  color: const Color(0xFF6B6862),
-                ),
+                '${state.products.data.length} SẢN PHẨM',
+                style: AppTextStyles.eyebrow().copyWith(fontSize: Dimens.d9.responsive()),
               ),
               GestureDetector(
                 onTap: () {
-                  // TODO(nals): Implement Sort
+                  // TODO(nals): Implement Sort UI consistent with Nord
                 },
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: Dimens.d12.responsive(),
-                    vertical: Dimens.d6.responsive(),
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: const Color(0xFFDDD8CE)),
-                    borderRadius: BorderRadius.circular(Dimens.d20.responsive()),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.sort_rounded, size: Dimens.d14.responsive(), color: const Color(0xFF111110)),
-                      SizedBox(width: Dimens.d6.responsive()),
-                      Text(
-                        'Đã thêm gần nhất',
-                        style: AppTextStyles.s14w400Primary().copyWith(
-                          fontSize: Dimens.d12.responsive(),
-                          fontWeight: FontWeight.w500,
-                        ),
+                child: Row(
+                  children: [
+                    Text(
+                      'Gần nhất',
+                      style: AppTextStyles.s14w400Primary().copyWith(
+                        fontSize: Dimens.d12.responsive(),
+                        fontWeight: FontWeight.w500,
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(width: Dimens.d4.responsive()),
+                    Icon(Icons.keyboard_arrow_down_rounded, size: Dimens.d16.responsive(), color: AppColors.ink),
+                  ],
                 ),
               ),
             ],
@@ -180,57 +164,65 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
 
   Widget _buildEmptyState() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.favorite_border_rounded,
-            size: Dimens.d60.responsive(),
-            color: const Color(0xFFA5A199),
-          ),
-          SizedBox(height: Dimens.d16.responsive()),
-          Text(
-            'Chưa có sản phẩm yêu thích',
-            style: AppTextStyles.s14w400Primary().copyWith(
-              fontSize: Dimens.d18.responsive(),
-              color: const Color(0xFF111110),
-            ),
-          ),
-          SizedBox(height: Dimens.d8.responsive()),
-          Text(
-            'Lưu sản phẩm bạn thích để xem lại sau.',
-            style: AppTextStyles.s14w400Secondary().copyWith(
-              fontSize: Dimens.d14.responsive(),
-              color: const Color(0xFF6B6862),
-            ),
-          ),
-          SizedBox(height: Dimens.d24.responsive()),
-          ElevatedButton(
-            onPressed: () => navigator.popUntilRootOfCurrentBottomTab(),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF111110),
-              foregroundColor: Colors.white,
-              padding: EdgeInsets.symmetric(
-                horizontal: Dimens.d24.responsive(),
-                vertical: Dimens.d12.responsive(),
+      child: Padding(
+        padding: EdgeInsets.all(Dimens.d32.responsive()),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: Dimens.d80.responsive(),
+              height: Dimens.d80.responsive(),
+              decoration: const BoxDecoration(
+                color: AppColors.surface2,
+                shape: BoxShape.circle,
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(Dimens.d30.responsive()),
+              child: Icon(
+                Icons.favorite_border_rounded,
+                size: Dimens.d32.responsive(),
+                color: AppColors.ink4,
               ),
             ),
-            child: const Text('Bắt đầu mua sắm'),
-          ),
-        ],
+            SizedBox(height: Dimens.d24.responsive()),
+            Text(
+              'Danh sách trống',
+              style: AppTextStyles.h2Serif(),
+            ),
+            SizedBox(height: Dimens.d12.responsive()),
+            Text(
+              'Hãy lưu lại những sản phẩm bạn yêu thích để dễ dàng tìm kiếm và mua sắm sau này.',
+              textAlign: TextAlign.center,
+              style: AppTextStyles.s14w400Secondary().copyWith(height: 1.5),
+            ),
+            SizedBox(height: Dimens.d32.responsive()),
+            GestureDetector(
+              onTap: () => navigator.popUntilRootOfCurrentBottomTab(),
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Dimens.d32.responsive(),
+                  vertical: Dimens.d16.responsive(),
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.ink,
+                  borderRadius: BorderRadius.circular(Dimens.d99.responsive()),
+                ),
+                child: Text(
+                  'Khám phá ngay',
+                  style: AppTextStyles.s14w400Primary().copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildLoader() {
     return GridView.builder(
-      padding: EdgeInsets.symmetric(
-        horizontal: Dimens.d20.responsive(),
-        vertical: Dimens.d16.responsive(),
-      ),
+      padding: EdgeInsets.all(Dimens.d20.responsive()),
       itemCount: 4,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
@@ -259,12 +251,12 @@ class _LoadingItem extends StatelessWidget {
             borderRadius: Dimens.d12.responsive(),
           ),
         ),
-        SizedBox(height: Dimens.d8.responsive()),
+        SizedBox(height: Dimens.d12.responsive()),
         RoundedRectangleShimmer(
-          width: Dimens.d100.responsive(),
-          height: Dimens.d14.responsive(),
+          width: Dimens.d60.responsive(),
+          height: Dimens.d10.responsive(),
         ),
-        SizedBox(height: Dimens.d4.responsive()),
+        SizedBox(height: Dimens.d8.responsive()),
         RoundedRectangleShimmer(
           width: double.infinity,
           height: Dimens.d14.responsive(),

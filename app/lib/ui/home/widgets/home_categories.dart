@@ -1,67 +1,74 @@
-import 'package:flutter/material.dart';
 import 'package:domain/domain.dart';
+import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
-import '../../../app.dart';
+
+import '../../../../app.dart';
 
 class HomeCategories extends StatelessWidget {
   const HomeCategories({
     required this.categories,
-    this.onSeeAll,
-    this.onCategoryTap,
+    required this.onSeeAll,
+    required this.onCategoryTap,
     super.key,
   });
 
   final List<CategoryEntity> categories;
-  final VoidCallback? onSeeAll;
-  final Function(CategoryEntity)? onCategoryTap;
+  final VoidCallback onSeeAll;
+  final Function(CategoryEntity) onCategoryTap;
 
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: Column(
         children: [
-          _buildSectionTitle(
-            context,
-            title: 'Danh mục',
-            onSeeAll: onSeeAll,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: Dimens.d20.responsive()),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Khám phá', style: AppTextStyles.sectionTitle()),
+                GestureDetector(
+                  onTap: onSeeAll,
+                  child: Text('Tất cả', style: AppTextStyles.linkText()),
+                ),
+              ],
+            ),
           ),
+          SizedBox(height: Dimens.d16.responsive()),
           SizedBox(
-            height: Dimens.d100.responsive(),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
+            height: Dimens.d110.responsive(),
+            child: ListView.separated(
               padding: EdgeInsets.symmetric(horizontal: Dimens.d20.responsive()),
+              scrollDirection: Axis.horizontal,
               itemCount: categories.length,
+              separatorBuilder: (_, __) => SizedBox(width: Dimens.d16.responsive()),
               itemBuilder: (context, index) {
                 final category = categories[index];
-                return Padding(
-                  padding: EdgeInsets.only(right: Dimens.d16.responsive()),
-                  child: GestureDetector(
-                    onTap: () => onCategoryTap?.call(category),
-                    child: Column(
-                      children: [
-                        Container(
-                          width: Dimens.d68.responsive(),
-                          height: Dimens.d68.responsive(),
-                          decoration: BoxDecoration(
-                            color: _getCategoryTone(index),
-                            shape: BoxShape.circle,
-                          ),
-                          child: ClipOval(
-                            child: category.imageUrl != null
-                                ? Image.network(category.imageUrl!, fit: BoxFit.cover)
-                                : null,
-                          ),
+                return GestureDetector(
+                  onTap: () => onCategoryTap(category),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: Dimens.d72.responsive(),
+                        height: Dimens.d72.responsive(),
+                        decoration: const BoxDecoration(
+                          color: AppColors.surface2,
+                          shape: BoxShape.circle,
                         ),
-                        SizedBox(height: Dimens.d6.responsive()),
-                        Text(
-                          category.name,
-                          style: AppTextStyles.s14w400Primary().copyWith(
-                            fontSize: Dimens.d11.responsive(),
-                            color: const Color(0xFF3C3B38),
-                          ),
+                        clipBehavior: Clip.antiAlias,
+                        child: category.imageUrl != null
+                            ? Image.network(category.imageUrl!, fit: BoxFit.cover)
+                            : Icon(Icons.category_outlined, color: AppColors.ink4),
+                      ),
+                      SizedBox(height: Dimens.d8.responsive()),
+                      Text(
+                        category.name,
+                        style: AppTextStyles.s14w400Primary().copyWith(
+                          fontSize: Dimens.d12.responsive(),
+                          fontWeight: FontWeight.w500,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 );
               },
@@ -71,55 +78,5 @@ class HomeCategories extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _buildSectionTitle(
-    BuildContext context, {
-    required String title,
-    VoidCallback? onSeeAll,
-  }) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(
-        Dimens.d20.responsive(),
-        Dimens.d20.responsive(),
-        Dimens.d20.responsive(),
-        Dimens.d12.responsive(),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(
-            title,
-            style: AppTextStyles.s14w400Primary().copyWith(
-              fontSize: Dimens.d22.responsive(),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          if (onSeeAll != null)
-            GestureDetector(
-              onTap: onSeeAll,
-              child: Text(
-                'Tất cả',
-                style: AppTextStyles.s14w400Secondary().copyWith(
-                  fontSize: Dimens.d12.responsive(),
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-
-  Color _getCategoryTone(int index) {
-    final tones = [
-      const Color(0xFFD9CFBE),
-      const Color(0xFFE8CBB8),
-      const Color(0xFFE4DDD0),
-      const Color(0xFFC9BFA9),
-      const Color(0xFFB8AE99),
-    ];
-    return tones[index % tones.length];
   }
 }

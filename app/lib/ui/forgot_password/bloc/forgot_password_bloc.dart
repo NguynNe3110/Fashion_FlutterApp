@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:domain/domain.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -9,10 +10,12 @@ import 'forgot_password.dart';
 @injectable
 class ForgotPasswordBloc
     extends BaseBloc<ForgotPasswordEvent, ForgotPasswordState> {
-  ForgotPasswordBloc() : super(const ForgotPasswordState()) {
+  ForgotPasswordBloc(this._forgotPasswordUseCase) : super(const ForgotPasswordState()) {
     on<ForgotPasswordEmailChanged>(_onForgotPasswordEmailChanged);
     on<SendResetCodePressed>(_onSendResetCodePressed);
   }
+
+  final ForgotPasswordUseCase _forgotPasswordUseCase;
 
   void _onForgotPasswordEmailChanged(
     ForgotPasswordEmailChanged event,
@@ -30,7 +33,7 @@ class ForgotPasswordBloc
   ) async {
     return runBlocCatching(
       action: () async {
-        // ponytail: call forgot password API when available
+        await _forgotPasswordUseCase.execute(ForgotPasswordInput(email: state.email));
         emit(state.copyWith(isEmailSent: true));
       },
     );

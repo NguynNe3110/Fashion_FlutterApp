@@ -1,26 +1,27 @@
-import 'package:flutter/material.dart';
 import 'package:domain/domain.dart';
-import 'product_card.dart';
-import '../../../app.dart';
+import 'package:flutter/material.dart';
+import 'package:shared/shared.dart';
 
+import 'product_card.dart';
+import '../../../../app.dart';
 class HomeProductGrid extends StatelessWidget {
   const HomeProductGrid({
     required this.products,
     required this.favoriteProductIds,
-    this.onFavoriteTap,
-    this.onProductTap,
+    required this.onFavoriteTap,
+    required this.onProductTap,
     super.key,
   });
 
   final List<ProductEntity> products;
   final Set<String> favoriteProductIds;
-  final Function(ProductEntity, bool)? onFavoriteTap;
-  final Function(ProductEntity)? onProductTap;
+  final Function(ProductEntity, bool) onFavoriteTap;
+  final Function(ProductEntity) onProductTap;
 
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: Dimens.d20.responsive()),
+      padding: EdgeInsets.symmetric(horizontal: Dimens.d20.responsive(), vertical: Dimens.d16.responsive()),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
@@ -35,8 +36,8 @@ class HomeProductGrid extends StatelessWidget {
             return ProductCard(
               product: product,
               isFavorited: isFavorited,
-              onTap: () => onProductTap?.call(product),
-              onFavoriteTap: () => onFavoriteTap?.call(product, isFavorited),
+              onFavoriteTap: () => onFavoriteTap(product, isFavorited),
+              onTap: () => onProductTap(product),
             );
           },
           childCount: products.length,

@@ -88,7 +88,7 @@ class _RegisterPageState extends BasePageState<RegisterPage, RegisterBloc> {
                 SizedBox(height: Dimens.d6.responsive()),
                 TextField(
                   onChanged: (email) =>
-                      bloc.add(EmailTextFieldChanged(email: email)),
+                      bloc.add(EmailTextFieldRegisterChanged(email: email)),
                   keyboardType: TextInputType.emailAddress,
                   decoration: _inputDecoration('ban@email.com'),
                 ),
@@ -102,13 +102,13 @@ class _RegisterPageState extends BasePageState<RegisterPage, RegisterBloc> {
                   builder: (context, state) {
                     return TextField(
                       onChanged: (pass) => bloc
-                          .add(PasswordTextFieldChanged(password: pass)),
+                          .add(PasswordTextFieldRegisterChanged(password: pass)),
                       obscureText: state.obscureText,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: _inputDecoration('••••••••').copyWith(
                         suffixIcon: GestureDetector(
                           onTap: () =>
-                              bloc.add(const EyeIconPressed()),
+                              bloc.add(const EyeIconRegisterPressed()),
                           child: Icon(
                             !state.obscureText
                                 ? Icons.visibility

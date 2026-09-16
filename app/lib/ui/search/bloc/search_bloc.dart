@@ -5,8 +5,9 @@ import 'package:app/ui/search/bloc/search.dart';
 import 'package:bloc/bloc.dart';
 import 'package:domain/domain.dart';
 import 'package:injectable/injectable.dart';
+import 'package:collection/collection.dart';
 
-@Injectable()
+@injectable
 class SearchBloc extends BaseBloc<SearchEvent, SearchState> {
   SearchBloc(this._getProductsUseCase, this._addSearchHistoryUseCase) : super(const SearchState()) {
     on<SearchPageInitiated>(_onSearchPageInitiated, transformer: log());
@@ -29,22 +30,23 @@ class SearchBloc extends BaseBloc<SearchEvent, SearchState> {
     SearchKeywordChanged event,
     Emitter<SearchState> emit,
   ) async {
-    // Chỉ dùng để gợi ý local hoặc filter list suggestion, KHÔNG gọi API search ở đây.
+    emit(state.copyWith(keyword: event.keyword));
   }
 
   FutureOr<void> _onSearchKeywordSubmitted(
     SearchKeywordSubmitted event,
     Emitter<SearchState> emit,
   ) async {
-    if (event.keyword.trim().isEmpty) return;
+    final keyword = event.keyword.trim();
+    if (keyword.isEmpty) return;
 
     return runBlocCatching(
       action: () async {
         // Lưu lịch sử khi submit
-        await _addSearchHistoryUseCase.execute(AddSearchHistoryInput(keyword: event.keyword));
+        await _addSearchHistoryUseCase.execute(AddSearchHistoryInput(keyword: keyword));
         
-        final output = await _getProductsUseCase.execute(GetProductsInput(offset: 0)); // TODO: truyền keyword
-        emit(state.copyWith(searchResults: output.products));
+        final output = await _getProductsUseCase.execute(const GetProductsInput(offset: 0)); // TODO: truyền keyword khi API hỗ trợ
+        emit(state.copyWith(searchResults: output.products, keyword: keyword));
       },
       doOnSubscribe: () async => emit(state.copyWith(isShimmerLoading: true)),
       doOnSuccessOrError: () async => emit(state.copyWith(isShimmerLoading: false)),
@@ -56,7 +58,9 @@ class SearchBloc extends BaseBloc<SearchEvent, SearchState> {
     SearchProductClicked event,
     Emitter<SearchState> emit,
   ) async {
-    // final product = state.searchResults.firstWhere((p) => p.id == event.productId);
-    // await navigator.push(AppRouteInfo.itemDetail(product));
+    final product = state.searchResults.firstWhereOrNull((p) => p.id == event.productId);
+    if (product != null) {
+      await navigator.push(AppRouteInfo.itemDetail(product));
+    }
   }
 }

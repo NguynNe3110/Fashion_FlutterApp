@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 import '../../../app.dart';
 import 'login.dart';
 
-@Injectable()
+@injectable
 class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
   LoginBloc(this._loginUseCase, this._fakeLoginUseCase) : super(const LoginState()) {
     on<EmailTextFieldChanged>(

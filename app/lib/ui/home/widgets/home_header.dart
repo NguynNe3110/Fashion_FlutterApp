@@ -1,94 +1,62 @@
+import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
-import 'package:domain/domain.dart';
-import '../../../app.dart';
-
+import '../../../../app.dart';
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
-    required this.profile,
-    this.onSearchTap,
-    this.onNotificationTap,
+    required this.onSearchTap,
+    required this.onNotificationTap,
+    this.profile,
     super.key,
   });
 
   final ProfileEntity? profile;
-  final VoidCallback? onSearchTap;
-  final VoidCallback? onNotificationTap;
+  final VoidCallback onSearchTap;
+  final VoidCallback onNotificationTap;
 
   @override
   Widget build(BuildContext context) {
-    return SliverPadding(
-      padding: EdgeInsets.symmetric(
-        horizontal: Dimens.d20.responsive(),
-        vertical: Dimens.d12.responsive(),
-      ),
-      sliver: SliverToBoxAdapter(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'CHÀO BUỔI SÁNG',
-                  style: AppTextStyles.s14w400Secondary().copyWith(
-                    fontSize: Dimens.d10.responsive(),
-                    letterSpacing: 1.4,
-                    color: const Color(0xFF6B6862),
-                  ),
-                ),
-                Text(
-                  profile?.fullName ?? 'Khách',
-                  style: AppTextStyles.s14w400Primary().copyWith(
-                    fontSize: Dimens.d22.responsive(),
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ],
+    return SliverAppBar(
+      backgroundColor: AppColors.background.withValues(alpha: 0.85),
+      floating: true,
+      pinned: true,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      centerTitle: false,
+      title: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        textBaseline: TextBaseline.alphabetic,
+        children: [
+          Text(
+            'Nord',
+            style: AppTextStyles.h2Serif().copyWith(
+              fontSize: Dimens.d22.responsive(),
+              fontStyle: FontStyle.italic,
             ),
-            Row(
-              children: [
-                _buildIconButton(Icons.search_rounded, onSearchTap ?? () {}),
-                SizedBox(width: Dimens.d8.responsive()),
-                _buildIconButton(Icons.notifications_none_rounded, onNotificationTap ?? () {}, hasBadge: true),
-              ],
+          ),
+          SizedBox(width: Dimens.d8.responsive()),
+          Text(
+            'STUDIO',
+            style: AppTextStyles.eyebrow().copyWith(
+              fontSize: Dimens.d10.responsive(),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
-
-  Widget _buildIconButton(IconData icon, VoidCallback onTap, {bool hasBadge = false}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: Dimens.d40.responsive(),
-        height: Dimens.d40.responsive(),
-        decoration: const BoxDecoration(
-          color: Colors.transparent,
-          shape: BoxShape.circle,
+      actions: [
+        IconButton(
+          onPressed: onSearchTap,
+          icon: Icon(Icons.search_rounded, size: Dimens.d24.responsive(), color: AppColors.ink),
         ),
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Icon(icon, size: Dimens.d24.responsive(), color: const Color(0xFF111110)),
-            if (hasBadge)
-              Positioned(
-                top: Dimens.d10.responsive(),
-                right: Dimens.d10.responsive(),
-                child: Container(
-                  width: Dimens.d6.responsive(),
-                  height: Dimens.d6.responsive(),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFC2410C),
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-          ],
+        IconButton(
+          onPressed: onNotificationTap,
+          icon: Icon(Icons.notifications_none_rounded, size: Dimens.d24.responsive(), color: AppColors.ink),
         ),
+        SizedBox(width: Dimens.d12.responsive()),
+      ],
+      bottom: PreferredSize(
+        preferredSize: Size.fromHeight(Dimens.d1.responsive()),
+        child: Divider(height: Dimens.d1.responsive(), color: AppColors.line2),
       ),
     );
   }

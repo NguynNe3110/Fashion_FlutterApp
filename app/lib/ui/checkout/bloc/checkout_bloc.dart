@@ -6,7 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:domain/domain.dart';
 import 'package:injectable/injectable.dart';
 
-@Injectable()
+@injectable
 class CheckoutBloc extends BaseBloc<CheckoutEvent, CheckoutState> {
   CheckoutBloc(
     this._checkoutSelectedItemsUseCase,
@@ -37,29 +37,27 @@ class CheckoutBloc extends BaseBloc<CheckoutEvent, CheckoutState> {
 
         final productMap = {for (final p in state.products) p.id: p};
 
-        final orderItemsData = state.selectedItems.map((item) {
+        final orderItems = state.selectedItems.map((item) {
           final product = productMap[item.productId]!;
-          return <String, dynamic>{
-            'product_id': item.productId,
-            'variant_id': item.variantId,
-            'quantity': item.quantity,
-            'product_name_snapshot': product.name,
-            'price_snapshot': product.effectivePrice,
-          };
+          return OrderItemEntity(
+            id: '', // Sẽ được gen ở backend/repo
+            orderId: '', // Sẽ được gán sau khi tạo order
+            productId: item.productId,
+            variantId: item.variantId,
+            productNameSnapshot: product.name,
+            priceSnapshot: product.effectivePrice,
+            quantity: item.quantity,
+            imageUrlSnapshot: product.primaryImageUrl,
+          );
         }).toList();
-
-        final orderData = CreateOrderRequestEntity(
-          userId: userId,
-          totalPrice: state.summary.total,
-          addressLine: '', // TODO: lấy từ user input
-        );
 
         await _checkoutSelectedItemsUseCase.execute(
           CheckoutSelectedItemsUseCaseInput(
             userId: userId,
             selectedCartItemIds: state.selectedItems.map((e) => e.id).toList(),
-            orderData: orderData,
-            orderItemsData: orderItemsData,
+            totalPrice: state.summary.total,
+            addressLine: 'Default Address', // TODO: lấy từ user input/selection
+            orderItems: orderItems,
           ),
         );
 

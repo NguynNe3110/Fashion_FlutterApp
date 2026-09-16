@@ -6,7 +6,7 @@ import 'package:bloc/bloc.dart';
 import 'package:domain/domain.dart';
 import 'package:injectable/injectable.dart';
 
-@Injectable()
+@injectable
 class CartBloc extends BaseBloc<CartEvent, CartState> {
   CartBloc(
     this._deleteCartItemUseCase,
@@ -33,6 +33,7 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
   ) async {
     return runBlocCatching(
       action: () async {
+        emit(state.copyWith(loadException: null));
         final user = await _getMeUseCase.execute(GetMeUseCaseInput());
         final userId = user.profile.id.toString();
 
@@ -48,6 +49,7 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
       },
       doOnSubscribe: () async => emit(state.copyWith(isShimmerLoading: true)), // trước action
       doOnSuccessOrError: () async => emit(state.copyWith(isShimmerLoading: false)), // sau action
+      doOnError: (e) async => emit(state.copyWith(loadException: e)),
       handleLoading: false, // tự xử lý loading
     );
   }

@@ -11,7 +11,7 @@ EventTransformer<T> throttle<T>(Duration duration) {
   return (events, mapper) => events.throttleTime(duration).flatMap(mapper);
 }
 
-@Injectable()
+@injectable
 class ItemDetailBloc extends BaseBloc<ItemDetailEvent, ItemDetailState> {
   ItemDetailBloc(
     this._getMeUseCase,

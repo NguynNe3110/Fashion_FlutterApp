@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 import '../../../app.dart';
 import 'favorite.dart';
 
-@Injectable()
+@injectable
 class FavoriteBloc extends BaseBloc<FavoriteEvent, FavoriteState> {
   FavoriteBloc(
     this._getFavoritesUseCase,

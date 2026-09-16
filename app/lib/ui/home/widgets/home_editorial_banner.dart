@@ -1,54 +1,62 @@
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
-import '../../../app.dart';
-
+import '../../../../app.dart';
 class HomeEditorialBanner extends StatelessWidget {
   const HomeEditorialBanner({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(
-        horizontal: Dimens.d20.responsive(),
-        vertical: Dimens.d24.responsive(),
-      ),
+      padding: EdgeInsets.symmetric(horizontal: Dimens.d20.responsive(), vertical: Dimens.d24.responsive()),
       sliver: SliverToBoxAdapter(
-        child: AspectRatio(
-          aspectRatio: 16 / 10,
-          child: Container(
-            decoration: BoxDecoration(
-              color: const Color(0xFFB8AE99),
-              borderRadius: BorderRadius.circular(Dimens.d12.responsive()),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  bottom: Dimens.d16.responsive(),
-                  left: Dimens.d16.responsive(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'LOOKBOOK',
-                        style: AppTextStyles.s14w400Secondary().copyWith(
-                          fontSize: Dimens.d10.responsive(),
-                          letterSpacing: 1.2,
-                          color: Colors.white.withValues(alpha: 0.85),
-                        ),
-                      ),
-                      Text(
-                        'Nord Autumn',
-                        style: AppTextStyles.s14w400Primary().copyWith(
-                          fontSize: Dimens.d22.responsive(),
-                          fontStyle: FontStyle.italic,
-                          color: Colors.white,
-                        ),
-                      ),
+        child: Container(
+          height: Dimens.d400.responsive(),
+          decoration: BoxDecoration(
+            color: AppColors.phDark,
+            borderRadius: BorderRadius.circular(Dimens.d24.responsive()),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              // Background pattern or image
+              const Center(
+                child: Icon(Icons.style_outlined, size: 80, color: Colors.white24),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withValues(alpha: 0.6),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(Dimens.d32.responsive()),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Phong cách tối giản',
+                      style: AppTextStyles.h1Serif().copyWith(color: Colors.white),
+                    ),
+                    SizedBox(height: Dimens.d12.responsive()),
+                    Text(
+                      'Khám phá xu hướng thời trang bền vững và tinh tế từ các nhà thiết kế hàng đầu.',
+                      style: AppTextStyles.s14w400Primary().copyWith(
+                        color: Colors.white.withValues(alpha: 0.8),
+                        height: 1.5,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
