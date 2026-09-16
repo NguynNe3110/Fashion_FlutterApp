@@ -57,3 +57,4 @@ pubspec_overrides.yaml
 *.gr.dart
 
 /afolder/
+.ps1
