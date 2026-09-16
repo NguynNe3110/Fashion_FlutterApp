@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:domain/domain.dart';
 import 'package:injectable/injectable.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as supabase;
 
 import '../../data.dart';
 
@@ -15,6 +16,7 @@ class RepositoryImpl implements Repository {
     this._languageCodeDataMapper,
     this._genderDataMapper,
     this._localUserDataMapper,
+    this._supabaseClient,
   );
 
   final AppApiService _appApiService;
@@ -25,9 +27,12 @@ class RepositoryImpl implements Repository {
   final LanguageCodeDataMapper _languageCodeDataMapper;
   final GenderDataMapper _genderDataMapper;
   final LocalUserDataMapper _localUserDataMapper;
+  final supabase.SupabaseClient _supabaseClient;
 
   @override
-  bool get isLoggedIn => _appPreferences.isLoggedIn;
+  // --- CODE CŨ: bool get isLoggedIn => _appPreferences.isLoggedIn;
+  // --- CODE MỚI: Check session trực tiếp từ Supabase
+  bool get isLoggedIn => _supabaseClient.auth.currentSession != null;
 
   @override
   bool get isFirstLogin => _appPreferences.isFirstLogin;
@@ -62,22 +67,38 @@ class RepositoryImpl implements Repository {
     required String email,
     required String password,
   }) async {
-    final response =
-        await _appApiService.login(email: email, password: password);
-    await Future.wait([
-      saveAccessToken(response?.data?.accessToken ?? ''),
-      saveUserPreference(
+    // final response =
+    //     await _appApiService.login(email: email, password: password);
+    // await Future.wait([
+    //   saveAccessToken(response?.data?.accessToken ?? ''),
+    //   saveUserPreference(
+    //     User(
+    //       id: response?.data?.id ?? -1,
+    //       email: response?.data?.email ?? '',
+    //     ),
+    //   ),
+    // ]);
+
+    final response = await _supabaseClient.auth.signInWithPassword(
+      email: email,
+      password: password,
+    );
+    if (response.user != null) {
+      await saveUserPreference(
         User(
-          id: response?.data?.id ?? -1,
-          email: response?.data?.email ?? '',
+          id: -1, // Use a dummy int or update User entity to use String
+          email: response.user?.email ?? '',
         ),
-      ),
-    ]);
+      );
+    }
   }
 
   @override
   Future<void> logout() async {
-    await _appApiService.logout();
+
+    // await _appApiService.logout();
+
+    await _supabaseClient.auth.signOut();
     await _appPreferences.clearCurrentUserData();
   }
 
@@ -87,16 +108,24 @@ class RepositoryImpl implements Repository {
     required String email,
     required String password,
     required String confirmPassword,
-  }) =>
-      _appApiService.resetPassword(
-        token: token,
-        email: email,
-        password: password,
-      );
+  }) async {
+
+    // return _appApiService.resetPassword(
+    //     token: token,
+    //     email: email,
+    //     password: password,
+    //   );
+
+    await _supabaseClient.auth.updateUser(
+      supabase.UserAttributes(password: password),
+    );
+  }
 
   @override
-  Future<void> forgotPassword(String email) =>
-      _appApiService.forgotPassword(email);
+  Future<void> forgotPassword(String email) async {
+    // return _appApiService.forgotPassword(email);
+    await _supabaseClient.auth.resetPasswordForEmail(email);
+  }
 
   @override
   Future<void> register({
@@ -105,21 +134,36 @@ class RepositoryImpl implements Repository {
     required String password,
     required Gender gender,
   }) async {
-    final response = await _appApiService.register(
-      username: username,
+
+    // final response = await _appApiService.register(
+    //   username: username,
+    //   email: email,
+    //   password: password,
+    //   gender: _genderDataMapper.mapToData(gender),
+    // );
+    // await Future.wait([
+    //   saveAccessToken(response?.data?.accessToken ?? ''),
+    //   saveUserPreference(
+    //     User(
+    //       id: response?.data?.id ?? -1,
+    //       email: response?.data?.email ?? '',
+    //     ),
+    //   ),
+    // ]);
+
+    final response = await _supabaseClient.auth.signUp(
       email: email,
       password: password,
-      gender: _genderDataMapper.mapToData(gender),
+      data: {'full_name': username},
     );
-    await Future.wait([
-      saveAccessToken(response?.data?.accessToken ?? ''),
-      saveUserPreference(
+    if (response.user != null) {
+      await saveUserPreference(
         User(
-          id: response?.data?.id ?? -1,
-          email: response?.data?.email ?? '',
+          id: -1,
+          email: response.user?.email ?? '',
         ),
-      ),
-    ]);
+      );
+    }
   }
 
   @override
@@ -151,9 +195,14 @@ class RepositoryImpl implements Repository {
 
   @override
   Future<User> getMe() async {
-    final response = await _appApiService.getMe();
+    // final response = await _appApiService.getMe();
+    // return _userDataMapper.mapToEntity(response);
 
-    return _userDataMapper.mapToEntity(response);
+    final user = _supabaseClient.auth.currentUser;
+    return User(
+      id: -1,
+      email: user?.email ?? '',
+    );
   }
 
   @override
