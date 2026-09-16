@@ -23,12 +23,33 @@ class AppColors {
   final LinearGradient primaryGradient;
 
   static const defaultAppColor = AppColors(
-    primaryColor: Color.fromARGB(255, 166, 168, 254),
-    secondaryColor: Color.fromARGB(255, 62, 62, 70),
-    primaryTextColor: Color.fromARGB(255, 62, 62, 70),
-    secondaryTextColor: Color.fromARGB(255, 166, 168, 254),
-    primaryGradient: LinearGradient(colors: [Color(0xFFFFFFFF), Color(0xFFFE6C30)]),
+    primaryColor: Color(0xFF111110),
+    secondaryColor: Color(0xFF6B6862),
+    primaryTextColor: Color(0xFF111110),
+    secondaryTextColor: Color(0xFF6B6862),
+    primaryGradient: LinearGradient(colors: [Color(0xFFFAFAF7), Color(0xFFFFFFFF)]),
   );
+
+  // Nord Design Tokens
+  static const Color background = Color(0xFFFAFAF7);
+  static const Color surface = Color(0xFFFFFFFF);
+  static const Color surface2 = Color(0xFFF3F1EC);
+  static const Color ink = Color(0xFF111110);
+  static const Color ink2 = Color(0xFF3C3B38);
+  static const Color ink3 = Color(0xFF6B6862);
+  static const Color ink4 = Color(0xFFA5A199);
+  static const Color line = Color(0xFFE8E5DE);
+  static const Color line2 = Color(0xFFDDD8CE);
+  static const Color sale = Color(0xFFC2410C);
+  static const Color success = Color(0xFF4D7C4B);
+
+  // Placeholder tones
+  static const Color phBeige = Color(0xFFE4DDD0);
+  static const Color phWarm = Color(0xFFD9CFBE);
+  static const Color phTerra = Color(0xFFE8CBB8);
+  static const Color phSand = Color(0xFFC9BFA9);
+  static const Color phShade = Color(0xFFB8AE99);
+  static const Color phDark = Color(0xFF524A3D);
 
   static const darkThemeColor = AppColors(
     primaryColor: Color.fromARGB(255, 62, 62, 70),

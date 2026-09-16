@@ -11,6 +11,18 @@ class AppRouteInfoMapper extends BaseRouteInfoMapper {
   PageRouteInfo map(AppRouteInfo appRouteInfo) {
     return appRouteInfo.when(
       login: () => const LoginRoute(),      // Map định danh 'login' sang trang Login
+      register: () => const RegisterRoute(),
+      address: () => const AddressRoute(),
+      orderDetail: (orderId) => OrderDetailRoute(orderId: orderId),
+      categoryProducts: (categoryId, categoryName) =>
+          CategoryProductsRoute(categoryId: categoryId, categoryName: categoryName),
+      review: (productId, productName) =>
+          ReviewRoute(productId: productId, productName: productName),
+      onboarding: () => const OnboardingRoute(),
+      forgotPassword: () => const ForgotPasswordRoute(),
+      orderSuccess: (orderCode) => OrderSuccessRoute(orderCode: orderCode),
+      vouchers: () => const VouchersRoute(),
+      paymentMethods: () => const PaymentMethodsRoute(),
       main: () => const MainRoute(),
       favorite: () => const FavoriteRoute(),
       cart: () => const CartRoute(),

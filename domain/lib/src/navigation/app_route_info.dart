@@ -10,6 +10,32 @@ class AppRouteInfo with _$AppRouteInfo {
   // factory có thể tự quyết định kiểu trả về của nó, ở đây trả về _Login và nó extend AppRouteInfo
   const factory AppRouteInfo.login() = _Login;
 
+  const factory AppRouteInfo.register() = _Register;
+
+  const factory AppRouteInfo.address() = _Address;
+
+  const factory AppRouteInfo.orderDetail({required String orderId}) = _OrderDetail;
+
+  const factory AppRouteInfo.categoryProducts({
+    required String categoryId,
+    required String categoryName,
+  }) = _CategoryProducts;
+
+  const factory AppRouteInfo.review({
+    required String productId,
+    required String productName,
+  }) = _Review;
+
+  const factory AppRouteInfo.onboarding() = _Onboarding;
+
+  const factory AppRouteInfo.forgotPassword() = _ForgotPassword;
+
+  const factory AppRouteInfo.orderSuccess({required String orderCode}) = _OrderSuccess;
+
+  const factory AppRouteInfo.vouchers() = _Vouchers;
+
+  const factory AppRouteInfo.paymentMethods() = _PaymentMethods;
+
   const factory AppRouteInfo.favorite() = _Favorite;
 
   const factory AppRouteInfo.cart() = _Cart;
@@ -29,5 +55,5 @@ class AppRouteInfo with _$AppRouteInfo {
   const factory AppRouteInfo.orderHistory() = _OrderHistory;
   const factory AppRouteInfo.search() = _Search;
   
-  // const factory AppRouteInfo.notification() = _Notification;
+  const factory AppRouteInfo.notification() = _Notification;
 }

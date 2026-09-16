@@ -17,6 +17,16 @@ class AppRouter extends RootStackRouter { // có thể hiểu là khai báo
   @override
   List<AutoRoute> get routes => [
         AutoRoute(page: LoginRoute.page),
+        AutoRoute(page: RegisterRoute.page),
+        AutoRoute(page: AddressRoute.page),
+        AutoRoute(page: OrderDetailRoute.page),
+        AutoRoute(page: CategoryProductsRoute.page),
+        AutoRoute(page: ReviewRoute.page),
+        AutoRoute(page: OnboardingRoute.page),
+        AutoRoute(page: ForgotPasswordRoute.page),
+        AutoRoute(page: OrderSuccessRoute.page),
+        AutoRoute(page: VouchersRoute.page),
+        AutoRoute(page: PaymentMethodsRoute.page),
         AutoRoute(page: CheckoutRoute.page),
 
         AutoRoute(page: OrderHistoryRoute.page),
