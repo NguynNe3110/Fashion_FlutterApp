@@ -12,6 +12,7 @@ class SearchBloc extends BaseBloc<SearchEvent, SearchState> {
   SearchBloc(this._getProductsUseCase, this._addSearchHistoryUseCase)
     : super(const SearchState()) {
     on<SearchPageInitiated>(_onSearchPageInitiated, transformer: log());
+    on<SearchBackPressed>(_onSearchBackPressed, transformer: log());
     on<SearchKeywordChanged>(_onSearchKeywordChanged, transformer: log());
     on<SearchKeywordSubmitted>(_onSearchKeywordSubmitted, transformer: log());
     on<SearchProductClicked>(_onSearchProductClicked, transformer: log());
@@ -19,6 +20,13 @@ class SearchBloc extends BaseBloc<SearchEvent, SearchState> {
 
   final GetProductsUseCase _getProductsUseCase;
   final AddSearchHistoryUseCase _addSearchHistoryUseCase;
+
+  FutureOr<void> _onSearchBackPressed(
+    SearchBackPressed event,
+    Emitter<SearchState> emit,
+  ) async {
+    await navigator.pop(useRootNavigator: true);
+  }
 
   FutureOr<void> _onSearchPageInitiated(
     SearchPageInitiated event,

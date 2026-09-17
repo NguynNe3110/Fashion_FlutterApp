@@ -17,6 +17,27 @@ class ProductCard extends StatelessWidget {
   final VoidCallback onFavoriteTap;
   final bool isFavorited;
 
+  static int gridCrossAxisCount(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    if (width >= 900) return 4;
+    if (width >= 600) return 3;
+    return 2;
+  }
+
+  static double gridMainAxisExtent(
+    BuildContext context, {
+    required double horizontalPadding,
+    required double crossAxisSpacing,
+  }) {
+    final count = gridCrossAxisCount(context);
+    final itemWidth =
+        (MediaQuery.sizeOf(context).width -
+            horizontalPadding -
+            crossAxisSpacing * (count - 1)) /
+        count;
+    return itemWidth * 4 / 3 + Dimens.d112.responsive();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -99,6 +120,8 @@ class ProductCard extends StatelessWidget {
           SizedBox(height: Dimens.d12.responsive()),
           Text(
             product.categoryName?.toUpperCase() ?? 'COLLECTION',
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: AppTextStyles.eyebrow().copyWith(
               fontSize: Dimens.d9.responsive(),
             ),

@@ -59,4 +59,4 @@ pubspec_overrides.yaml
 /afolder/
 *.ps1
 *.sql
-*/seed_output/
+afolder/context/seed_output/

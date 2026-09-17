@@ -33,9 +33,7 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
           fontStyle: FontStyle.italic,
         ),
         centerTitle: true,
-        leadingIcon: LeadingIcon.back,
-        onLeadingPressed: () =>
-            navigator.navigateToBottomTab(BottomTab.home.index),
+        leadingIcon: LeadingIcon.none,
       ),
       body: BlocBuilder<CartBloc, CartState>(
         buildWhen: (prev, curr) =>

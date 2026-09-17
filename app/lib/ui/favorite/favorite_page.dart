@@ -19,7 +19,8 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
-  late final _pagingController = CommonPagingController<ProductEntity>()..disposeBy(disposeBag);
+  late final _pagingController = CommonPagingController<ProductEntity>()
+    ..disposeBy(disposeBag);
 
   @override
   void initState() {
@@ -32,13 +33,15 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
     return MultiBlocListener(
       listeners: [
         BlocListener<FavoriteBloc, FavoriteState>(
-          listenWhen: (previous, current) => previous.products != current.products,
+          listenWhen: (previous, current) =>
+              previous.products != current.products,
           listener: (context, state) {
             _pagingController.appendLoadMoreOutput(state.products);
           },
         ),
         BlocListener<FavoriteBloc, FavoriteState>(
-          listenWhen: (previous, current) => previous.loadException != current.loadException,
+          listenWhen: (previous, current) =>
+              previous.loadException != current.loadException,
           listener: (context, state) {
             _pagingController.error = state.loadException;
           },
@@ -63,7 +66,11 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
         actions: [
           IconButton(
             onPressed: () => navigator.push(const AppRouteInfo.search()),
-            icon: Icon(Icons.search_rounded, size: Dimens.d24.responsive(), color: AppColors.ink),
+            icon: Icon(
+              Icons.search_rounded,
+              size: Dimens.d24.responsive(),
+              color: AppColors.ink,
+            ),
           ),
           SizedBox(width: Dimens.d8.responsive()),
         ],
@@ -91,24 +98,29 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
                     pagingController: _pagingController,
                     padding: EdgeInsets.all(Dimens.d20.responsive()),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                      crossAxisCount: ProductCard.gridCrossAxisCount(context),
                       mainAxisSpacing: Dimens.d24.responsive(),
                       crossAxisSpacing: Dimens.d12.responsive(),
-                      childAspectRatio: 0.6,
+                      mainAxisExtent: ProductCard.gridMainAxisExtent(
+                        context,
+                        horizontalPadding: Dimens.d20.responsive() * 2,
+                        crossAxisSpacing: Dimens.d12.responsive(),
+                      ),
                     ),
                     itemBuilder: (context, product, index) {
                       return ProductCard(
                         product: product,
                         isFavorited: true,
                         onFavoriteTap: () {
-                          bloc.add(FavoriteToggleFavorite(
-                            productId: product.id,
-                            isFavorited: true,
-                          ));
+                          bloc.add(
+                            FavoriteToggleFavorite(
+                              productId: product.id,
+                              isFavorited: true,
+                            ),
+                          );
                         },
-                        onTap: () => navigator.push(
-                          AppRouteInfo.itemDetail(product),
-                        ),
+                        onTap: () =>
+                            navigator.push(AppRouteInfo.itemDetail(product)),
                       );
                     },
                   );
@@ -123,7 +135,8 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
 
   Widget _buildSubHeader() {
     return BlocBuilder<FavoriteBloc, FavoriteState>(
-      buildWhen: (previous, current) => previous.products.data.length != current.products.data.length,
+      buildWhen: (previous, current) =>
+          previous.products.data.length != current.products.data.length,
       builder: (context, state) {
         return Padding(
           padding: EdgeInsets.symmetric(
@@ -135,7 +148,9 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
             children: [
               Text(
                 '${state.products.data.length} SẢN PHẨM',
-                style: AppTextStyles.eyebrow().copyWith(fontSize: Dimens.d9.responsive()),
+                style: AppTextStyles.eyebrow().copyWith(
+                  fontSize: Dimens.d9.responsive(),
+                ),
               ),
               GestureDetector(
                 onTap: () {
@@ -151,7 +166,11 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
                       ),
                     ),
                     SizedBox(width: Dimens.d4.responsive()),
-                    Icon(Icons.keyboard_arrow_down_rounded, size: Dimens.d16.responsive(), color: AppColors.ink),
+                    Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      size: Dimens.d16.responsive(),
+                      color: AppColors.ink,
+                    ),
                   ],
                 ),
               ),
@@ -183,10 +202,7 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
               ),
             ),
             SizedBox(height: Dimens.d24.responsive()),
-            Text(
-              'Danh sách trống',
-              style: AppTextStyles.h2Serif(),
-            ),
+            Text('Danh sách trống', style: AppTextStyles.h2Serif()),
             SizedBox(height: Dimens.d12.responsive()),
             Text(
               'Hãy lưu lại những sản phẩm bạn yêu thích để dễ dàng tìm kiếm và mua sắm sau này.',

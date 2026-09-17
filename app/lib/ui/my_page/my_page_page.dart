@@ -270,7 +270,7 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Dimens.d24.responsive()),
       child: GestureDetector(
-        onTap: () => bloc.add(const LogoutButtonPressed()),
+        onTap: _confirmLogout,
         child: Container(
           width: double.infinity,
           padding: EdgeInsets.symmetric(vertical: Dimens.d16.responsive()),
@@ -289,6 +289,41 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
         ),
       ),
     );
+  }
+
+  Future<void> _confirmLogout() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: AppColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(Dimens.d20.responsive()),
+        ),
+        title: Text(
+          'Đăng xuất?',
+          style: AppTextStyles.h2Serif(fontSize: Dimens.d22.responsive()),
+        ),
+        content: Text(
+          'Bạn có chắc muốn đăng xuất khỏi tài khoản Nord?',
+          style: AppTextStyles.s14w400Secondary(),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text('Hủy', style: AppTextStyles.s14w400Primary()),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: AppColors.ink),
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: const Text('Đăng xuất'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && mounted) {
+      bloc.add(const LogoutButtonPressed());
+    }
   }
 
   Widget _buildVersionInfo() {

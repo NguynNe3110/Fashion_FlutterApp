@@ -59,10 +59,14 @@ class _CategoryProductsPageState
             return GridView.builder(
               padding: EdgeInsets.all(Dimens.d20.responsive()),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: ProductCard.gridCrossAxisCount(context),
                 mainAxisSpacing: Dimens.d24.responsive(),
                 crossAxisSpacing: Dimens.d12.responsive(),
-                childAspectRatio: 0.6,
+                mainAxisExtent: ProductCard.gridMainAxisExtent(
+                  context,
+                  horizontalPadding: Dimens.d20.responsive() * 2,
+                  crossAxisSpacing: Dimens.d12.responsive(),
+                ),
               ),
               itemCount: state.products.length,
               itemBuilder: (context, index) {
@@ -87,7 +91,11 @@ class _CategoryProductsPageState
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.category_outlined, size: Dimens.d64.responsive(), color: AppColors.ink4),
+          Icon(
+            Icons.category_outlined,
+            size: Dimens.d64.responsive(),
+            color: AppColors.ink4,
+          ),
           SizedBox(height: Dimens.d24.responsive()),
           Text('Chưa có sản phẩm', style: AppTextStyles.h2Serif()),
           SizedBox(height: Dimens.d12.responsive()),
@@ -132,9 +140,15 @@ class _LoadingItem extends StatelessWidget {
           ),
         ),
         SizedBox(height: Dimens.d12.responsive()),
-        RoundedRectangleShimmer(width: Dimens.d60.responsive(), height: Dimens.d10.responsive()),
+        RoundedRectangleShimmer(
+          width: Dimens.d60.responsive(),
+          height: Dimens.d10.responsive(),
+        ),
         SizedBox(height: Dimens.d8.responsive()),
-        RoundedRectangleShimmer(width: double.infinity, height: Dimens.d14.responsive()),
+        RoundedRectangleShimmer(
+          width: double.infinity,
+          height: Dimens.d14.responsive(),
+        ),
       ],
     );
   }

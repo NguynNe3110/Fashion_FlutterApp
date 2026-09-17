@@ -8,25 +8,38 @@ abstract class SearchEvent extends BaseBlocEvent {
 }
 
 @freezed
-sealed class SearchPageInitiated extends SearchEvent with _$SearchPageInitiated {
+sealed class SearchPageInitiated extends SearchEvent
+    with _$SearchPageInitiated {
   const SearchPageInitiated._();
   const factory SearchPageInitiated() = _SearchPageInitiated;
 }
 
 @freezed
-sealed class SearchKeywordChanged extends SearchEvent with _$SearchKeywordChanged {
+sealed class SearchBackPressed extends SearchEvent with _$SearchBackPressed {
+  const SearchBackPressed._();
+  const factory SearchBackPressed() = _SearchBackPressed;
+}
+
+@freezed
+sealed class SearchKeywordChanged extends SearchEvent
+    with _$SearchKeywordChanged {
   const SearchKeywordChanged._();
-  const factory SearchKeywordChanged({required String keyword}) = _SearchKeywordChanged;
+  const factory SearchKeywordChanged({required String keyword}) =
+      _SearchKeywordChanged;
 }
 
 @freezed
-sealed class SearchKeywordSubmitted extends SearchEvent with _$SearchKeywordSubmitted {
+sealed class SearchKeywordSubmitted extends SearchEvent
+    with _$SearchKeywordSubmitted {
   const SearchKeywordSubmitted._();
-  const factory SearchKeywordSubmitted({required String keyword}) = _SearchKeywordSubmitted;
+  const factory SearchKeywordSubmitted({required String keyword}) =
+      _SearchKeywordSubmitted;
 }
 
 @freezed
-sealed class SearchProductClicked extends SearchEvent with _$SearchProductClicked {
+sealed class SearchProductClicked extends SearchEvent
+    with _$SearchProductClicked {
   const SearchProductClicked._();
-  const factory SearchProductClicked({required String productId}) = _SearchProductClicked;
+  const factory SearchProductClicked({required String productId}) =
+      _SearchProductClicked;
 }

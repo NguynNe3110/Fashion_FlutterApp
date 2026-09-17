@@ -22,12 +22,6 @@ class _MainPageState extends BasePageState<MainPage, MainBloc> {
       bottomNavigationBuilder: (_, tabsRouter) {
         (navigator as AppNavigatorImpl).tabsRouter = tabsRouter;
 
-        // Cart has its own sticky checkout bar. Keep it full-screen so the two
-        // bottom actions never overlap or compete for space.
-        if (tabsRouter.activeIndex == BottomTab.cart.index) {
-          return const SizedBox.shrink();
-        }
-
         return SafeArea(
           bottom: true,
           child: Container(

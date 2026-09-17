@@ -75,9 +75,11 @@ class RepositoryImpl implements Repository {
     //   ),
     // ]);
 
-    final response = await _supabaseClient.auth.signInWithPassword(
-      email: email,
-      password: password,
+    final response = await runSupabaseCatching(
+      action: () => _supabaseClient.auth.signInWithPassword(
+        email: email,
+        password: password,
+      ),
     );
     if (response.user != null) {
       await saveUserPreference(
@@ -93,7 +95,7 @@ class RepositoryImpl implements Repository {
   Future<void> logout() async {
     // await _appApiService.logout();
 
-    await _supabaseClient.auth.signOut();
+    await runSupabaseCatching(action: _supabaseClient.auth.signOut);
     await _appPreferences.clearCurrentUserData();
   }
 
@@ -110,15 +112,19 @@ class RepositoryImpl implements Repository {
     //     password: password,
     //   );
 
-    await _supabaseClient.auth.updateUser(
-      supabase.UserAttributes(password: password),
+    await runSupabaseCatching(
+      action: () => _supabaseClient.auth.updateUser(
+        supabase.UserAttributes(password: password),
+      ),
     );
   }
 
   @override
   Future<void> forgotPassword(String email) async {
     // return _appApiService.forgotPassword(email);
-    await _supabaseClient.auth.resetPasswordForEmail(email);
+    await runSupabaseCatching(
+      action: () => _supabaseClient.auth.resetPasswordForEmail(email),
+    );
   }
 
   @override
@@ -144,10 +150,12 @@ class RepositoryImpl implements Repository {
     //   ),
     // ]);
 
-    final response = await _supabaseClient.auth.signUp(
-      email: email,
-      password: password,
-      data: {'full_name': username, 'gender': gender.name},
+    final response = await runSupabaseCatching(
+      action: () => _supabaseClient.auth.signUp(
+        email: email,
+        password: password,
+        data: {'full_name': username, 'gender': gender.name},
+      ),
     );
     if (response.user != null) {
       await saveUserPreference(User(id: -1, email: response.user?.email ?? ''));
@@ -183,11 +191,13 @@ class RepositoryImpl implements Repository {
   Future<void> addSearchHistory(String keyword, {String? productId}) async {
     final userId = _supabaseClient.auth.currentUser?.id;
     if (userId == null || keyword.trim().isEmpty) return;
-    await _supabaseClient.from('search_history').insert({
-      'user_id': userId,
-      'keyword': keyword.trim(),
-      if (productId != null) 'product_id': productId,
-    });
+    await runSupabaseCatching(
+      action: () => _supabaseClient.from('search_history').insert({
+        'user_id': userId,
+        'keyword': keyword.trim(),
+        if (productId != null) 'product_id': productId,
+      }),
+    );
   }
 
   @override

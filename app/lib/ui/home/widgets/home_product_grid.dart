@@ -21,6 +21,14 @@ class HomeProductGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final horizontalPadding = Dimens.d20.responsive() * 2;
+    final crossAxisSpacing = Dimens.d12.responsive();
+    final itemExtent = ProductCard.gridMainAxisExtent(
+      context,
+      horizontalPadding: horizontalPadding,
+      crossAxisSpacing: crossAxisSpacing,
+    );
+
     return SliverPadding(
       padding: EdgeInsets.symmetric(
         horizontal: Dimens.d20.responsive(),
@@ -28,10 +36,10 @@ class HomeProductGrid extends StatelessWidget {
       ),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+          crossAxisCount: ProductCard.gridCrossAxisCount(context),
           mainAxisSpacing: Dimens.d24.responsive(),
-          crossAxisSpacing: Dimens.d12.responsive(),
-          childAspectRatio: 0.52,
+          crossAxisSpacing: crossAxisSpacing,
+          mainAxisExtent: itemExtent,
         ),
         delegate: SliverChildBuilderDelegate((context, index) {
           final product = products[index];

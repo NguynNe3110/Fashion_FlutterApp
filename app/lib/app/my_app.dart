@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,9 +48,12 @@ class _MyAppState extends BasePageState<MyApp, AppBloc> {
             builder: (context, child) {
               final MediaQueryData data = MediaQuery.of(context);
 
-              return MediaQuery(
-                data: data.copyWith(textScaler: const TextScaler.linear(1.0)),
-                child: child ?? const SizedBox.shrink(),
+              return AnnotatedRegion<SystemUiOverlayStyle>(
+                value: UiConstants.systemUiOverlay,
+                child: MediaQuery(
+                  data: data.copyWith(textScaler: const TextScaler.linear(1.0)),
+                  child: child ?? const SizedBox.shrink(),
+                ),
               );
             },
             routerDelegate: _appRouter.delegate(

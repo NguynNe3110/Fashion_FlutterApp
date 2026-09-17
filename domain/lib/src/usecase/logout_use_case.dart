@@ -17,7 +17,7 @@ class LogoutUseCase extends BaseFutureUseCase<LogoutInput, LogoutOutput> {
   Future<LogoutOutput> buildUseCase(LogoutInput input) async {
     if (_repository.isLoggedIn) {
       await _repository.logout();
-      await _navigator.replace(const AppRouteInfo.login());
+      await _navigator.replaceAll([const AppRouteInfo.login()]);
     }
 
     return const LogoutOutput();
