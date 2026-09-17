@@ -7,9 +7,9 @@ import '../../../../../data.dart';
 @LazySingleton()
 class RandomUserApiClient extends RestApiClient {
   RandomUserApiClient()
-      : super(
-          dio: DioBuilder.createDio(
-            options: BaseOptions(baseUrl: UrlConstants.randomUserBaseUrl),
-          ),
-        );
+    : super(
+        dio: DioBuilder.createDio(
+          options: BaseOptions(baseUrl: UrlConstants.randomUserBaseUrl),
+        ),
+      );
 }

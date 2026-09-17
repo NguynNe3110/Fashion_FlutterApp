@@ -27,7 +27,9 @@ class AppColors {
     secondaryColor: Color(0xFF6B6862),
     primaryTextColor: Color(0xFF111110),
     secondaryTextColor: Color(0xFF6B6862),
-    primaryGradient: LinearGradient(colors: [Color(0xFFFAFAF7), Color(0xFFFFFFFF)]),
+    primaryGradient: LinearGradient(
+      colors: [Color(0xFFFAFAF7), Color(0xFFFFFFFF)],
+    ),
   );
 
   // Nord Design Tokens
@@ -56,7 +58,9 @@ class AppColors {
     secondaryColor: Color.fromARGB(255, 166, 168, 254),
     primaryTextColor: Color.fromARGB(255, 166, 168, 254),
     secondaryTextColor: Color.fromARGB(255, 62, 62, 70),
-    primaryGradient: LinearGradient(colors: [Color(0xFFFFFFFF), Color(0xFFFE6C30)]),
+    primaryGradient: LinearGradient(
+      colors: [Color(0xFFFFFFFF), Color(0xFFFE6C30)],
+    ),
   );
 
   static AppColors of(BuildContext context) {
@@ -83,6 +87,7 @@ class AppColors {
     );
   }
 }
+
 //
 // import 'package:flutter/material.dart';
 // // có lẽ dùng soft pink và sky

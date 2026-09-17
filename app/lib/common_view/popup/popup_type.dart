@@ -1,5 +1,1 @@
-enum PopupType {
-  android,
-  ios,
-  adaptive,
-}
+enum PopupType { android, ios, adaptive }

@@ -108,8 +108,10 @@ class AddressBloc extends BaseBloc<AddressEvent, AddressState> {
             ),
           ),
         );
+        navigator.showSuccessSnackBar('Đã thêm địa chỉ mới');
         add(const AddressPageInitiated());
       },
+      handleLoading: false,
     );
   }
 }

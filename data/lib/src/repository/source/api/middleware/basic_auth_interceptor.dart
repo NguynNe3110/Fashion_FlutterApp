@@ -6,10 +6,7 @@ import 'package:shared/shared.dart';
 import '../../../../../data.dart';
 
 class BasicAuthInterceptor extends BaseInterceptor {
-  BasicAuthInterceptor({
-    required this.username,
-    required this.password,
-  });
+  BasicAuthInterceptor({required this.username, required this.password});
 
   final String password;
   final String username;

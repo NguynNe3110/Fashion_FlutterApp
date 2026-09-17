@@ -2,7 +2,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../domain.dart';
 
-
 part 'order_entity.freezed.dart';
 
 @freezed

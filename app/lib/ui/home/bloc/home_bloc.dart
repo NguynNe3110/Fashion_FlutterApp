@@ -64,6 +64,9 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
         }
       },
     );
+    if (state.loadException == null) {
+      navigator.showSuccessSnackBar('Đã cập nhật nội dung mới nhất');
+    }
   }
 
   FutureOr<void> _onHomeLoadMoreProducts(

@@ -5,31 +5,40 @@ import 'package:injectable/injectable.dart';
 part 'create_address_use_case.freezed.dart';
 
 @Injectable()
-class CreateAddressUseCase extends BaseFutureUseCase<CreateAddressUseCaseInput, CreateAddressUseCaseOutput> {
+class CreateAddressUseCase
+    extends
+        BaseFutureUseCase<
+          CreateAddressUseCaseInput,
+          CreateAddressUseCaseOutput
+        > {
   final AddressRepository _addressRepository;
 
   CreateAddressUseCase(this._addressRepository);
 
   @protected
   @override
-  Future<CreateAddressUseCaseOutput> buildUseCase(CreateAddressUseCaseInput input) async {
-    final address = await _addressRepository.createAddress(address: input.address);
+  Future<CreateAddressUseCaseOutput> buildUseCase(
+    CreateAddressUseCaseInput input,
+  ) async {
+    final address = await _addressRepository.createAddress(
+      address: input.address,
+    );
     return CreateAddressUseCaseOutput(address: address);
   }
 }
 
 @freezed
-sealed class CreateAddressUseCaseInput extends BaseInput with _$CreateAddressUseCaseInput {
+sealed class CreateAddressUseCaseInput extends BaseInput
+    with _$CreateAddressUseCaseInput {
   const CreateAddressUseCaseInput._();
-  const factory CreateAddressUseCaseInput({
-    required AddressEntity address,
-  }) = _CreateAddressUseCaseInput;
+  const factory CreateAddressUseCaseInput({required AddressEntity address}) =
+      _CreateAddressUseCaseInput;
 }
 
 @freezed
-sealed class CreateAddressUseCaseOutput extends BaseOutput with _$CreateAddressUseCaseOutput {
+sealed class CreateAddressUseCaseOutput extends BaseOutput
+    with _$CreateAddressUseCaseOutput {
   const CreateAddressUseCaseOutput._();
-  const factory CreateAddressUseCaseOutput({
-    required AddressEntity address,
-  }) = _CreateAddressUseCaseOutput;
+  const factory CreateAddressUseCaseOutput({required AddressEntity address}) =
+      _CreateAddressUseCaseOutput;
 }

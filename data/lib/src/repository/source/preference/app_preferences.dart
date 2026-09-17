@@ -59,17 +59,23 @@ class AppPreferences with LogMixin {
 
   Future<bool> saveLanguageCode(String languageCode) {
     return _sharedPreference.setString(
-        SharedPreferenceKeys.languageCode, languageCode);
+      SharedPreferenceKeys.languageCode,
+      languageCode,
+    );
   }
 
   Future<bool> saveIsFirstLogin(bool isFirstLogin) {
     return _sharedPreference.setBool(
-        SharedPreferenceKeys.isFirstLogin, isFirstLogin);
+      SharedPreferenceKeys.isFirstLogin,
+      isFirstLogin,
+    );
   }
 
   Future<bool> saveIsFirsLaunchApp(bool isFirstLaunchApp) {
     return _sharedPreference.setBool(
-        SharedPreferenceKeys.isFirstLaunchApp, isFirstLaunchApp);
+      SharedPreferenceKeys.isFirstLaunchApp,
+      isFirstLaunchApp,
+    );
   }
 
   Future<void> saveAccessToken(String token) async {
@@ -95,7 +101,9 @@ class AppPreferences with LogMixin {
 
   Future<bool> saveIsDarkMode(bool isDarkMode) {
     return _sharedPreference.setBool(
-        SharedPreferenceKeys.isDarkMode, isDarkMode);
+      SharedPreferenceKeys.isDarkMode,
+      isDarkMode,
+    );
   }
 
   Future<bool> saveDeviceToken(String token) {
@@ -103,12 +111,10 @@ class AppPreferences with LogMixin {
   }
 
   Future<void> clearCurrentUserData() async {
-    await Future.wait(
-      [
-        _sharedPreference.remove(SharedPreferenceKeys.currentUser),
-        _sharedPreference.remove(SharedPreferenceKeys.accessToken),
-        _sharedPreference.remove(SharedPreferenceKeys.refreshToken),
-      ],
-    );
+    await Future.wait([
+      _sharedPreference.remove(SharedPreferenceKeys.currentUser),
+      _sharedPreference.remove(SharedPreferenceKeys.accessToken),
+      _sharedPreference.remove(SharedPreferenceKeys.refreshToken),
+    ]);
   }
 }

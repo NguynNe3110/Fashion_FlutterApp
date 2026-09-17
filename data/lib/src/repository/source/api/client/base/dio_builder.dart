@@ -12,19 +12,22 @@ class DioBuilder {
   }) {
     final dio = Dio(
       BaseOptions(
-        connectTimeout: options?.connectTimeout ?? ServerTimeoutConstants.connectTimeout,
-        receiveTimeout: options?.receiveTimeout ?? ServerTimeoutConstants.receiveTimeout,
+        connectTimeout:
+            options?.connectTimeout ?? ServerTimeoutConstants.connectTimeout,
+        receiveTimeout:
+            options?.receiveTimeout ?? ServerTimeoutConstants.receiveTimeout,
         sendTimeout: options?.sendTimeout ?? ServerTimeoutConstants.sendTimeout,
         baseUrl: options?.baseUrl ?? UrlConstants.appApiBaseUrl,
       ),
     );
 
-    final sortedInterceptors = [
-      ...ApiClientDefaultSetting.requiredInterceptors(dio),
-      ...interceptors,
-    ].sortedByDescending((element) {
-      return element is BaseInterceptor ? element.priority : -1;
-    });
+    final sortedInterceptors =
+        [
+          ...ApiClientDefaultSetting.requiredInterceptors(dio),
+          ...interceptors,
+        ].sortedByDescending((element) {
+          return element is BaseInterceptor ? element.priority : -1;
+        });
 
     dio.interceptors.addAll(sortedInterceptors);
 

@@ -1,4 +1,5 @@
 import 'package:data/data.dart';
+import 'package:domain/domain.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -7,6 +8,23 @@ class ProfileSupabaseService {
   final SupabaseClient _supabaseClient;
 
   ProfileSupabaseService(this._supabaseClient);
+
+  Future<AccountStatsEntity> getAccountStats({required String userId}) {
+    return runSupabaseCatching(
+      action: () async {
+        final counts = await Future.wait<int>([
+          _supabaseClient.from('orders').count().eq('user_id', userId),
+          _supabaseClient.from('favorites').count().eq('user_id', userId),
+          _supabaseClient.from('user_vouchers').count().eq('user_id', userId),
+        ]);
+        return AccountStatsEntity(
+          orderCount: counts[0],
+          favoriteCount: counts[1],
+          voucherCount: counts[2],
+        );
+      },
+    );
+  }
 
   Future<ProfileResponseDto> getProfileById({required String userId}) {
     return runSupabaseCatching(
@@ -17,7 +35,9 @@ class ProfileSupabaseService {
             .eq('id', userId)
             .single();
 
-        return ProfileResponseDto.fromJson(response as Map<String, dynamic>);
+        final data = Map<String, dynamic>.from(response)
+          ..['email'] = _supabaseClient.auth.currentUser?.email ?? '';
+        return ProfileResponseDto.fromJson(data);
       },
     );
   }
@@ -35,7 +55,9 @@ class ProfileSupabaseService {
             .select()
             .single();
 
-        return ProfileResponseDto.fromJson(response as Map<String, dynamic>);
+        final result = Map<String, dynamic>.from(response)
+          ..['email'] = _supabaseClient.auth.currentUser?.email ?? '';
+        return ProfileResponseDto.fromJson(result);
       },
     );
   }
@@ -55,7 +77,9 @@ class ProfileSupabaseService {
 
         if (response == null) return null;
 
-        return ProfileResponseDto.fromJson(response);
+        final data = Map<String, dynamic>.from(response)
+          ..['email'] = _supabaseClient.auth.currentUser?.email ?? '';
+        return ProfileResponseDto.fromJson(data);
       },
     );
   }

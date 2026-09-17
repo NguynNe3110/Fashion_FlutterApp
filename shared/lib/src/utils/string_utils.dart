@@ -3,5 +3,6 @@ extension StringExtensions on String {
     return this + other;
   }
 
-  bool equalsIgnoreCase(String secondString) => toLowerCase().contains(secondString.toLowerCase());
+  bool equalsIgnoreCase(String secondString) =>
+      toLowerCase().contains(secondString.toLowerCase());
 }

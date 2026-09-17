@@ -179,20 +179,33 @@ class _AddressPageState extends BasePageState<AddressPage, AddressBloc> {
           );
         },
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(16),
-        child: ElevatedButton(
-          onPressed: _showAddressForm,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF111110),
-            foregroundColor: Colors.white,
-            minimumSize: const Size(double.infinity, 48),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+      bottomNavigationBar: BlocBuilder<AddressBloc, AddressState>(
+        buildWhen: (previous, current) =>
+            previous.addresses.isEmpty != current.addresses.isEmpty ||
+            previous.isShimmerLoading != current.isShimmerLoading,
+        builder: (context, state) {
+          if (state.addresses.isEmpty || state.isShimmerLoading) {
+            return const SizedBox.shrink();
+          }
+          return SafeArea(
+            top: false,
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              child: ElevatedButton(
+                onPressed: _showAddressForm,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFF111110),
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(double.infinity, 48),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: const Text('Thêm địa chỉ nhận hàng'),
+              ),
             ),
-          ),
-          child: const Text('Thêm địa chỉ nhận hàng'),
-        ),
+          );
+        },
       ),
     );
   }
@@ -208,7 +221,7 @@ class _AddressPageState extends BasePageState<AddressPage, AddressBloc> {
     final labelController = TextEditingController(text: 'Nhà');
     var isDefault = false;
 
-    await showModalBottomSheet<void>(
+    final submission = await showModalBottomSheet<AddAddressSubmitted>(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
@@ -269,7 +282,7 @@ class _AddressPageState extends BasePageState<AddressPage, AddressBloc> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (formKey.currentState?.validate() != true) return;
-                        bloc.add(
+                        Navigator.of(sheetContext).pop(
                           AddAddressSubmitted(
                             label: labelController.text.trim(),
                             receiverName: receiverController.text.trim(),
@@ -283,7 +296,6 @@ class _AddressPageState extends BasePageState<AddressPage, AddressBloc> {
                             isDefault: isDefault,
                           ),
                         );
-                        Navigator.of(sheetContext).pop();
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.ink,
@@ -310,6 +322,10 @@ class _AddressPageState extends BasePageState<AddressPage, AddressBloc> {
     districtController.dispose();
     cityController.dispose();
     labelController.dispose();
+
+    if (submission != null && mounted) {
+      bloc.add(submission);
+    }
   }
 
   Widget _addressField(

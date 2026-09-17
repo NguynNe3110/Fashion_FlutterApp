@@ -11,6 +11,7 @@ export 'src/entity/image_url.dart';
 export 'src/entity/token.dart';
 export 'src/entity/user.dart';
 export 'src/fashion_entity/address_entity.dart';
+export 'src/fashion_entity/account_stats_entity.dart';
 export 'src/fashion_entity/cart_item_entity.dart';
 export 'src/fashion_entity/category_entity.dart';
 export 'src/fashion_entity/create_order_request_entity.dart';
@@ -75,6 +76,7 @@ export 'src/usecase/fashion_usecase/product/get_products_by_category_usecase.dar
 export 'src/usecase/fashion_usecase/product/get_products_usecase.dart';
 export 'src/usecase/fashion_usecase/product_image/get_product_images_use_case.dart';
 export 'src/usecase/fashion_usecase/profile/get_me_use_case.dart';
+export 'src/usecase/fashion_usecase/profile/get_account_stats_use_case.dart';
 export 'src/usecase/fashion_usecase/profile/get_profile_use_case.dart';
 export 'src/usecase/fashion_usecase/profile/update_profile_use_case.dart';
 export 'src/usecase/fashion_usecase/review/create_review_use_case.dart';

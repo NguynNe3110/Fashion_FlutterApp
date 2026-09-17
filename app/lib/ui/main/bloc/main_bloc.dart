@@ -9,11 +9,11 @@ import 'main.dart';
 @Injectable()
 class MainBloc extends BaseBloc<MainEvent, MainState> {
   MainBloc() : super(const MainState()) {
-    on<MainPageInitiated>(
-      _onMainPageInitiated,
-      transformer: log(),
-    );
+    on<MainPageInitiated>(_onMainPageInitiated, transformer: log());
   }
 
-  FutureOr<void> _onMainPageInitiated(MainPageInitiated event, Emitter<MainState> emit) {}
+  FutureOr<void> _onMainPageInitiated(
+    MainPageInitiated event,
+    Emitter<MainState> emit,
+  ) {}
 }

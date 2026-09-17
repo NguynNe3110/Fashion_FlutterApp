@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
 import '../../../../app.dart';
+
 class HomeEditorialBanner extends StatelessWidget {
   const HomeEditorialBanner({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: Dimens.d20.responsive(), vertical: Dimens.d24.responsive()),
+      padding: EdgeInsets.symmetric(
+        horizontal: Dimens.d20.responsive(),
+        vertical: Dimens.d24.responsive(),
+      ),
       sliver: SliverToBoxAdapter(
         child: Container(
           height: Dimens.d400.responsive(),
@@ -21,7 +25,11 @@ class HomeEditorialBanner extends StatelessWidget {
             children: [
               // Background pattern or image
               const Center(
-                child: Icon(Icons.style_outlined, size: 80, color: Colors.white24),
+                child: Icon(
+                  Icons.style_outlined,
+                  size: 80,
+                  color: Colors.white24,
+                ),
               ),
               Container(
                 decoration: BoxDecoration(
@@ -43,7 +51,9 @@ class HomeEditorialBanner extends StatelessWidget {
                   children: [
                     Text(
                       'Phong cách tối giản',
-                      style: AppTextStyles.h1Serif().copyWith(color: Colors.white),
+                      style: AppTextStyles.h1Serif().copyWith(
+                        color: Colors.white,
+                      ),
                     ),
                     SizedBox(height: Dimens.d12.responsive()),
                     Text(

@@ -11,13 +11,13 @@ class AuthAppServerApiClient extends RestApiClient {
     AccessTokenInterceptor _accessTokenInterceptor,
     RefreshTokenInterceptor _refreshTokenInterceptor,
   ) : super(
-          dio: DioBuilder.createDio(
-            options: BaseOptions(baseUrl: UrlConstants.appApiBaseUrl),
-            interceptors: [
-              _headerInterceptor,
-              _accessTokenInterceptor,
-              _refreshTokenInterceptor,
-            ],
-          ),
-        );
+        dio: DioBuilder.createDio(
+          options: BaseOptions(baseUrl: UrlConstants.appApiBaseUrl),
+          interceptors: [
+            _headerInterceptor,
+            _accessTokenInterceptor,
+            _refreshTokenInterceptor,
+          ],
+        ),
+      );
 }

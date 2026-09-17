@@ -38,7 +38,9 @@ class ValidationUtils {
   /// Check if a string is a valid email.
   /// Return true if it is valid.
   static bool isValidEmail(String email) {
-    if (!RegExp(r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$').hasMatch(email.trim())) {
+    if (!RegExp(
+      r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$',
+    ).hasMatch(email.trim())) {
       return false;
     }
 

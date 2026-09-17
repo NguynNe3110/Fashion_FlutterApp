@@ -109,9 +109,8 @@ class _VouchersPageState extends BasePageState<VouchersPage, VouchersBloc> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () => bloc.add(
-                        ApplyVoucherPressed(code: voucher.code),
-                      ),
+                      onPressed: () =>
+                          bloc.add(ApplyVoucherPressed(code: voucher.code)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF111110),
                         foregroundColor: Colors.white,

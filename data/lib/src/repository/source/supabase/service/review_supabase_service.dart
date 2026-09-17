@@ -57,10 +57,7 @@ class ReviewSupabaseService {
   Future<void> deleteReview({required String id}) {
     return runSupabaseCatching(
       action: () async {
-        await _supabaseClient
-            .from('reviews')
-            .delete()
-            .eq('id', id);
+        await _supabaseClient.from('reviews').delete().eq('id', id);
       },
     );
   }

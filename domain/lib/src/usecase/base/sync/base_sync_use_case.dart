@@ -2,7 +2,10 @@ import 'package:shared/shared.dart';
 
 import '../../../../domain.dart';
 
-abstract class BaseSyncUseCase<Input extends BaseInput, Output extends BaseOutput>
+abstract class BaseSyncUseCase<
+  Input extends BaseInput,
+  Output extends BaseOutput
+>
     extends BaseUseCase<Input, Output> {
   const BaseSyncUseCase();
 

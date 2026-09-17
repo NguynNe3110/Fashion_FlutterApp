@@ -8,8 +8,12 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class OrderHistoryBloc extends BaseBloc<OrderHistoryEvent, OrderHistoryState> {
-  OrderHistoryBloc(this._getOrderHistoryUseCase, this._getMeUseCase) : super(const OrderHistoryState()) {
-    on<OrderHistoryPageInitiated>(_onOrderHistoryPageInitiated, transformer: log());
+  OrderHistoryBloc(this._getOrderHistoryUseCase, this._getMeUseCase)
+    : super(const OrderHistoryState()) {
+    on<OrderHistoryPageInitiated>(
+      _onOrderHistoryPageInitiated,
+      transformer: log(),
+    );
     on<OrderHistoryLoadMore>(_onOrderHistoryLoadMore, transformer: log());
   }
 

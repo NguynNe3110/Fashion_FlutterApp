@@ -21,9 +21,13 @@ class HeaderInterceptor extends BaseInterceptor {
   }
 
   @override
-  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  Future<void> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final userAgentValue = userAgentClientHintsHeader();
-    options.headers[ServerRequestResponseConstants.userAgentKey] = userAgentValue;
+    options.headers[ServerRequestResponseConstants.userAgentKey] =
+        userAgentValue;
     options.headers.addAll(_headers);
 
     handler.next(options);

@@ -2,7 +2,6 @@ import 'package:shared/shared.dart';
 
 import '../../data.dart';
 
-
 Future<T> runSupabaseCatching<T>({
   required Future<T> Function() action,
   void Function(Object error)? onError,

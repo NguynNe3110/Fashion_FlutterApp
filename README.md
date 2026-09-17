@@ -1,8 +1,6 @@
-<p align="center">
-  <img src="images/project_architecture.png" width="800" alt="Architecture Diagram"/>
-</p>
 
-<h1 align="center">👗 Fashion App - Flutter Base Project</h1>
+
+<h1 align="center">Nord - Fashion App - Clean Architecture</h1>
 
 <p align="center">
   <a href="https://flutter.dev" target="_blank"><img src="https://img.shields.io/badge/Flutter-3.13.1-%2302569B.svg?style=flat&logo=Flutter&logoColor=white" alt="Flutter"></a>
@@ -22,7 +20,7 @@
 - [🛠️ Technologies](#-technologies)
 - [📂 Project Structure](#-project-structure)
 - [🚀 Quick Setup](#-quick-setup)
-- [📖 Architecture Deep Dive](#-architecture-deep-dive)
+- [📖 Clean Architecture Deep Dive](#-architecture-deep-dive)
 - [📄 License](#-license)
 
 ---
@@ -119,8 +117,10 @@ fahion/ (Root)
 
 ---
 
-## 📖 Architecture Deep Dive
-
+## 📖 Clean Architecture Deep Dive
+<p align="center">
+  <img src="images/project_architecture.png" width="800" alt="Architecture Diagram"/>
+</p>
 This base focuses on **reusability** through powerful base classes:
 
 - **`BaseBloc`**: Handles loading states automatically via `CommonBloc`, provides `runBlocCatching` for unified error handling.

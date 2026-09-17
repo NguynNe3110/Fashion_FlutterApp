@@ -9,7 +9,8 @@ import 'login.dart';
 
 @injectable
 class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
-  LoginBloc(this._loginUseCase, this._fakeLoginUseCase) : super(const LoginState()) {
+  LoginBloc(this._loginUseCase, this._fakeLoginUseCase)
+    : super(const LoginState()) {
     on<EmailTextFieldChanged>(
       _onEmailTextFieldChanged,
       transformer: distinct(),
@@ -20,20 +21,11 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
       transformer: distinct(),
     );
 
-    on<LoginButtonPressed>(
-      _onLoginButtonPressed,
-      transformer: log(),
-    );
+    on<LoginButtonPressed>(_onLoginButtonPressed, transformer: log());
 
-    on<EyeIconPressed>(
-      _onEyeIconPressed,
-      transformer: log(),
-    );
+    on<EyeIconPressed>(_onEyeIconPressed, transformer: log());
 
-    on<FakeLoginButtonPressed>(
-      _onFakeLoginButtonPressed,
-      transformer: log(),
-    );
+    on<FakeLoginButtonPressed>(_onFakeLoginButtonPressed, transformer: log());
   }
 
   final LoginUseCase _loginUseCase;
@@ -43,27 +35,49 @@ class LoginBloc extends BaseBloc<LoginEvent, LoginState> {
     return email.isNotEmpty && password.isNotEmpty;
   }
 
-  void _onEmailTextFieldChanged(EmailTextFieldChanged event, Emitter<LoginState> emit) {
-    emit(state.copyWith(
-      email: event.email,
-      isLoginButtonEnabled: _isLoginButtonEnabled(event.email, state.password),
-      onPageError: '',
-    ));
+  void _onEmailTextFieldChanged(
+    EmailTextFieldChanged event,
+    Emitter<LoginState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        email: event.email,
+        isLoginButtonEnabled: _isLoginButtonEnabled(
+          event.email,
+          state.password,
+        ),
+        onPageError: '',
+      ),
+    );
   }
 
-  void _onPasswordTextFieldChanged(PasswordTextFieldChanged event, Emitter<LoginState> emit) {
-    emit(state.copyWith(
-      password: event.password,
-      isLoginButtonEnabled: _isLoginButtonEnabled(state.email, event.password),
-      onPageError: '',
-    ));
+  void _onPasswordTextFieldChanged(
+    PasswordTextFieldChanged event,
+    Emitter<LoginState> emit,
+  ) {
+    emit(
+      state.copyWith(
+        password: event.password,
+        isLoginButtonEnabled: _isLoginButtonEnabled(
+          state.email,
+          event.password,
+        ),
+        onPageError: '',
+      ),
+    );
   }
 
-  FutureOr<void> _onLoginButtonPressed(LoginButtonPressed event, Emitter<LoginState> emit) {
+  FutureOr<void> _onLoginButtonPressed(
+    LoginButtonPressed event,
+    Emitter<LoginState> emit,
+  ) {
     return runBlocCatching(
       action: () async {
-        await _loginUseCase.execute(LoginInput(email: state.email, password: state.password));
-        await navigator.replace(const AppRouteInfo.main());
+        await _loginUseCase.execute(
+          LoginInput(email: state.email, password: state.password),
+        );
+        await navigator.replaceAll([const AppRouteInfo.main()]);
+        navigator.showSuccessSnackBar('Đăng nhập thành công');
       },
       handleError: false,
       doOnError: (e) async {

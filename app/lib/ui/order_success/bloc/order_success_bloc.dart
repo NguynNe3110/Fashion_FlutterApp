@@ -8,8 +8,7 @@ import '../../../base/bloc/base_bloc.dart';
 import 'order_success.dart';
 
 @injectable
-class OrderSuccessBloc
-    extends BaseBloc<OrderSuccessEvent, OrderSuccessState> {
+class OrderSuccessBloc extends BaseBloc<OrderSuccessEvent, OrderSuccessState> {
   OrderSuccessBloc() : super(const OrderSuccessState()) {
     on<ContinueShoppingPressed>(_onContinueShoppingPressed);
     on<ViewOrderHistoryPressed>(_onViewOrderHistoryPressed);

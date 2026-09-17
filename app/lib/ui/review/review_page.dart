@@ -68,7 +68,10 @@ class _ReviewPageState extends BasePageState<ReviewPage, ReviewBloc> {
                 // Product title
                 Text(
                   widget.productName,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 // Review input card
@@ -97,9 +100,12 @@ class _ReviewPageState extends BasePageState<ReviewPage, ReviewBloc> {
                         children: List.generate(5, (index) {
                           final star = index + 1;
                           return IconButton(
-                            onPressed: () => bloc.add(RatingChanged(rating: star)),
+                            onPressed: () =>
+                                bloc.add(RatingChanged(rating: star)),
                             icon: Icon(
-                              star <= state.selectedRating ? Icons.star : Icons.star_border,
+                              star <= state.selectedRating
+                                  ? Icons.star
+                                  : Icons.star_border,
                               color: const Color(0xFFE65100),
                               size: 28,
                             ),
@@ -109,14 +115,21 @@ class _ReviewPageState extends BasePageState<ReviewPage, ReviewBloc> {
                       const SizedBox(height: 8),
                       // Comment textfield
                       TextField(
-                        onChanged: (val) => bloc.add(CommentChanged(comment: val)),
+                        onChanged: (val) =>
+                            bloc.add(CommentChanged(comment: val)),
                         maxLines: 3,
                         decoration: InputDecoration(
-                          hintText: 'Chia sẻ cảm nhận của bạn về chất lượng sản phẩm...',
-                          hintStyle: const TextStyle(color: Color(0xFFA5A199), fontSize: 13),
+                          hintText:
+                              'Chia sẻ cảm nhận của bạn về chất lượng sản phẩm...',
+                          hintStyle: const TextStyle(
+                            color: Color(0xFFA5A199),
+                            fontSize: 13,
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
-                            borderSide: const BorderSide(color: Color(0xFFE8E5DE)),
+                            borderSide: const BorderSide(
+                              color: Color(0xFFE8E5DE),
+                            ),
                           ),
                           contentPadding: const EdgeInsets.all(12),
                         ),
@@ -126,7 +139,11 @@ class _ReviewPageState extends BasePageState<ReviewPage, ReviewBloc> {
                         alignment: Alignment.centerRight,
                         child: ElevatedButton(
                           onPressed: state.comment.trim().isNotEmpty
-                              ? () => bloc.add(SubmitReviewPressed(productId: widget.productId))
+                              ? () => bloc.add(
+                                  SubmitReviewPressed(
+                                    productId: widget.productId,
+                                  ),
+                                )
                               : null,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(0xFF111110),
@@ -165,10 +182,8 @@ class _ReviewPageState extends BasePageState<ReviewPage, ReviewBloc> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: state.reviews.length,
-                    separatorBuilder: (_, __) => const Divider(
-                      color: Color(0xFFE8E5DE),
-                      height: 24,
-                    ),
+                    separatorBuilder: (_, __) =>
+                        const Divider(color: Color(0xFFE8E5DE), height: 24),
                     itemBuilder: (context, index) {
                       final review = state.reviews[index];
                       return Column(
@@ -188,7 +203,9 @@ class _ReviewPageState extends BasePageState<ReviewPage, ReviewBloc> {
                                 children: List.generate(
                                   5,
                                   (i) => Icon(
-                                    i < review.rating ? Icons.star : Icons.star_border,
+                                    i < review.rating
+                                        ? Icons.star
+                                        : Icons.star_border,
                                     size: 14,
                                     color: const Color(0xFFE65100),
                                   ),
@@ -199,7 +216,10 @@ class _ReviewPageState extends BasePageState<ReviewPage, ReviewBloc> {
                           const SizedBox(height: 4),
                           Text(
                             review.comment ?? '', // xử lý trường hợp null
-                            style: const TextStyle(color: Color(0xFF333333), fontSize: 13),
+                            style: const TextStyle(
+                              color: Color(0xFF333333),
+                              fontSize: 13,
+                            ),
                           ),
                         ],
                       );

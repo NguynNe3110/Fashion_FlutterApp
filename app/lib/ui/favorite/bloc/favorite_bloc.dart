@@ -15,15 +15,10 @@ class FavoriteBloc extends BaseBloc<FavoriteEvent, FavoriteState> {
     this._getProductByIdUseCase,
     this._getMeUseCase,
   ) : super(FavoriteState()) {
-    on<FavoritePageInitiated>(
-      _onFavoritePageInitiated,
-      transformer: log(),
-    );
+    on<FavoritePageInitiated>(_onFavoritePageInitiated, transformer: log());
 
-    on<FavoriteToggleFavorite>(
-      _onFavoriteToggleFavorite,
-      transformer: log(),
-    );
+    on<FavoriteToggleFavorite>(_onFavoriteToggleFavorite, transformer: log());
+    on<FavoriteFilter>(_onFavoriteFilter, transformer: log());
   }
 
   final GetFavoritesUseCase _getFavoritesUseCase;
@@ -44,8 +39,10 @@ class FavoriteBloc extends BaseBloc<FavoriteEvent, FavoriteState> {
           GetFavoritesUseCaseInput(userId: userId),
         );
 
-        final favoriteProductIds = favoritesOutput.favorites.map((f) => f.productId).toList();
-        
+        final favoriteProductIds = favoritesOutput.favorites
+            .map((f) => f.productId)
+            .toList();
+
         // Fetch detailed product info for each favorite
         // In a real app, you'd want a GetProductsByIdsUseCase
         final productFutures = favoriteProductIds.map(
@@ -53,17 +50,24 @@ class FavoriteBloc extends BaseBloc<FavoriteEvent, FavoriteState> {
         );
 
         final productsResults = await Future.wait(productFutures);
-        final products = productsResults.map((output) => output.product).toList();
+        final products = productsResults
+            .map((output) => output.product)
+            .toList();
 
-        emit(state.copyWith(
-          products: LoadMoreOutput<ProductEntity>(
-            data: products,
-            isLastPage: true, // Favorites usually loaded all at once or handle paging later
+        emit(
+          state.copyWith(
+            allProducts: products,
+            sort: FavoriteSort.recent,
+            products: LoadMoreOutput<ProductEntity>(
+              data: products,
+              isLastPage: true,
+            ),
           ),
-        ));
+        );
       },
       doOnSubscribe: () async => emit(state.copyWith(isShimmerLoading: true)),
-      doOnSuccessOrError: () async => emit(state.copyWith(isShimmerLoading: false)),
+      doOnSuccessOrError: () async =>
+          emit(state.copyWith(isShimmerLoading: false)),
       handleLoading: false,
     );
   }
@@ -81,23 +85,50 @@ class FavoriteBloc extends BaseBloc<FavoriteEvent, FavoriteState> {
         if (event.isFavorited) {
           final updatedData = List<ProductEntity>.from(state.products.data)
             ..removeWhere((p) => p.id == event.productId);
-          
-          emit(state.copyWith(
-            products: state.products.copyWith(data: updatedData),
-          ));
+
+          emit(
+            state.copyWith(
+              allProducts: state.allProducts
+                  .where((product) => product.id != event.productId)
+                  .toList(growable: false),
+              products: state.products.copyWith(data: updatedData),
+            ),
+          );
         }
 
-        await _toggleFavoriteUseCase.execute(ToggleFavoriteUseCaseInput(
-          userId: userId,
-          productId: event.productId,
-          isFavorited: event.isFavorited,
-        ));
+        await _toggleFavoriteUseCase.execute(
+          ToggleFavoriteUseCaseInput(
+            userId: userId,
+            productId: event.productId,
+            isFavorited: event.isFavorited,
+          ),
+        );
       },
       doOnError: (e) async {
         // In case of error, re-initiate to fetch the correct state from server
         add(const FavoritePageInitiated());
       },
       handleLoading: false,
+    );
+  }
+
+  void _onFavoriteFilter(FavoriteFilter event, Emitter<FavoriteState> emit) {
+    final sorted = List<ProductEntity>.from(state.allProducts);
+    switch (event.sort) {
+      case FavoriteSort.recent:
+        break;
+      case FavoriteSort.priceLow:
+        sorted.sort((a, b) => a.effectivePrice.compareTo(b.effectivePrice));
+      case FavoriteSort.priceHigh:
+        sorted.sort((a, b) => b.effectivePrice.compareTo(a.effectivePrice));
+      case FavoriteSort.name:
+        sorted.sort((a, b) => a.name.compareTo(b.name));
+    }
+    emit(
+      state.copyWith(
+        sort: event.sort,
+        products: state.products.copyWith(data: sorted),
+      ),
     );
   }
 }

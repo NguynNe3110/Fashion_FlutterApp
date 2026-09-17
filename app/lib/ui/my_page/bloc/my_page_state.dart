@@ -12,6 +12,10 @@ sealed class MyPageState extends BaseBlocState with _$MyPageState {
 
   const factory MyPageState({
     ProfileEntity? profile,
+    @Default(
+      AccountStatsEntity(orderCount: 0, favoriteCount: 0, voucherCount: 0),
+    )
+    AccountStatsEntity stats,
     @Default(false) bool isShimmerLoading,
     @Default(false) bool isSaving,
     @Default(false) bool saveSucceeded,

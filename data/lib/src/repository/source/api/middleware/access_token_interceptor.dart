@@ -14,7 +14,10 @@ class AccessTokenInterceptor extends BaseInterceptor {
   int get priority => BaseInterceptor.accessTokenPriority;
 
   @override
-  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  Future<void> onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final token = await _appPreferences.accessToken;
     if (token.isNotEmpty) {
       options.headers[ServerRequestResponseConstants.basicAuthorization] =

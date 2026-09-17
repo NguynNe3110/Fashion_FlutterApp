@@ -18,9 +18,11 @@ class AppConfig extends ApplicationConfig {
   Future<void> config() async {
     di.configureInjection();
     Bloc.observer = AppBlocObserver();
-    await ViewUtils.setPreferredOrientations(DeviceUtils.deviceType == DeviceType.mobile
-        ? UiConstants.mobileOrientation
-        : UiConstants.tabletOrientation);
+    await ViewUtils.setPreferredOrientations(
+      DeviceUtils.deviceType == DeviceType.mobile
+          ? UiConstants.mobileOrientation
+          : UiConstants.tabletOrientation,
+    );
     ViewUtils.setSystemUIOverlayStyle(UiConstants.systemUiOverlay);
     await LocalPushNotificationHelper.init();
   }

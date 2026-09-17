@@ -22,10 +22,7 @@ class _ForgotPasswordPageState
     return CommonScaffold(
       hideKeyboardWhenTouchOutside: true,
       backgroundColor: const Color(0xFFFAFAF7),
-      appBar: CommonAppBar(
-        leadingIcon: LeadingIcon.back,
-        text: '',
-      ),
+      appBar: CommonAppBar(leadingIcon: LeadingIcon.back, text: ''),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -123,9 +120,8 @@ class _ForgotPasswordPageState
                   ),
                   const SizedBox(height: 6),
                   TextField(
-                    onChanged: (email) => bloc.add(
-                      ForgotPasswordEmailChanged(email: email),
-                    ),
+                    onChanged: (email) =>
+                        bloc.add(ForgotPasswordEmailChanged(email: email)),
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       hintText: 'ban@email.com',

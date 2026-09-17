@@ -23,8 +23,14 @@ class CartItemRepositoryImpl extends CartItemRepository {
   }
 
   @override
-  Future<CartItemEntity> updateCartItemQuantity({required String id, required int quantity}) async {
-    final dto = await _cartItemSupabaseService.updateCartItemQuantity(id: id, quantity: quantity);
+  Future<CartItemEntity> updateCartItemQuantity({
+    required String id,
+    required int quantity,
+  }) async {
+    final dto = await _cartItemSupabaseService.updateCartItemQuantity(
+      id: id,
+      quantity: quantity,
+    );
     return _cartItemMapper.mapToEntity(dto);
   }
 

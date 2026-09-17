@@ -39,6 +39,9 @@ class _SearchPageState extends BasePageState<SearchPage, SearchBloc> {
       body: SafeArea(
         child: BlocBuilder<SearchBloc, SearchState>(
           builder: (context, state) {
+            final products = state.keyword.trim().isEmpty
+                ? state.suggestedProducts
+                : state.searchResults;
             return Column(
               children: [
                 _buildSearchHeader(state),
@@ -51,33 +54,59 @@ class _SearchPageState extends BasePageState<SearchPage, SearchBloc> {
                 else if (state.searchResults.isEmpty &&
                     state.keyword.isNotEmpty)
                   _buildEmptySearch()
-                else if (state.searchResults.isNotEmpty)
+                else if (products.isNotEmpty)
                   Expanded(
-                    child: GridView.builder(
-                      keyboardDismissBehavior:
-                          ScrollViewKeyboardDismissBehavior.onDrag,
-                      padding: EdgeInsets.all(Dimens.d20.responsive()),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: ProductCard.gridCrossAxisCount(context),
-                        mainAxisSpacing: Dimens.d24.responsive(),
-                        crossAxisSpacing: Dimens.d12.responsive(),
-                        mainAxisExtent: ProductCard.gridMainAxisExtent(
-                          context,
-                          horizontalPadding: Dimens.d20.responsive() * 2,
-                          crossAxisSpacing: Dimens.d12.responsive(),
-                        ),
-                      ),
-                      itemCount: state.searchResults.length,
-                      itemBuilder: (context, index) {
-                        final product = state.searchResults[index];
-                        return ProductCard(
-                          product: product,
-                          onTap: () => bloc.add(
-                            SearchProductClicked(productId: product.id),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(
+                            Dimens.d20.responsive(),
+                            Dimens.d16.responsive(),
+                            Dimens.d20.responsive(),
+                            0,
                           ),
-                          onFavoriteTap: () {},
-                        );
-                      },
+                          child: Text(
+                            state.keyword.trim().isEmpty
+                                ? 'Gợi ý cho bạn'
+                                : 'Kết quả tìm kiếm',
+                            style: AppTextStyles.sectionTitle(),
+                          ),
+                        ),
+                        Expanded(
+                          child: GridView.builder(
+                            keyboardDismissBehavior:
+                                ScrollViewKeyboardDismissBehavior.onDrag,
+                            padding: EdgeInsets.all(Dimens.d20.responsive()),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount:
+                                      ProductCard.gridCrossAxisCount(context),
+                                  mainAxisSpacing: Dimens.d24.responsive(),
+                                  crossAxisSpacing: Dimens.d12.responsive(),
+                                  mainAxisExtent:
+                                      ProductCard.gridMainAxisExtent(
+                                        context,
+                                        horizontalPadding:
+                                            Dimens.d20.responsive() * 2,
+                                        crossAxisSpacing: Dimens.d12
+                                            .responsive(),
+                                      ),
+                                ),
+                            itemCount: products.length,
+                            itemBuilder: (context, index) {
+                              final product = products[index];
+                              return ProductCard(
+                                product: product,
+                                onTap: () => bloc.add(
+                                  SearchProductClicked(productId: product.id),
+                                ),
+                                onFavoriteTap: () {},
+                              );
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 else

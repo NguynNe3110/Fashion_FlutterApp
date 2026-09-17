@@ -35,6 +35,10 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: NotificationRoute.page),
     AutoRoute(page: PersonalInfoRoute.page),
     AutoRoute(page: HelpRoute.page),
+    AutoRoute(
+      page: ItemDetailRoute.page,
+      guards: [RouteGuard(GetIt.instance.get<IsLoggedInUseCase>())],
+    ),
 
     AutoRoute(
       page: MainRoute.page,
@@ -43,17 +47,11 @@ class AppRouter extends RootStackRouter {
         AutoRoute(
           page: HomeTab.page,
           maintainState: true,
-          children: [
-            AutoRoute(page: HomeRoute.page, initial: true),
-            AutoRoute(
-              page: ItemDetailRoute.page,
-              guards: [RouteGuard(GetIt.instance.get<IsLoggedInUseCase>())],
-            ),
-          ],
+          children: [AutoRoute(page: HomeRoute.page, initial: true)],
         ),
         AutoRoute(
           page: FavoriteTab.page,
-          maintainState: true,
+          maintainState: false,
           children: [AutoRoute(page: FavoriteRoute.page, initial: true)],
         ),
         AutoRoute(
@@ -63,7 +61,7 @@ class AppRouter extends RootStackRouter {
         ),
         AutoRoute(
           page: MyPageTab.page,
-          maintainState: true,
+          maintainState: false,
           children: [AutoRoute(page: MyPageRoute.page, initial: true)],
         ),
       ],

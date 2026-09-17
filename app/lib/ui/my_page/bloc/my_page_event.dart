@@ -28,5 +28,8 @@ sealed class ProfileSavePressed extends MyPageEvent with _$ProfileSavePressed {
   const factory ProfileSavePressed({
     required String fullName,
     required String phoneNumber,
+    DateTime? dateOfBirth,
+    String? gender,
+    @Default(false) bool marketingOptIn,
   }) = _ProfileSavePressed;
 }

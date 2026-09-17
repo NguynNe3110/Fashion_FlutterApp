@@ -66,26 +66,28 @@ class RefreshTokenInterceptor extends BaseInterceptor {
   Future<String> _refreshToken() async {
     _isRefreshing = true;
     final refreshToken = await appPreferences.refreshToken;
-    final refreshTokenResponse = await refreshTokenService.refreshToken(refreshToken);
-    await Future.wait(
-      [
-        appPreferences.saveAccessToken(
-          refreshTokenResponse?.data?.accessToken ?? '',
-        ),
-      ],
+    final refreshTokenResponse = await refreshTokenService.refreshToken(
+      refreshToken,
     );
+    await Future.wait([
+      appPreferences.saveAccessToken(
+        refreshTokenResponse?.data?.accessToken ?? '',
+      ),
+    ]);
 
     return refreshTokenResponse?.data?.accessToken ?? '';
   }
 
   Future<void> _onRefreshTokenSuccess(String newToken) async {
-    await Future.wait(_queue.map(
-      (requestInfo) => _requestWithNewToken(
-        options: requestInfo.item1,
-        handler: requestInfo.item2,
-        newAccessToken: newToken,
+    await Future.wait(
+      _queue.map(
+        (requestInfo) => _requestWithNewToken(
+          options: requestInfo.item1,
+          handler: requestInfo.item2,
+          newAccessToken: newToken,
+        ),
       ),
-    ));
+    );
   }
 
   void _onRefreshTokenError(Object? error) {

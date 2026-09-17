@@ -11,6 +11,7 @@ class ViewUtils {
     String message, {
     Duration? duration,
     Color? backgroundColor,
+    IconData? icon,
   }) {
     final messengerState = ScaffoldMessenger.maybeOf(context);
     if (messengerState == null) {
@@ -19,7 +20,27 @@ class ViewUtils {
     messengerState.hideCurrentSnackBar();
     messengerState.showSnackBar(
       SnackBar(
-        content: Text(message),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+        elevation: 8,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        content: Row(
+          children: [
+            if (icon != null) ...[
+              Icon(icon, color: Colors.white, size: 20),
+              const SizedBox(width: 12),
+            ],
+            Expanded(
+              child: Text(
+                message,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ],
+        ),
         duration: duration ?? DurationConstants.defaultSnackBarDuration,
         backgroundColor: backgroundColor,
       ),
@@ -33,26 +54,34 @@ class ViewUtils {
     }
   }
 
-  static Future<void> setPreferredOrientations(List<DeviceOrientation> orientations) {
+  static Future<void> setPreferredOrientations(
+    List<DeviceOrientation> orientations,
+  ) {
     return SystemChrome.setPreferredOrientations(orientations);
   }
 
   /// set status bar color & navigation bar color
-  static void setSystemUIOverlayStyle(SystemUiOverlayStyle systemUiOverlayStyle) {
+  static void setSystemUIOverlayStyle(
+    SystemUiOverlayStyle systemUiOverlayStyle,
+  ) {
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 
   static Offset? getWidgetPosition(GlobalKey globalKey) {
-    return (globalKey.currentContext?.findRenderObject() as RenderBox?)
-        ?.let((it) => it.localToGlobal(Offset.zero));
+    return (globalKey.currentContext?.findRenderObject() as RenderBox?)?.let(
+      (it) => it.localToGlobal(Offset.zero),
+    );
   }
 
   static double? getWidgetWidth(GlobalKey globalKey) {
-    return (globalKey.currentContext?.findRenderObject() as RenderBox?)?.let((it) => it.size.width);
+    return (globalKey.currentContext?.findRenderObject() as RenderBox?)?.let(
+      (it) => it.size.width,
+    );
   }
 
   static double? getWidgetHeight(GlobalKey globalKey) {
-    return (globalKey.currentContext?.findRenderObject() as RenderBox?)
-        ?.let((it) => it.size.height);
+    return (globalKey.currentContext?.findRenderObject() as RenderBox?)?.let(
+      (it) => it.size.height,
+    );
   }
 }

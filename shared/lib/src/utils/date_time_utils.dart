@@ -20,21 +20,23 @@ class DateTimeUtils {
   }
 
   static DateTime toLocalFromTimestamp({required int utcTimestampMillis}) {
-    return DateTime.fromMillisecondsSinceEpoch(utcTimestampMillis, isUtc: true).toLocal();
+    return DateTime.fromMillisecondsSinceEpoch(
+      utcTimestampMillis,
+      isUtc: true,
+    ).toLocal();
   }
 
   static DateTime toUtcFromTimestamp(int localTimestampMillis) {
-    return DateTime.fromMillisecondsSinceEpoch(localTimestampMillis, isUtc: false).toUtc();
+    return DateTime.fromMillisecondsSinceEpoch(
+      localTimestampMillis,
+      isUtc: false,
+    ).toUtc();
   }
 
   static DateTime startTimeOfDate() {
     final now = DateTime.now();
 
-    return DateTime(
-      now.year,
-      now.month,
-      now.day,
-    );
+    return DateTime(now.year, now.month, now.day);
   }
 
   static DateTime? toDateTime(String dateTimeString, {bool isUtc = false}) {
@@ -59,7 +61,10 @@ class DateTimeUtils {
     return null;
   }
 
-  static DateTime? toNormalizeDateTime(String dateTimeString, {bool isUtc = false}) {
+  static DateTime? toNormalizeDateTime(
+    String dateTimeString, {
+    bool isUtc = false,
+  }) {
     final dateTime = DateTime.tryParse('-123450101 $dateTimeString');
     if (dateTime != null) {
       if (isUtc) {
@@ -130,19 +135,23 @@ extension DateTimeTimezoneExtension on DateTime {
 
   DateTime toESTzone(String locationName) {
     DateTime result = toUtc(); // local time to UTC
-    result =
-        result.add(Duration(hours: _getESTtoUTCDifference(locationName))); // convert UTC to EST
+    result = result.add(
+      Duration(hours: _getESTtoUTCDifference(locationName)),
+    ); // convert UTC to EST
 
     return result;
   }
 
   DateTime fromESTzone(String locationName) {
-    DateTime result =
-        subtract(Duration(hours: _getESTtoUTCDifference(locationName))); // convert EST to UTC
+    DateTime result = subtract(
+      Duration(hours: _getESTtoUTCDifference(locationName)),
+    ); // convert EST to UTC
 
     String dateTimeAsIso8601String = result.toIso8601String();
     dateTimeAsIso8601String +=
-        dateTimeAsIso8601String.characters.last.equalsIgnoreCase('Z') ? '' : 'Z';
+        dateTimeAsIso8601String.characters.last.equalsIgnoreCase('Z')
+        ? ''
+        : 'Z';
     result = DateTime.parse(dateTimeAsIso8601String); // make isUtc to be true
 
     result = result.toLocal(); // convert UTC to local time

@@ -4,9 +4,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:shared/shared.dart';
 
 class CommonPagingController<T> implements Disposable {
-  CommonPagingController({
-    this.firstPageKey = PagingConstants.initialPage,
-  });
+  CommonPagingController({this.firstPageKey = PagingConstants.initialPage});
 
   final int firstPageKey;
 
@@ -41,9 +39,7 @@ class CommonPagingController<T> implements Disposable {
   }
 
   // call when initState to listen to trigger load more
-  void listen({
-    required VoidCallback onLoadMore,
-  }) {
+  void listen({required VoidCallback onLoadMore}) {
     _onLoadMore = onLoadMore;
   }
 
@@ -70,22 +66,26 @@ class CommonPagingController<T> implements Disposable {
     final newPages = List<List<T>>.from(currentPages)..add(loadMoreOutput.data);
     final newKeys = List<int>.from(currentKeys)..add(loadMoreOutput.page);
 
-    _updateState(_state.copyWith(
-      pages: newPages,
-      keys: newKeys,
-      hasNextPage: !loadMoreOutput.isLastPage,
-      isLoading: false,
-      error: null,
-    ));
+    _updateState(
+      _state.copyWith(
+        pages: newPages,
+        keys: newKeys,
+        hasNextPage: !loadMoreOutput.isLastPage,
+        isLoading: false,
+        error: null,
+      ),
+    );
   }
 
   void refresh() {
-    _updateState(PagingState<int, T>(
-      pages: const [],
-      keys: const [],
-      hasNextPage: true,
-      isLoading: false,
-    ));
+    _updateState(
+      PagingState<int, T>(
+        pages: const [],
+        keys: const [],
+        hasNextPage: true,
+        isLoading: false,
+      ),
+    );
   }
 
   void _updateState(PagingState<int, T> newState) {
@@ -134,12 +134,14 @@ class CommonPagingController<T> implements Disposable {
   }
 
   void clear(int start, int end) {
-    _updateState(PagingState<int, T>(
-      pages: const [],
-      keys: const [],
-      hasNextPage: true,
-      isLoading: false,
-    ));
+    _updateState(
+      PagingState<int, T>(
+        pages: const [],
+        keys: const [],
+        hasNextPage: true,
+        isLoading: false,
+      ),
+    );
   }
 
   void _rebuildPagesFromItems(List<T> items) {
@@ -149,10 +151,12 @@ class CommonPagingController<T> implements Disposable {
       _updateState(_state.copyWith(pages: const [], keys: const []));
     } else {
       final currentKeys = _state.keys ?? <int>[];
-      _updateState(_state.copyWith(
-        pages: [items],
-        keys: currentKeys.isNotEmpty ? [currentKeys.first] : [firstPageKey],
-      ));
+      _updateState(
+        _state.copyWith(
+          pages: [items],
+          keys: currentKeys.isNotEmpty ? [currentKeys.first] : [firstPageKey],
+        ),
+      );
     }
   }
 

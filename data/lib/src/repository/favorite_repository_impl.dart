@@ -23,7 +23,10 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
   }
 
   @override
-  Future<FavoriteEntity> addFavorite({required String userId, required String productId}) async {
+  Future<FavoriteEntity> addFavorite({
+    required String userId,
+    required String productId,
+  }) async {
     final dto = await _favoriteSupabaseService.addFavorite(
       data: {'user_id': userId, 'product_id': productId},
     );
@@ -31,7 +34,13 @@ class FavoriteRepositoryImpl extends FavoriteRepository {
   }
 
   @override
-  Future<void> deleteFavorite({required String userId, required String productId}) async {
-    await _favoriteSupabaseService.deleteFavorite(userId: userId, productId: productId);
+  Future<void> deleteFavorite({
+    required String userId,
+    required String productId,
+  }) async {
+    await _favoriteSupabaseService.deleteFavorite(
+      userId: userId,
+      productId: productId,
+    );
   }
 }

@@ -10,6 +10,8 @@ part 'category_products_state.freezed.dart';
 class CategoryProductsState extends BaseBlocState with _$CategoryProductsState {
   const factory CategoryProductsState({
     @Default([]) List<ProductEntity> products,
+    @Default([]) List<CategoryEntity> categories,
+    @Default('') String selectedCategoryId,
     @Default(false) bool isShimmerLoading,
     AppException? loadException,
   }) = _CategoryProductsState;

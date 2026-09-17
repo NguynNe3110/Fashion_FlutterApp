@@ -9,13 +9,15 @@ abstract class OrderHistoryEvent extends BaseBlocEvent {
 }
 
 @freezed
-sealed class OrderHistoryPageInitiated extends OrderHistoryEvent with _$OrderHistoryPageInitiated {
+sealed class OrderHistoryPageInitiated extends OrderHistoryEvent
+    with _$OrderHistoryPageInitiated {
   const OrderHistoryPageInitiated._();
   const factory OrderHistoryPageInitiated() = _OrderHistoryPageInitiated;
 }
 
 @freezed
-sealed class OrderHistoryLoadMore extends OrderHistoryEvent with _$OrderHistoryLoadMore {
+sealed class OrderHistoryLoadMore extends OrderHistoryEvent
+    with _$OrderHistoryLoadMore {
   const OrderHistoryLoadMore._();
   const factory OrderHistoryLoadMore() = _OrderHistoryLoadMore;
 }

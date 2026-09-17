@@ -12,18 +12,16 @@ abstract class LoginEvent extends BaseBlocEvent {
 sealed class EmailTextFieldChanged extends LoginEvent
     with _$EmailTextFieldChanged {
   const EmailTextFieldChanged._();
-  const factory EmailTextFieldChanged({
-    required String email,
-  }) = _EmailTextFieldChanged;
+  const factory EmailTextFieldChanged({required String email}) =
+      _EmailTextFieldChanged;
 }
 
 @freezed
 sealed class PasswordTextFieldChanged extends LoginEvent
     with _$PasswordTextFieldChanged {
   const PasswordTextFieldChanged._();
-  const factory PasswordTextFieldChanged({
-    required String password,
-  }) = _PasswordTextFieldChanged;
+  const factory PasswordTextFieldChanged({required String password}) =
+      _PasswordTextFieldChanged;
 }
 
 @freezed

@@ -9,7 +9,7 @@ part 'get_users_use_case.freezed.dart';
 @Injectable()
 class GetUsersUseCase extends BaseLoadMoreUseCase<GetUsersInput, User> {
   GetUsersUseCase(this._repository)
-      : super(initPage: PagingConstants.initialPage);
+    : super(initPage: PagingConstants.initialPage);
 
   final Repository _repository;
 

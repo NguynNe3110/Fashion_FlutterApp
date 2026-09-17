@@ -21,6 +21,9 @@ sealed class PagedList<T> with _$PagedList<T> {
 
   LoadMoreOutput<T> toLoadMoreOutput() {
     return LoadMoreOutput(
-        data: data, otherData: otherData, isLastPage: isLastPage);
+      data: data,
+      otherData: otherData,
+      isLastPage: isLastPage,
+    );
   }
 }

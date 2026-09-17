@@ -16,7 +16,8 @@ class OrderDetailPage extends StatefulWidget {
   State<StatefulWidget> createState() => _OrderDetailPageState();
 }
 
-class _OrderDetailPageState extends BasePageState<OrderDetailPage, OrderDetailBloc> {
+class _OrderDetailPageState
+    extends BasePageState<OrderDetailPage, OrderDetailBloc> {
   @override
   void initState() {
     super.initState();
@@ -38,12 +39,16 @@ class _OrderDetailPageState extends BasePageState<OrderDetailPage, OrderDetailBl
       body: BlocBuilder<OrderDetailBloc, OrderDetailState>(
         builder: (context, state) {
           if (state.isShimmerLoading && state.order == null) {
-            return const Center(child: CircularProgressIndicator(color: AppColors.ink));
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.ink),
+            );
           }
 
           final order = state.order;
           if (order == null) {
-            return const Center(child: Text('Không tìm thấy thông tin đơn hàng'));
+            return const Center(
+              child: Text('Không tìm thấy thông tin đơn hàng'),
+            );
           }
 
           return SingleChildScrollView(
@@ -80,7 +85,9 @@ class _OrderDetailPageState extends BasePageState<OrderDetailPage, OrderDetailBl
         SizedBox(height: Dimens.d4.responsive()),
         Text(
           'Ngày đặt: ${order.createdAt != null ? order.createdAt!.toStringWithFormat('dd/MM/yyyy HH:mm') : ''}',
-          style: AppTextStyles.s14w400Secondary().copyWith(fontSize: Dimens.d12.responsive()),
+          style: AppTextStyles.s14w400Secondary().copyWith(
+            fontSize: Dimens.d12.responsive(),
+          ),
         ),
       ],
     );
@@ -95,7 +102,11 @@ class _OrderDetailPageState extends BasePageState<OrderDetailPage, OrderDetailBl
       ),
       child: Row(
         children: [
-          Icon(Icons.local_shipping_outlined, color: AppColors.ink2, size: Dimens.d24.responsive()),
+          Icon(
+            Icons.local_shipping_outlined,
+            color: AppColors.ink2,
+            size: Dimens.d24.responsive(),
+          ),
           SizedBox(width: Dimens.d16.responsive()),
           Expanded(
             child: Column(
@@ -103,7 +114,9 @@ class _OrderDetailPageState extends BasePageState<OrderDetailPage, OrderDetailBl
               children: [
                 Text(
                   'Trạng thái',
-                  style: AppTextStyles.eyebrow().copyWith(fontSize: Dimens.d9.responsive()),
+                  style: AppTextStyles.eyebrow().copyWith(
+                    fontSize: Dimens.d9.responsive(),
+                  ),
                 ),
                 SizedBox(height: Dimens.d4.responsive()),
                 Text(
@@ -129,13 +142,12 @@ class _OrderDetailPageState extends BasePageState<OrderDetailPage, OrderDetailBl
         SizedBox(height: Dimens.d12.responsive()),
         Text(
           order.receiverName,
-          style: AppTextStyles.s14w400Primary().copyWith(fontWeight: FontWeight.w600),
+          style: AppTextStyles.s14w400Primary().copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         ),
         SizedBox(height: Dimens.d4.responsive()),
-        Text(
-          order.phoneNumber,
-          style: AppTextStyles.s14w400Secondary(),
-        ),
+        Text(order.phoneNumber, style: AppTextStyles.s14w400Secondary()),
         SizedBox(height: Dimens.d4.responsive()),
         Text(
           '${order.addressLine}, ${order.ward ?? ''}, ${order.district}, ${order.city}',
@@ -155,7 +167,8 @@ class _OrderDetailPageState extends BasePageState<OrderDetailPage, OrderDetailBl
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: items.length,
-          separatorBuilder: (_, __) => Divider(height: Dimens.d24.responsive(), color: AppColors.line),
+          separatorBuilder: (_, __) =>
+              Divider(height: Dimens.d24.responsive(), color: AppColors.line),
           itemBuilder: (context, index) {
             final item = items[index];
             return Row(
@@ -182,17 +195,25 @@ class _OrderDetailPageState extends BasePageState<OrderDetailPage, OrderDetailBl
                         item.productNameSnapshot,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.s14w400Primary().copyWith(fontWeight: FontWeight.w500),
+                        style: AppTextStyles.s14w400Primary().copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       SizedBox(height: Dimens.d4.responsive()),
                       Text(
                         'Số lượng: ${item.quantity}',
-                        style: AppTextStyles.s14w400Secondary().copyWith(fontSize: Dimens.d12.responsive()),
+                        style: AppTextStyles.s14w400Secondary().copyWith(
+                          fontSize: Dimens.d12.responsive(),
+                        ),
                       ),
                       SizedBox(height: Dimens.d4.responsive()),
                       Text(
-                        NumberFormatUtils.formatYen(item.priceSnapshot.toDouble()),
-                        style: AppTextStyles.s14w400Primary().copyWith(fontWeight: FontWeight.w600),
+                        NumberFormatUtils.formatYen(
+                          item.priceSnapshot.toDouble(),
+                        ),
+                        style: AppTextStyles.s14w400Primary().copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),
@@ -211,12 +232,19 @@ class _OrderDetailPageState extends BasePageState<OrderDetailPage, OrderDetailBl
         _summaryRow('Tạm tính', order.subtotalPrice.toDouble()),
         _summaryRow('Phí giao hàng', order.shippingFee.toDouble()),
         if (order.discountAmount > 0)
-          _summaryRow('Giảm giá', -order.discountAmount.toDouble(), isDiscount: true),
+          _summaryRow(
+            'Giảm giá',
+            -order.discountAmount.toDouble(),
+            isDiscount: true,
+          ),
         Divider(height: Dimens.d32.responsive(), color: AppColors.ink),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('TỔNG CỘNG', style: AppTextStyles.eyebrow().copyWith(color: AppColors.ink)),
+            Text(
+              'TỔNG CỘNG',
+              style: AppTextStyles.eyebrow().copyWith(color: AppColors.ink),
+            ),
             Text(
               NumberFormatUtils.formatYen(order.totalPrice.toDouble()),
               style: AppTextStyles.s14w400Primary().copyWith(

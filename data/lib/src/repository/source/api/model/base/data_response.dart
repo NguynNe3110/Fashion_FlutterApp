@@ -13,8 +13,9 @@ sealed class DataResponse<T> with _$DataResponse<T> {
   }) = _DataResponse;
 
   factory DataResponse.fromJson(
-          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$DataResponseFromJson(json, fromJsonT);
+    Map<String, dynamic> json,
+    T Function(Object?) fromJsonT,
+  ) => _$DataResponseFromJson(json, fromJsonT);
 }
 
 @Freezed(genericArgumentFactories: true)
@@ -26,16 +27,15 @@ sealed class DataListResponse<T> with _$DataListResponse<T> {
   }) = _DataListResponse;
 
   factory DataListResponse.fromJson(
-          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$DataListResponseFromJson(json, fromJsonT);
+    Map<String, dynamic> json,
+    T Function(Object?) fromJsonT,
+  ) => _$DataListResponseFromJson(json, fromJsonT);
 }
 
 @freezed
 sealed class Meta with _$Meta {
   const Meta._();
-  factory Meta({
-    @JsonKey(name: 'pagy_info') PageInfo? pageInfo,
-  }) = _Meta;
+  factory Meta({@JsonKey(name: 'pagy_info') PageInfo? pageInfo}) = _Meta;
 
   factory Meta.fromJson(Map<String, dynamic> json) => _$MetaFromJson(json);
 }
@@ -43,9 +43,7 @@ sealed class Meta with _$Meta {
 @freezed
 sealed class PageInfo with _$PageInfo {
   const PageInfo._();
-  factory PageInfo({
-    @JsonKey(name: 'next') int? next,
-  }) = _PageInfo;
+  factory PageInfo({@JsonKey(name: 'next') int? next}) = _PageInfo;
 
   factory PageInfo.fromJson(Map<String, dynamic> json) =>
       _$PageInfoFromJson(json);

@@ -5,10 +5,13 @@ import 'package:injectable/injectable.dart';
 import '../../../../../data.dart';
 
 @Injectable()
-class GenderDataMapper extends BaseDataMapper<int, Gender> with DataMapperMixin {
+class GenderDataMapper extends BaseDataMapper<int, Gender>
+    with DataMapperMixin {
   @override
   Gender mapToEntity(int? data) {
-    return Gender.values.firstOrNullWhere((element) => element.serverValue == data) ??
+    return Gender.values.firstOrNullWhere(
+          (element) => element.serverValue == data,
+        ) ??
         Gender.unknown;
   }
 

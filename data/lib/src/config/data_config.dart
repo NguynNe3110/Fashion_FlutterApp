@@ -14,7 +14,6 @@ class DataConfig extends Config {
 
   @override
   // Future<void> config() async => di.configureInjection();
-
   Future<void> config() async {
     final supabaseConstants = SupabaseConstants();
     supabaseConstants.validate();

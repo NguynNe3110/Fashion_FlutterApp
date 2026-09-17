@@ -155,7 +155,8 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
           ),
         );
         if (output.hasActiveSession) {
-          await navigator.replace(const AppRouteInfo.main());
+          await navigator.replaceAll([const AppRouteInfo.main()]);
+          navigator.showSuccessSnackBar('Đăng ký tài khoản thành công');
         } else {
           navigator.showSuccessSnackBar(
             'Vui lòng kiểm tra email để xác nhận tài khoản trước khi đăng nhập.',
@@ -164,7 +165,7 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
         }
       },
       doOnError: (e) async {
-        emit(state.copyWith(onPageError: e.toString()));
+        emit(state.copyWith(onPageError: exceptionMessageMapper.map(e)));
       },
     );
   }

@@ -30,7 +30,9 @@ extension ListExtensions<T> on List<T> {
 
 extension SetExtensions<T> on Set<T> {
   Set<T> appendOrExceptElement(T item) {
-    return contains(item) ? exceptElement(item).toSet() : appendElement(item).toSet();
+    return contains(item)
+        ? exceptElement(item).toSet()
+        : appendElement(item).toSet();
   }
 
   Set<T> plus(T element) {

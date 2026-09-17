@@ -21,9 +21,8 @@ sealed class ExceptionEmitted extends CommonEvent with _$ExceptionEmitted {
 sealed class LoadingVisibilityEmitted extends CommonEvent
     with _$LoadingVisibilityEmitted {
   const LoadingVisibilityEmitted._();
-  const factory LoadingVisibilityEmitted({
-    required bool isLoading,
-  }) = _LoadingVisibilityEmitted;
+  const factory LoadingVisibilityEmitted({required bool isLoading}) =
+      _LoadingVisibilityEmitted;
 }
 
 @freezed

@@ -58,6 +58,8 @@ import 'package:domain/src/usecase/fashion_usecase/product/get_products_usecase.
     as _i961;
 import 'package:domain/src/usecase/fashion_usecase/product_image/get_product_images_use_case.dart'
     as _i120;
+import 'package:domain/src/usecase/fashion_usecase/profile/get_account_stats_use_case.dart'
+    as _i970;
 import 'package:domain/src/usecase/fashion_usecase/profile/get_me_use_case.dart'
     as _i249;
 import 'package:domain/src/usecase/fashion_usecase/profile/get_profile_use_case.dart'
@@ -147,6 +149,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i156.UpdateAddressUseCase>(
       () => _i156.UpdateAddressUseCase(gh<_i494.AddressRepository>()),
+    );
+    gh.factory<_i970.GetAccountStatsUseCase>(
+      () => _i970.GetAccountStatsUseCase(gh<_i494.ProfileRepository>()),
     );
     gh.factory<_i11.CheckoutSelectedItemsUseCase>(
       () => _i11.CheckoutSelectedItemsUseCase(

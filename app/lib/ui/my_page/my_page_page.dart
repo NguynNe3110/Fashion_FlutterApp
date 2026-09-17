@@ -47,6 +47,7 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
       body: BlocBuilder<MyPageBloc, MyPageState>(
         buildWhen: (prev, curr) =>
             prev.profile != curr.profile ||
+            prev.stats != curr.stats ||
             prev.isShimmerLoading != curr.isShimmerLoading,
         builder: (context, state) {
           if (state.isShimmerLoading && state.profile == null) {
@@ -63,7 +64,7 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
                       navigator.push(const AppRouteInfo.personalInfo()),
                   child: _buildProfileHeader(state.profile),
                 ),
-                _buildStatsGrid(),
+                _buildStatsGrid(state.stats),
                 _buildMenuSection(),
                 _buildLogoutButton(),
                 SizedBox(height: Dimens.d40.responsive()),
@@ -135,7 +136,7 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
               borderRadius: BorderRadius.circular(Dimens.d99.responsive()),
             ),
             child: Text(
-              'THÀNH VIÊN BẠC',
+              _membershipLabel(profile?.membershipTier),
               style: AppTextStyles.eyebrow().copyWith(
                 fontSize: Dimens.d8.responsive(),
                 color: AppColors.ink2,
@@ -147,16 +148,24 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
     );
   }
 
-  Widget _buildStatsGrid() {
+  String _membershipLabel(String? tier) {
+    return switch (tier?.toLowerCase()) {
+      'gold' => 'THÀNH VIÊN VÀNG',
+      'platinum' => 'THÀNH VIÊN BẠCH KIM',
+      _ => 'THÀNH VIÊN BẠC',
+    };
+  }
+
+  Widget _buildStatsGrid(AccountStatsEntity stats) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Dimens.d20.responsive()),
       child: Row(
         children: [
-          _statItem('Đơn hàng', '12'),
+          _statItem('Đơn hàng', stats.orderCount.toString()),
           _statVerticalDivider(),
-          _statItem('Yêu thích', '24'),
+          _statItem('Yêu thích', stats.favoriteCount.toString()),
           _statVerticalDivider(),
-          _statItem('Voucher', '05'),
+          _statItem('Voucher', stats.voucherCount.toString()),
         ],
       ),
     );

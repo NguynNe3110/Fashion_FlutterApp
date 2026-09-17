@@ -20,11 +20,9 @@ class AppApiService {
     return _noneAuthAppServerApiClient.request(
       method: RestMethod.post,
       path: '/v1/auth/login',
-      body: {
-        'email': email,
-        'password': password,
-      },
-      decoder: (json) => ApiAuthResponseData.fromJson(json as Map<String, dynamic>),
+      body: {'email': email, 'password': password},
+      decoder: (json) =>
+          ApiAuthResponseData.fromJson(json as Map<String, dynamic>),
     );
   }
 
@@ -51,7 +49,8 @@ class AppApiService {
         'password': password,
         'password_confirmation': password,
       },
-      decoder: (json) => ApiAuthResponseData.fromJson(json as Map<String, dynamic>),
+      decoder: (json) =>
+          ApiAuthResponseData.fromJson(json as Map<String, dynamic>),
     );
   }
 
@@ -59,9 +58,7 @@ class AppApiService {
     await _noneAuthAppServerApiClient.request(
       method: RestMethod.post,
       path: '/v1/auth/forgot-password',
-      body: {
-        'email': email,
-      },
+      body: {'email': email},
     );
   }
 
@@ -98,10 +95,7 @@ class AppApiService {
     return _randomUserApiClient.request(
       method: RestMethod.get,
       path: '',
-      queryParameters: {
-        'page': page,
-        'results': limit,
-      },
+      queryParameters: {'page': page, 'results': limit},
       successResponseMapperType: SuccessResponseMapperType.resultsJsonArray,
       decoder: (json) => ApiUserData.fromJson(json as Map<String, dynamic>),
     );

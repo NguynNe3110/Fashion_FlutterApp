@@ -45,9 +45,8 @@ class _PaymentMethodsPageState
               final isSelected = state.selectedMethodId == method.id;
 
               return GestureDetector(
-                onTap: () => bloc.add(
-                  SelectPaymentMethodPressed(methodId: method.id),
-                ),
+                onTap: () =>
+                    bloc.add(SelectPaymentMethodPressed(methodId: method.id)),
                 child: Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(

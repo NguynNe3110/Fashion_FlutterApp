@@ -22,9 +22,8 @@ sealed class MockData with _$MockData {
 sealed class MockData2 with _$MockData2 {
   const MockData2._();
 
-  const factory MockData2({
-    @JsonKey(name: 'mock_data') MockData? mockData,
-  }) = _MockData2;
+  const factory MockData2({@JsonKey(name: 'mock_data') MockData? mockData}) =
+      _MockData2;
 
   factory MockData2.fromJson(Map<String, dynamic> json) =>
       _$MockData2FromJson(json);

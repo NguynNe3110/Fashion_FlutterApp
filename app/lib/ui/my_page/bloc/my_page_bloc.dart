@@ -13,6 +13,7 @@ class MyPageBloc extends BaseBloc<MyPageEvent, MyPageState> {
     this._getMeUseCase,
     this._logoutUseCase,
     this._updateProfileUseCase,
+    this._getAccountStatsUseCase,
   ) : super(const MyPageState()) {
     on<MyPagePageInitiated>(_onPageInitiated, transformer: log());
     on<LogoutButtonPressed>(_onLogoutButtonPressed, transformer: log());
@@ -22,6 +23,7 @@ class MyPageBloc extends BaseBloc<MyPageEvent, MyPageState> {
   final GetMeUseCase _getMeUseCase;
   final LogoutUseCase _logoutUseCase;
   final UpdateProfileUseCase _updateProfileUseCase;
+  final GetAccountStatsUseCase _getAccountStatsUseCase;
 
   FutureOr<void> _onPageInitiated(
     // handel loading manual,
@@ -31,7 +33,16 @@ class MyPageBloc extends BaseBloc<MyPageEvent, MyPageState> {
     emit(state.copyWith(isShimmerLoading: true));
     try {
       final output = await _getMeUseCase.execute(const GetMeUseCaseInput());
-      emit(state.copyWith(profile: output.profile, isShimmerLoading: false));
+      final stats = await _getAccountStatsUseCase.execute(
+        GetAccountStatsInput(userId: output.profile.id),
+      );
+      emit(
+        state.copyWith(
+          profile: output.profile,
+          stats: stats.stats,
+          isShimmerLoading: false,
+        ),
+      );
     } catch (e) {
       emit(
         state.copyWith(
@@ -71,6 +82,9 @@ class MyPageBloc extends BaseBloc<MyPageEvent, MyPageState> {
                   ? null
                   : event.phoneNumber.trim(),
               avatarUrl: current.avatarUrl,
+              dateOfBirth: event.dateOfBirth,
+              gender: event.gender,
+              marketingOptIn: event.marketingOptIn,
             ),
           ),
         );

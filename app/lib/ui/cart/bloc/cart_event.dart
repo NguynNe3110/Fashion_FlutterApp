@@ -15,7 +15,8 @@ sealed class CartPageInitiated extends CartEvent with _$CartPageInitiated {
 }
 
 @freezed
-sealed class CartItemQuantityChanged extends CartEvent with _$CartItemQuantityChanged {
+sealed class CartItemQuantityChanged extends CartEvent
+    with _$CartItemQuantityChanged {
   const CartItemQuantityChanged._();
   const factory CartItemQuantityChanged({
     required String cartItemId,
@@ -26,21 +27,21 @@ sealed class CartItemQuantityChanged extends CartEvent with _$CartItemQuantityCh
 @freezed
 sealed class CartItemRemoved extends CartEvent with _$CartItemRemoved {
   const CartItemRemoved._();
-  const factory CartItemRemoved({
-    required String cartItemId,
-  }) = _CartItemRemoved;
+  const factory CartItemRemoved({required String cartItemId}) =
+      _CartItemRemoved;
 }
 
 @freezed
-sealed class CartItemSelectionToggled extends CartEvent with _$CartItemSelectionToggled {
+sealed class CartItemSelectionToggled extends CartEvent
+    with _$CartItemSelectionToggled {
   const CartItemSelectionToggled._();
-  const factory CartItemSelectionToggled({
-    required String cartItemId,
-  }) = _CartItemSelectionToggled;
+  const factory CartItemSelectionToggled({required String cartItemId}) =
+      _CartItemSelectionToggled;
 }
 
 @freezed
-sealed class CartAllItemsSelectionToggled extends CartEvent with _$CartAllItemsSelectionToggled {
+sealed class CartAllItemsSelectionToggled extends CartEvent
+    with _$CartAllItemsSelectionToggled {
   const CartAllItemsSelectionToggled._();
   const factory CartAllItemsSelectionToggled() = _CartAllItemsSelectionToggled;
 }
@@ -52,7 +53,8 @@ sealed class CartCheckOutPressed extends CartEvent with _$CartCheckOutPressed {
 }
 
 @freezed
-sealed class CartSelectedItemsRemoved extends CartEvent with _$CartSelectedItemsRemoved {
+sealed class CartSelectedItemsRemoved extends CartEvent
+    with _$CartSelectedItemsRemoved {
   const CartSelectedItemsRemoved._();
   const factory CartSelectedItemsRemoved() = _CartSelectedItemsRemoved;
 }

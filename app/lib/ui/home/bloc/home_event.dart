@@ -19,13 +19,13 @@ sealed class HomePageInitiated extends HomeEvent with _$HomePageInitiated {
 @freezed
 sealed class HomePageRefreshed extends HomeEvent with _$HomePageRefreshed {
   const HomePageRefreshed._();
-  const factory HomePageRefreshed({
-    required Completer<void> completer,
-  }) = _HomePageRefreshed;
+  const factory HomePageRefreshed({required Completer<void> completer}) =
+      _HomePageRefreshed;
 }
 
 @freezed
-sealed class HomeLoadMoreProducts extends HomeEvent with _$HomeLoadMoreProducts {
+sealed class HomeLoadMoreProducts extends HomeEvent
+    with _$HomeLoadMoreProducts {
   const HomeLoadMoreProducts._();
   const factory HomeLoadMoreProducts() = _HomeLoadMoreProducts;
 }

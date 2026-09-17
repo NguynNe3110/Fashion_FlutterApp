@@ -31,9 +31,8 @@ class ForgotPasswordUseCase
 @freezed
 sealed class ForgotPasswordInput extends BaseInput with _$ForgotPasswordInput {
   const ForgotPasswordInput._();
-  const factory ForgotPasswordInput({
-    required String email,
-  }) = _ForgotPasswordInput;
+  const factory ForgotPasswordInput({required String email}) =
+      _ForgotPasswordInput;
 }
 
 @freezed

@@ -14,9 +14,12 @@ void main() => runZonedGuarded(_runMyApp, _reportError);
 Future<void> _runMyApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
-  await AppInitializer(AppConfig.getInstance()).init(); // đăng kí DI, cấu hình env,...
+  await AppInitializer(
+    AppConfig.getInstance(),
+  ).init(); // đăng kí DI, cấu hình env,...
 
-  final initialResource = await _loadInitialResource(); //call func => stack đầu tiên để hiển thị
+  final initialResource =
+      await _loadInitialResource(); //call func => stack đầu tiên để hiển thị
   runApp(MyApp(initialResource: initialResource));
 }
 
@@ -26,10 +29,12 @@ void _reportError(Object error, StackTrace stackTrace) {
   // report by Firebase Crashlytics here
 }
 
-Future<LoadInitialResourceOutput> _loadInitialResource() async { // để quyết định stack đầu tiên
+Future<LoadInitialResourceOutput> _loadInitialResource() async {
+  // để quyết định stack đầu tiên
   final result = runCatching(
-    action: () =>
-        GetIt.instance.get<LoadInitialResourceUseCase>().execute(const LoadInitialResourceInput()),
+    action: () => GetIt.instance.get<LoadInitialResourceUseCase>().execute(
+      const LoadInitialResourceInput(),
+    ),
   );
 
   return result.when(

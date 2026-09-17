@@ -32,14 +32,32 @@ class SearchBloc extends BaseBloc<SearchEvent, SearchState> {
     SearchPageInitiated event,
     Emitter<SearchState> emit,
   ) async {
-    // load search history suggestions...
+    return runBlocCatching(
+      action: () async {
+        final output = await _getProductsUseCase.execute(
+          const GetProductsInput(limit: 8),
+        );
+        emit(state.copyWith(suggestedProducts: output.products));
+      },
+      doOnSubscribe: () async => emit(state.copyWith(isShimmerLoading: true)),
+      doOnSuccessOrError: () async =>
+          emit(state.copyWith(isShimmerLoading: false)),
+      handleLoading: false,
+    );
   }
 
   FutureOr<void> _onSearchKeywordChanged(
     SearchKeywordChanged event,
     Emitter<SearchState> emit,
   ) async {
-    emit(state.copyWith(keyword: event.keyword));
+    emit(
+      state.copyWith(
+        keyword: event.keyword,
+        searchResults: event.keyword.trim().isEmpty
+            ? const []
+            : state.searchResults,
+      ),
+    );
   }
 
   FutureOr<void> _onSearchKeywordSubmitted(
@@ -72,9 +90,10 @@ class SearchBloc extends BaseBloc<SearchEvent, SearchState> {
     SearchProductClicked event,
     Emitter<SearchState> emit,
   ) async {
-    final product = state.searchResults.firstWhereOrNull(
-      (p) => p.id == event.productId,
-    );
+    final product = [
+      ...state.searchResults,
+      ...state.suggestedProducts,
+    ].firstWhereOrNull((p) => p.id == event.productId);
     if (product != null) {
       await navigator.push(AppRouteInfo.itemDetail(product));
     }

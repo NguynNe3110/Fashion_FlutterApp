@@ -6,12 +6,10 @@ import '../../data.dart';
 
 @LazySingleton(as: CategoryRepository)
 class CategoryRepositoryImpl extends CategoryRepository {
-
   final CategorySupabaseService _categorySupabaseService;
   final CategoryMapper _categoryMapper;
 
   CategoryRepositoryImpl(this._categoryMapper, this._categorySupabaseService);
-
 
   @override
   Future<List<CategoryEntity>> getCategories() async {

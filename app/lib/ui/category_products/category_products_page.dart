@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared/shared.dart';
 
 import '../../app.dart';
 import '../home/widgets/product_card.dart';
@@ -48,40 +47,82 @@ class _CategoryProductsPageState
       body: SafeArea(
         child: BlocBuilder<CategoryProductsBloc, CategoryProductsState>(
           builder: (context, state) {
-            if (state.isShimmerLoading && state.products.isEmpty) {
-              return _buildLoader();
-            }
-
-            if (state.products.isEmpty) {
-              return _buildEmptyState();
-            }
-
-            return GridView.builder(
-              padding: EdgeInsets.all(Dimens.d20.responsive()),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: ProductCard.gridCrossAxisCount(context),
-                mainAxisSpacing: Dimens.d24.responsive(),
-                crossAxisSpacing: Dimens.d12.responsive(),
-                mainAxisExtent: ProductCard.gridMainAxisExtent(
-                  context,
-                  horizontalPadding: Dimens.d20.responsive() * 2,
-                  crossAxisSpacing: Dimens.d12.responsive(),
+            return Column(
+              children: [
+                if (state.categories.isNotEmpty) _buildCategoryFilter(state),
+                Expanded(
+                  child: state.isShimmerLoading
+                      ? _buildLoader()
+                      : state.products.isEmpty
+                      ? _buildEmptyState()
+                      : GridView.builder(
+                          padding: EdgeInsets.all(Dimens.d20.responsive()),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: ProductCard.gridCrossAxisCount(
+                                  context,
+                                ),
+                                mainAxisSpacing: Dimens.d24.responsive(),
+                                crossAxisSpacing: Dimens.d12.responsive(),
+                                mainAxisExtent: ProductCard.gridMainAxisExtent(
+                                  context,
+                                  horizontalPadding:
+                                      Dimens.d20.responsive() * 2,
+                                  crossAxisSpacing: Dimens.d12.responsive(),
+                                ),
+                              ),
+                          itemCount: state.products.length,
+                          itemBuilder: (context, index) {
+                            final product = state.products[index];
+                            return ProductCard(
+                              product: product,
+                              onTap: () => navigator.push(
+                                AppRouteInfo.itemDetail(product),
+                              ),
+                              onFavoriteTap: () {},
+                            );
+                          },
+                        ),
                 ),
-              ),
-              itemCount: state.products.length,
-              itemBuilder: (context, index) {
-                final product = state.products[index];
-                return ProductCard(
-                  product: product,
-                  onTap: () => navigator.push(AppRouteInfo.itemDetail(product)),
-                  onFavoriteTap: () {
-                    // TODO: call home bloc toggle favorite or common favorite bloc
-                  },
-                );
-              },
+              ],
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget _buildCategoryFilter(CategoryProductsState state) {
+    final categories = [
+      const CategoryEntity(id: '', name: 'Tất cả', slug: 'all'),
+      ...state.categories,
+    ];
+    return SizedBox(
+      height: Dimens.d56.responsive(),
+      child: ListView.separated(
+        padding: EdgeInsets.symmetric(horizontal: Dimens.d20.responsive()),
+        scrollDirection: Axis.horizontal,
+        itemCount: categories.length,
+        separatorBuilder: (_, __) => SizedBox(width: Dimens.d8.responsive()),
+        itemBuilder: (context, index) {
+          final category = categories[index];
+          final selected = category.id == state.selectedCategoryId;
+          return ChoiceChip(
+            label: Text(category.name),
+            selected: selected,
+            showCheckmark: false,
+            selectedColor: AppColors.ink,
+            backgroundColor: AppColors.surface,
+            side: const BorderSide(color: AppColors.line),
+            labelStyle: TextStyle(
+              color: selected ? Colors.white : AppColors.ink,
+              fontWeight: FontWeight.w500,
+            ),
+            onSelected: (_) => bloc.add(
+              CategoryProductsCategorySelected(categoryId: category.id),
+            ),
+          );
+        },
       ),
     );
   }

@@ -13,6 +13,5 @@ sealed class ResultsListResponse<T> with _$ResultsListResponse<T> {
   factory ResultsListResponse.fromJson(
     Map<String, dynamic> json,
     T Function(Object?) fromJsonT,
-  ) =>
-      _$ResultsListResponseFromJson(json, fromJsonT);
+  ) => _$ResultsListResponseFromJson(json, fromJsonT);
 }

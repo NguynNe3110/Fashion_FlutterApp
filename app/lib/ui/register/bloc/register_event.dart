@@ -10,24 +10,22 @@ abstract class RegisterEvent extends BaseBlocEvent {
 
 @freezed
 class NameTextFieldChanged extends RegisterEvent with _$NameTextFieldChanged {
-  const factory NameTextFieldChanged({
-    required String name,
-  }) = _NameTextFieldChanged;
+  const factory NameTextFieldChanged({required String name}) =
+      _NameTextFieldChanged;
 }
 
 @freezed
-class EmailTextFieldRegisterChanged extends RegisterEvent with _$EmailTextFieldRegisterChanged {
-  const factory EmailTextFieldRegisterChanged({
-    required String email,
-  }) = _EmailTextFieldRegisterChanged;
+class EmailTextFieldRegisterChanged extends RegisterEvent
+    with _$EmailTextFieldRegisterChanged {
+  const factory EmailTextFieldRegisterChanged({required String email}) =
+      _EmailTextFieldRegisterChanged;
 }
 
 @freezed
 class PasswordTextFieldRegisterChanged extends RegisterEvent
     with _$PasswordTextFieldRegisterChanged {
-  const factory PasswordTextFieldRegisterChanged({
-    required String password,
-  }) = _PasswordTextFieldRegisterChanged;
+  const factory PasswordTextFieldRegisterChanged({required String password}) =
+      _PasswordTextFieldRegisterChanged;
 }
 
 @freezed
@@ -39,7 +37,8 @@ class ConfirmPasswordTextFieldChanged extends RegisterEvent
 }
 
 @freezed
-class EyeIconRegisterPressed extends RegisterEvent with _$EyeIconRegisterPressed {
+class EyeIconRegisterPressed extends RegisterEvent
+    with _$EyeIconRegisterPressed {
   const factory EyeIconRegisterPressed() = _EyeIconRegisterPressed;
 }
 
@@ -50,13 +49,11 @@ class ConfirmEyeIconPressed extends RegisterEvent with _$ConfirmEyeIconPressed {
 
 @freezed
 class TermsCheckboxToggled extends RegisterEvent with _$TermsCheckboxToggled {
-  const factory TermsCheckboxToggled({
-    required bool isAccepted,
-  }) = _TermsCheckboxToggled;
+  const factory TermsCheckboxToggled({required bool isAccepted}) =
+      _TermsCheckboxToggled;
 }
 
 @freezed
-class RegisterButtonPressed extends RegisterEvent
-    with _$RegisterButtonPressed {
+class RegisterButtonPressed extends RegisterEvent with _$RegisterButtonPressed {
   const factory RegisterButtonPressed() = _RegisterButtonPressed;
 }

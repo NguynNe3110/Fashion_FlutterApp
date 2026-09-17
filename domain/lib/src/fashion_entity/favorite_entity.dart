@@ -1,4 +1,3 @@
-
 class FavoriteEntity {
   final String id;
   final String userId;
@@ -9,7 +8,7 @@ class FavoriteEntity {
     required this.id,
     required this.userId,
     required this.productId,
-    this.createdAt
+    this.createdAt,
   });
 
   FavoriteEntity copyWith({
@@ -19,15 +18,16 @@ class FavoriteEntity {
     DateTime? createAt,
   }) {
     return FavoriteEntity(
-        id: id ?? this.id,
-        userId: userId ?? this.userId,
-        productId: productId ?? this.productId,
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      productId: productId ?? this.productId,
       createdAt: createdAt ?? this.createdAt,
     );
   }
 
   @override
-  bool operator ==(Object other) { // để so sánh state old-new, kiểm tra bằng nhau
+  bool operator ==(Object other) {
+    // để so sánh state old-new, kiểm tra bằng nhau
     if (identical(this, other)) return true;
     return other is FavoriteEntity &&
         other.id == id &&
@@ -37,7 +37,8 @@ class FavoriteEntity {
   }
 
   @override
-  int get hashCode { // kiểm tra mã băm (lưu trùng lặp)
+  int get hashCode {
+    // kiểm tra mã băm (lưu trùng lặp)
     return Object.hash(id, userId, productId, createdAt);
   }
 
@@ -45,5 +46,4 @@ class FavoriteEntity {
   String toString() {
     return 'ReviewImageEntity(id: $id, reviewId: $userId, imageUrl: $productId, createdAt: $createdAt)';
   }
-
 }

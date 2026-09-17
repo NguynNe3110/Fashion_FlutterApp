@@ -4,12 +4,7 @@ import 'local_image_url_data.dart';
 
 @Entity()
 class LocalUserData {
-  LocalUserData({
-    this.email,
-    this.money,
-    this.gender,
-    this.birthday,
-  });
+  LocalUserData({this.email, this.money, this.gender, this.birthday});
 
   @Id()
   int? id;
@@ -23,7 +18,11 @@ class LocalUserData {
 
   @override
   int get hashCode {
-    return id.hashCode ^ email.hashCode ^ money.hashCode ^ gender.hashCode ^ birthday.hashCode;
+    return id.hashCode ^
+        email.hashCode ^
+        money.hashCode ^
+        gender.hashCode ^
+        birthday.hashCode;
   }
 
   @override

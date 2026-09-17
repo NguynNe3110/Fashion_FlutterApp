@@ -18,6 +18,7 @@ class LogoutUseCase extends BaseFutureUseCase<LogoutInput, LogoutOutput> {
     if (_repository.isLoggedIn) {
       await _repository.logout();
       await _navigator.replaceAll([const AppRouteInfo.login()]);
+      _navigator.showSuccessSnackBar('Đã đăng xuất khỏi Nord');
     }
 
     return const LogoutOutput();

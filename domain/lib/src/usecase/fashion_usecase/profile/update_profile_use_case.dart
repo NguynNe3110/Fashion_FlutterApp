@@ -5,14 +5,21 @@ import 'package:injectable/injectable.dart';
 part 'update_profile_use_case.freezed.dart';
 
 @Injectable()
-class UpdateProfileUseCase extends BaseFutureUseCase<UpdateProfileUseCaseInput, UpdateProfileUseCaseOutput> {
+class UpdateProfileUseCase
+    extends
+        BaseFutureUseCase<
+          UpdateProfileUseCaseInput,
+          UpdateProfileUseCaseOutput
+        > {
   final ProfileRepository _profileRepository;
 
   UpdateProfileUseCase(this._profileRepository);
 
   @protected
   @override
-  Future<UpdateProfileUseCaseOutput> buildUseCase(UpdateProfileUseCaseInput input) async {
+  Future<UpdateProfileUseCaseOutput> buildUseCase(
+    UpdateProfileUseCaseInput input,
+  ) async {
     final profile = await _profileRepository.updateProfile(
       userId: input.userId,
       data: input.data,
@@ -22,7 +29,8 @@ class UpdateProfileUseCase extends BaseFutureUseCase<UpdateProfileUseCaseInput, 
 }
 
 @freezed
-sealed class UpdateProfileUseCaseInput extends BaseInput with _$UpdateProfileUseCaseInput {
+sealed class UpdateProfileUseCaseInput extends BaseInput
+    with _$UpdateProfileUseCaseInput {
   const UpdateProfileUseCaseInput._();
   const factory UpdateProfileUseCaseInput({
     required String userId,
@@ -31,9 +39,9 @@ sealed class UpdateProfileUseCaseInput extends BaseInput with _$UpdateProfileUse
 }
 
 @freezed
-sealed class UpdateProfileUseCaseOutput extends BaseOutput with _$UpdateProfileUseCaseOutput {
+sealed class UpdateProfileUseCaseOutput extends BaseOutput
+    with _$UpdateProfileUseCaseOutput {
   const UpdateProfileUseCaseOutput._();
-  const factory UpdateProfileUseCaseOutput({
-    required ProfileEntity profile,
-  }) = _UpdateProfileUseCaseOutput;
+  const factory UpdateProfileUseCaseOutput({required ProfileEntity profile}) =
+      _UpdateProfileUseCaseOutput;
 }

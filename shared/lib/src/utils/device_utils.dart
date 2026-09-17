@@ -37,9 +37,9 @@ class DeviceUtils {
   }
 
   static DeviceType _getDeviceType() {
-    return MediaQueryData.fromView(WidgetsBinding.instance.platformDispatcher.views.first)
-                .size
-                .shortestSide <
+    return MediaQueryData.fromView(
+              WidgetsBinding.instance.platformDispatcher.views.first,
+            ).size.shortestSide <
             DeviceConstants.maxMobileWidthForDeviceType
         ? DeviceType.mobile
         : DeviceType.tablet;

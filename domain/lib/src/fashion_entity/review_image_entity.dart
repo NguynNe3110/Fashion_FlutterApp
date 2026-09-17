@@ -1,4 +1,3 @@
-
 class ReviewImageEntity {
   final String id;
   final String reviewId;
@@ -31,7 +30,8 @@ class ReviewImageEntity {
   }
 
   @override
-  bool operator ==(Object other) { // để so sánh state old-new, kiểm tra bằng nhau
+  bool operator ==(Object other) {
+    // để so sánh state old-new, kiểm tra bằng nhau
     if (identical(this, other)) return true;
     return other is ReviewImageEntity &&
         other.id == id &&
@@ -42,7 +42,8 @@ class ReviewImageEntity {
   }
 
   @override
-  int get hashCode { // kiểm tra mã băm (lưu trùng lặp)
+  int get hashCode {
+    // kiểm tra mã băm (lưu trùng lặp)
     return Object.hash(id, reviewId, imageUrl, sortOrder, createdAt);
   }
 

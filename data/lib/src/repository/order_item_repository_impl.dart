@@ -9,11 +9,17 @@ class OrderItemRepositoryImpl extends OrderItemRepository {
   final OrderItemMapper _orderItemMapper;
   final OrderMapper _orderMapper;
 
-  OrderItemRepositoryImpl(this._orderItemMapper, this._orderItemSupabaseService, this._orderMapper);
+  OrderItemRepositoryImpl(
+    this._orderItemMapper,
+    this._orderItemSupabaseService,
+    this._orderMapper,
+  );
 
   @override
   Future<List<OrderItemEntity>> getOrderItems({required String orderId}) async {
-    final dtos = await _orderItemSupabaseService.getOrderItems(orderId: orderId);
+    final dtos = await _orderItemSupabaseService.getOrderItems(
+      orderId: orderId,
+    );
     return _orderItemMapper.mapToListEntity(dtos);
   }
 
@@ -25,7 +31,9 @@ class OrderItemRepositoryImpl extends OrderItemRepository {
 
   @override
   Future<void> createOrderItems({required List<OrderItemEntity> data}) async {
-    final dtos = data.map((e) => _orderMapper.mapOrderItemToDto(e).toJson()).toList();
+    final dtos = data
+        .map((e) => _orderMapper.mapOrderItemToDto(e).toJson())
+        .toList();
     await _orderItemSupabaseService.createOrderItems(data: dtos);
   }
 }

@@ -24,9 +24,8 @@ class SaveIsDarkModeUseCase
 @freezed
 sealed class SaveIsDarkModeInput extends BaseInput with _$SaveIsDarkModeInput {
   const SaveIsDarkModeInput._();
-  const factory SaveIsDarkModeInput({
-    required bool isDarkMode,
-  }) = _SaveIsDarkModeInput;
+  const factory SaveIsDarkModeInput({required bool isDarkMode}) =
+      _SaveIsDarkModeInput;
 }
 
 @freezed

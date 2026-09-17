@@ -8,7 +8,8 @@ abstract class NotificationEvent extends BaseBlocEvent {
 }
 
 @freezed
-sealed class NotificationPageInitiated extends NotificationEvent with _$NotificationPageInitiated {
+sealed class NotificationPageInitiated extends NotificationEvent
+    with _$NotificationPageInitiated {
   const NotificationPageInitiated._();
   const factory NotificationPageInitiated() = _NotificationPageInitiated;
 }

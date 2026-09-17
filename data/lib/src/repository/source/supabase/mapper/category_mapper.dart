@@ -1,18 +1,16 @@
-
-
 import 'package:data/data.dart';
 import 'package:domain/domain.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable()
-class CategoryMapper extends BaseDataMapper<CategoryResponseDto, CategoryEntity> {
-
+class CategoryMapper
+    extends BaseDataMapper<CategoryResponseDto, CategoryEntity> {
   @override
   CategoryEntity mapToEntity(CategoryResponseDto? data) {
     return CategoryEntity(
-        id: data?.id ?? '',
-        name: data?.name ?? '',
-        slug: data?.slug ?? '',
+      id: data?.id ?? '',
+      name: data?.name ?? '',
+      slug: data?.slug ?? '',
       description: data?.description,
       imageUrl: data?.imageUrl,
       sortOrder: data?.sortOrder ?? 0,

@@ -44,18 +44,16 @@ class AppDimen {
         return mobile.w;
       case ScreenType.tablet:
         return tablet?.w ??
-            ((mobile * DeviceConstants.maxMobileWidth) / DeviceConstants.designDeviceWidth);
+            ((mobile * DeviceConstants.maxMobileWidth) /
+                DeviceConstants.designDeviceWidth);
       case ScreenType.ultraTablet:
         return ultraTablet?.w ??
-            ((mobile * DeviceConstants.maxMobileWidth) / DeviceConstants.designDeviceWidth);
+            ((mobile * DeviceConstants.maxMobileWidth) /
+                DeviceConstants.designDeviceWidth);
     }
   }
 
-  int responsiveIntValue({
-    required int mobile,
-    int? tablet,
-    int? ultraTablet,
-  }) {
+  int responsiveIntValue({required int mobile, int? tablet, int? ultraTablet}) {
     switch (screenType) {
       case ScreenType.mobile:
         return mobile;
@@ -78,10 +76,7 @@ class AppDimen {
 }
 
 extension ResponsiveDoubleExtension on double {
-  double responsive({
-    double? tablet,
-    double? ultraTablet,
-  }) {
+  double responsive({double? tablet, double? ultraTablet}) {
     return AppDimen.current.responsiveDimens(
       mobile: this,
       tablet: tablet,
@@ -90,8 +85,4 @@ extension ResponsiveDoubleExtension on double {
   }
 }
 
-enum ScreenType {
-  mobile,
-  tablet,
-  ultraTablet,
-}
+enum ScreenType { mobile, tablet, ultraTablet }

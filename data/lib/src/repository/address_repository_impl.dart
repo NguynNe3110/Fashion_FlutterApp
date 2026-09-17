@@ -25,7 +25,9 @@ class AddressRepositoryImpl extends AddressRepository {
   @override
   Future<AddressEntity> createAddress({required AddressEntity address}) async {
     final dto = _addressMapper.mapToDto(address);
-    final responseDto = await _addressSupabaseService.createAddress(data: dto.toJson());
+    final responseDto = await _addressSupabaseService.createAddress(
+      data: dto.toJson(),
+    );
     return _addressMapper.mapToEntity(responseDto);
   }
 

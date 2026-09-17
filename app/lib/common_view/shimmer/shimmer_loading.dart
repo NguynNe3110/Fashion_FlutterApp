@@ -58,9 +58,7 @@ class _ShimmerLoadingState extends State<ShimmerLoading> {
     Offset offsetWithinShimmer = Offset.zero;
     try {
       offsetWithinShimmer = descendant != null
-          ? shimmer.getDescendantOffset(
-              descendant: descendant,
-            )
+          ? shimmer.getDescendantOffset(descendant: descendant)
           : Offset.zero;
     } catch (e) {
       // Known issue: null pointer exception
@@ -78,7 +76,9 @@ class _ShimmerLoadingState extends State<ShimmerLoading> {
           ),
         );
       },
-      child: widget.loadingWidget != null ? widget.loadingWidget! : widget.child,
+      child: widget.loadingWidget != null
+          ? widget.loadingWidget!
+          : widget.child,
     );
   }
 

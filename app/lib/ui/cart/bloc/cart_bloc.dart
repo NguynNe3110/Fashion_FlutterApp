@@ -83,7 +83,10 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
         final currentItem = state.items[itemIndex];
         final newQuantity = currentItem.quantity + event.delta;
 
-        if (newQuantity < 1) return; // handled edge value
+        if (newQuantity < 1) {
+          navigator.showErrorSnackBar('Số lượng sản phẩm tối thiểu là 1');
+          return;
+        }
 
         await _updateCartItemQuantityUseCase.execute(
           UpdateCartItemQuantityUseCaseInput(

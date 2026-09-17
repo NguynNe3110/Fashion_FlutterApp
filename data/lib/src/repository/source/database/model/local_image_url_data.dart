@@ -2,12 +2,7 @@ import 'package:objectbox/objectbox.dart';
 
 @Entity()
 class LocalImageUrlData {
-  LocalImageUrlData({
-    this.origin,
-    this.sm,
-    this.md,
-    this.lg,
-  });
+  LocalImageUrlData({this.origin, this.sm, this.md, this.lg});
 
   @Id()
   int? id;
@@ -18,7 +13,11 @@ class LocalImageUrlData {
 
   @override
   int get hashCode {
-    return id.hashCode ^ origin.hashCode ^ sm.hashCode ^ md.hashCode ^ lg.hashCode;
+    return id.hashCode ^
+        origin.hashCode ^
+        sm.hashCode ^
+        md.hashCode ^
+        lg.hashCode;
   }
 
   @override

@@ -26,7 +26,10 @@ class FileUtils {
   /// // read png image from cached folder
   /// final pngContent = await FileUtils.readFile('my-avatar.png', temporary: true);
   /// ```
-  static Future<Uint8List?> readFile(String filename, {bool temporary = false}) async {
+  static Future<Uint8List?> readFile(
+    String filename, {
+    bool temporary = false,
+  }) async {
     final theFile = await _getFile(filename, temporary: temporary);
     if (theFile != null) {
       return await theFile.readAsBytes();
@@ -60,7 +63,12 @@ class FileUtils {
         final newFileName =
             '${oldFileName.join(".")}_${(DateTime.now().millisecondsSinceEpoch) / 1000}$fileExtension';
 
-        return await writeFile(newFileName, buffer, temporary: temporary, override: override);
+        return await writeFile(
+          newFileName,
+          buffer,
+          temporary: temporary,
+          override: override,
+        );
       }
     }
   }
@@ -79,7 +87,8 @@ class FileUtils {
   }
 
   static bool isFolder(String filePath) {
-    return FileSystemEntity.typeSync(filePath) == FileSystemEntityType.directory;
+    return FileSystemEntity.typeSync(filePath) ==
+        FileSystemEntityType.directory;
   }
 
   static Future<bool> removeFile(String filePath) async {
@@ -101,7 +110,8 @@ class FileUtils {
   static Future<Directory?> _getTemporaryDir() async {
     try {
       final directory = await getTemporaryDirectory();
-      final tempDirPath = "${directory.path}${defaultDir != null ? '/$defaultDir' : ''}";
+      final tempDirPath =
+          "${directory.path}${defaultDir != null ? '/$defaultDir' : ''}";
       final tempDir = Directory(tempDirPath);
       if (!(await tempDir.exists())) {
         return await tempDir.create(recursive: true);
@@ -122,7 +132,8 @@ class FileUtils {
   static Future<Directory?> _getDocumentDir() async {
     try {
       final directory = await getApplicationDocumentsDirectory();
-      final documentPath = "${directory.path}${defaultDir != null ? '/$defaultDir' : ''}";
+      final documentPath =
+          "${directory.path}${defaultDir != null ? '/$defaultDir' : ''}";
       final documentDir = Directory(documentPath);
       if (!(await documentDir.exists())) {
         return await documentDir.create(recursive: true);
@@ -135,7 +146,10 @@ class FileUtils {
   }
 
   /// Get file object from filename. If file is not exists, return `null`
-  static Future<File?> _getFile(String filename, {bool temporary = false}) async {
+  static Future<File?> _getFile(
+    String filename, {
+    bool temporary = false,
+  }) async {
     final filePath = await _filePath(filename, temporary: temporary);
     final file = File(filePath);
 
@@ -143,7 +157,10 @@ class FileUtils {
   }
 
   /// Return `file-path` according to either temporary folder or document folder
-  static Future<String> _filePath(String filename, {bool temporary = false}) async {
+  static Future<String> _filePath(
+    String filename, {
+    bool temporary = false,
+  }) async {
     return temporary
         ? "${(await _getTemporaryDir())?.path ?? ''}/$filename"
         : "${(await _getDocumentDir())?.path ?? ''}/$filename";

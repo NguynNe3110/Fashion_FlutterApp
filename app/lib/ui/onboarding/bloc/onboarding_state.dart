@@ -6,7 +6,6 @@ part 'onboarding_state.freezed.dart';
 
 @freezed
 class OnboardingState extends BaseBlocState with _$OnboardingState {
-  const factory OnboardingState({
-    @Default(0) int currentIndex,
-  }) = _OnboardingState;
+  const factory OnboardingState({@Default(0) int currentIndex}) =
+      _OnboardingState;
 }

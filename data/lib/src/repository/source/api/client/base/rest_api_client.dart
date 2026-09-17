@@ -8,8 +8,10 @@ enum RestMethod { get, post, put, patch, delete }
 class RestApiClient {
   RestApiClient({
     required this.dio,
-    this.errorResponseMapperType = ApiClientDefaultSetting.defaultErrorResponseMapperType,
-    this.successResponseMapperType = ApiClientDefaultSetting.defaultSuccessResponseMapperType,
+    this.errorResponseMapperType =
+        ApiClientDefaultSetting.defaultErrorResponseMapperType,
+    this.successResponseMapperType =
+        ApiClientDefaultSetting.defaultSuccessResponseMapperType,
   });
 
   final SuccessResponseMapperType successResponseMapperType;
@@ -27,11 +29,12 @@ class RestApiClient {
     Options? options,
   }) async {
     assert(
-        method != RestMethod.get ||
-            (successResponseMapperType ?? this.successResponseMapperType) ==
-                SuccessResponseMapperType.plain ||
-            decoder != null,
-        'decoder must not be null if method is GET');
+      method != RestMethod.get ||
+          (successResponseMapperType ?? this.successResponseMapperType) ==
+              SuccessResponseMapperType.plain ||
+          decoder != null,
+      'decoder must not be null if method is GET',
+    );
     try {
       final response = await _requestByMethod(
         method: method,

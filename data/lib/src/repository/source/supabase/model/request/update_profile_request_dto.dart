@@ -9,6 +9,9 @@ sealed class UpdateProfileRequestDto with _$UpdateProfileRequestDto {
     @JsonKey(name: 'full_name') required String fullName,
     @JsonKey(name: 'phone_number') String? phoneNumber,
     @JsonKey(name: 'avatar_url') String? avatarUrl,
+    @JsonKey(name: 'date_of_birth') String? dateOfBirth,
+    String? gender,
+    @JsonKey(name: 'marketing_opt_in') @Default(false) bool marketingOptIn,
   }) = _UpdateProfileRequestDto;
 
   factory UpdateProfileRequestDto.fromJson(Map<String, dynamic> json) =>

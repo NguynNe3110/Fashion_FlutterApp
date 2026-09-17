@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared/shared.dart';
 
 import '../../app.dart';
 import '../home/widgets/product_card.dart';
@@ -19,36 +18,10 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
-  late final _pagingController = CommonPagingController<ProductEntity>()
-    ..disposeBy(disposeBag);
-
   @override
   void initState() {
     super.initState();
     bloc.add(const FavoritePageInitiated());
-  }
-
-  @override
-  Widget buildPageListeners({required Widget child}) {
-    return MultiBlocListener(
-      listeners: [
-        BlocListener<FavoriteBloc, FavoriteState>(
-          listenWhen: (previous, current) =>
-              previous.products != current.products,
-          listener: (context, state) {
-            _pagingController.appendLoadMoreOutput(state.products);
-          },
-        ),
-        BlocListener<FavoriteBloc, FavoriteState>(
-          listenWhen: (previous, current) =>
-              previous.loadException != current.loadException,
-          listener: (context, state) {
-            _pagingController.error = state.loadException;
-          },
-        ),
-      ],
-      child: child,
-    );
   }
 
   @override
@@ -94,8 +67,7 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
                     return _buildEmptyState();
                   }
 
-                  return CommonPagedGridView<ProductEntity>(
-                    pagingController: _pagingController,
+                  return GridView.builder(
                     padding: EdgeInsets.all(Dimens.d20.responsive()),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: ProductCard.gridCrossAxisCount(context),
@@ -107,7 +79,9 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
                         crossAxisSpacing: Dimens.d12.responsive(),
                       ),
                     ),
-                    itemBuilder: (context, product, index) {
+                    itemCount: state.products.data.length,
+                    itemBuilder: (context, index) {
+                      final product = state.products.data[index];
                       return ProductCard(
                         product: product,
                         isFavorited: true,
@@ -136,7 +110,8 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
   Widget _buildSubHeader() {
     return BlocBuilder<FavoriteBloc, FavoriteState>(
       buildWhen: (previous, current) =>
-          previous.products.data.length != current.products.data.length,
+          previous.products.data.length != current.products.data.length ||
+          previous.sort != current.sort,
       builder: (context, state) {
         return Padding(
           padding: EdgeInsets.symmetric(
@@ -152,14 +127,31 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
                   fontSize: Dimens.d9.responsive(),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  // TODO(nals): Implement Sort UI consistent with Nord
-                },
+              PopupMenuButton<FavoriteSort>(
+                initialValue: state.sort,
+                onSelected: (sort) => bloc.add(FavoriteFilter(sort: sort)),
+                itemBuilder: (_) => const [
+                  PopupMenuItem(
+                    value: FavoriteSort.recent,
+                    child: Text('Gần nhất'),
+                  ),
+                  PopupMenuItem(
+                    value: FavoriteSort.priceLow,
+                    child: Text('Giá thấp đến cao'),
+                  ),
+                  PopupMenuItem(
+                    value: FavoriteSort.priceHigh,
+                    child: Text('Giá cao đến thấp'),
+                  ),
+                  PopupMenuItem(
+                    value: FavoriteSort.name,
+                    child: Text('Tên A–Z'),
+                  ),
+                ],
                 child: Row(
                   children: [
                     Text(
-                      'Gần nhất',
+                      _sortLabel(state.sort),
                       style: AppTextStyles.s14w400Primary().copyWith(
                         fontSize: Dimens.d12.responsive(),
                         fontWeight: FontWeight.w500,
@@ -180,6 +172,13 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
       },
     );
   }
+
+  String _sortLabel(FavoriteSort sort) => switch (sort) {
+    FavoriteSort.recent => 'Gần nhất',
+    FavoriteSort.priceLow => 'Giá tăng dần',
+    FavoriteSort.priceHigh => 'Giá giảm dần',
+    FavoriteSort.name => 'Tên A–Z',
+  };
 
   Widget _buildEmptyState() {
     return Center(

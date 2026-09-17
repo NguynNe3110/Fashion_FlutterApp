@@ -1,8 +1,6 @@
 import '../../../shared.dart';
 
-Result<O> runCatching<O>({
-  required O Function() action,
-}) {
+Result<O> runCatching<O>({required O Function() action}) {
   try {
     return Result.success(action.call());
   } on AppException catch (e) {

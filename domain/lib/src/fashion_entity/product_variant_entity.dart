@@ -1,4 +1,3 @@
-
 class ProductVariantEntity {
   final String id;
   final String size;
@@ -10,7 +9,6 @@ class ProductVariantEntity {
     required this.size,
     required this.color,
     required this.stockQuantity,
-
   });
 
   ProductVariantEntity copyWith({
@@ -20,15 +18,16 @@ class ProductVariantEntity {
     int? stockQuantity,
   }) {
     return ProductVariantEntity(
-        id: id ?? this.id,
-        size: size ?? this.size,
-        color: color ?? this.color,
-        stockQuantity: stockQuantity ?? this.stockQuantity,
+      id: id ?? this.id,
+      size: size ?? this.size,
+      color: color ?? this.color,
+      stockQuantity: stockQuantity ?? this.stockQuantity,
     );
   }
 
   @override
-  bool operator ==(Object other) { // để so sánh state old-new, kiểm tra bằng nhau
+  bool operator ==(Object other) {
+    // để so sánh state old-new, kiểm tra bằng nhau
     if (identical(this, other)) return true;
     return other is ProductVariantEntity &&
         other.id == id &&
@@ -38,7 +37,8 @@ class ProductVariantEntity {
   }
 
   @override
-  int get hashCode { // kiểm tra mã băm (lưu trùng lặp)
+  int get hashCode {
+    // kiểm tra mã băm (lưu trùng lặp)
     return Object.hash(id, size, color, stockQuantity);
   }
 

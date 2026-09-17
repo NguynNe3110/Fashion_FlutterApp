@@ -4,7 +4,8 @@ import 'package:shared/shared.dart';
 import '../../../../../../../data.dart';
 
 @Injectable()
-class JsonObjectErrorResponseMapper extends BaseErrorResponseMapper<Map<String, dynamic>> {
+class JsonObjectErrorResponseMapper
+    extends BaseErrorResponseMapper<Map<String, dynamic>> {
   @override
   ServerError mapToServerError(Map<String, dynamic>? data) {
     return ServerError(

@@ -10,12 +10,9 @@ class RefreshTokenApiClient extends RestApiClient {
     HeaderInterceptor _headerInterceptor,
     AccessTokenInterceptor _accessTokenInterceptor,
   ) : super(
-          dio: DioBuilder.createDio(
-            options: BaseOptions(baseUrl: UrlConstants.appApiBaseUrl),
-            interceptors: [
-              _headerInterceptor,
-              _accessTokenInterceptor,
-            ],
-          ),
-        );
+        dio: DioBuilder.createDio(
+          options: BaseOptions(baseUrl: UrlConstants.appApiBaseUrl),
+          interceptors: [_headerInterceptor, _accessTokenInterceptor],
+        ),
+      );
 }

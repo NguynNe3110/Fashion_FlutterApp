@@ -8,8 +8,13 @@ sealed class ProfileResponseDto with _$ProfileResponseDto {
   const factory ProfileResponseDto({
     @JsonKey(name: 'id') required String id,
     @JsonKey(name: 'full_name') @Default('') String fullName,
+    @Default('') String email,
     @JsonKey(name: 'phone_number') String? phoneNumber,
     @JsonKey(name: 'avatar_url') String? avatarUrl,
+    @JsonKey(name: 'date_of_birth') String? dateOfBirth,
+    String? gender,
+    @JsonKey(name: 'membership_tier') @Default('silver') String membershipTier,
+    @JsonKey(name: 'marketing_opt_in') @Default(false) bool marketingOptIn,
     @JsonKey(name: 'created_at') required String createdAt,
     @JsonKey(name: 'updated_at') required String updatedAt,
   }) = _ProfileResponseDto;

@@ -46,7 +46,8 @@ class PaymentMethodsBloc
         emit(state.copyWith(methods: methods));
       },
       doOnSubscribe: () async => emit(state.copyWith(isShimmerLoading: true)),
-      doOnSuccessOrError: () async => emit(state.copyWith(isShimmerLoading: false)),
+      doOnSuccessOrError: () async =>
+          emit(state.copyWith(isShimmerLoading: false)),
       handleLoading: false,
     );
   }

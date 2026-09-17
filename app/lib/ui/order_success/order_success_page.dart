@@ -6,10 +6,7 @@ import 'bloc/order_success.dart';
 
 @RoutePage()
 class OrderSuccessPage extends StatefulWidget {
-  const OrderSuccessPage({
-    super.key,
-    required this.orderCode,
-  });
+  const OrderSuccessPage({super.key, required this.orderCode});
 
   final String orderCode;
 
@@ -38,11 +35,7 @@ class _OrderSuccessPageState
                   color: Color(0xFF111110),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(
-                  Icons.check,
-                  color: Colors.white,
-                  size: 40,
-                ),
+                child: const Icon(Icons.check, color: Colors.white, size: 40),
               ),
               const SizedBox(height: 24),
               const Text(

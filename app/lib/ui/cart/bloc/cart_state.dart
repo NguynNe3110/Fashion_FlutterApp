@@ -21,7 +21,9 @@ sealed class CartState extends BaseBlocState with _$CartState {
 
   bool isItemSelected(String id) => selectedItemIds.contains(id);
 
-  bool get isAllSelected => items.isNotEmpty && selectedItemIds.length == items.length;
+  bool get isAllSelected =>
+      items.isNotEmpty && selectedItemIds.length == items.length;
 
-  List<CartItemEntity> get selectedItems => items.where((item) => selectedItemIds.contains(item.id)).toList();
+  List<CartItemEntity> get selectedItems =>
+      items.where((item) => selectedItemIds.contains(item.id)).toList();
 }

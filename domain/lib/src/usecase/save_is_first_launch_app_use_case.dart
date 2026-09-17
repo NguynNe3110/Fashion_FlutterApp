@@ -6,8 +6,12 @@ import '../../domain.dart';
 part 'save_is_first_launch_app_use_case.freezed.dart';
 
 @Injectable()
-class SaveIsFirstLaunchAppUseCase extends BaseFutureUseCase<
-    SaveIsFirstLaunchAppInput, SaveIsFirstLaunchAppOutput> {
+class SaveIsFirstLaunchAppUseCase
+    extends
+        BaseFutureUseCase<
+          SaveIsFirstLaunchAppInput,
+          SaveIsFirstLaunchAppOutput
+        > {
   SaveIsFirstLaunchAppUseCase(this._repository);
 
   final Repository _repository;
@@ -15,7 +19,8 @@ class SaveIsFirstLaunchAppUseCase extends BaseFutureUseCase<
   @protected
   @override
   Future<SaveIsFirstLaunchAppOutput> buildUseCase(
-      SaveIsFirstLaunchAppInput input) async {
+    SaveIsFirstLaunchAppInput input,
+  ) async {
     await _repository.saveIsFirstLaunchApp(input.isFirstLaunchApp);
 
     return const SaveIsFirstLaunchAppOutput();
@@ -26,9 +31,8 @@ class SaveIsFirstLaunchAppUseCase extends BaseFutureUseCase<
 sealed class SaveIsFirstLaunchAppInput extends BaseInput
     with _$SaveIsFirstLaunchAppInput {
   const SaveIsFirstLaunchAppInput._();
-  const factory SaveIsFirstLaunchAppInput({
-    required bool isFirstLaunchApp,
-  }) = _SaveIsFirstLaunchAppInput;
+  const factory SaveIsFirstLaunchAppInput({required bool isFirstLaunchApp}) =
+      _SaveIsFirstLaunchAppInput;
 }
 
 @freezed

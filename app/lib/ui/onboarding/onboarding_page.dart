@@ -14,7 +14,8 @@ class OnboardingPage extends StatefulWidget {
   }
 }
 
-class _OnboardingPageState extends BasePageState<OnboardingPage, OnboardingBloc> {
+class _OnboardingPageState
+    extends BasePageState<OnboardingPage, OnboardingBloc> {
   @override
   Widget buildPage(BuildContext context) {
     return Scaffold(
@@ -22,11 +23,7 @@ class _OnboardingPageState extends BasePageState<OnboardingPage, OnboardingBloc>
       body: Stack(
         children: [
           // Background placeholder / image
-          Positioned.fill(
-            child: Container(
-              color: const Color(0xFF1C1C1A),
-            ),
-          ),
+          Positioned.fill(child: Container(color: const Color(0xFF1C1C1A))),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -92,7 +89,8 @@ class _OnboardingPageState extends BasePageState<OnboardingPage, OnboardingBloc>
                         width: double.infinity,
                         height: 52,
                         child: ElevatedButton(
-                          onPressed: () => bloc.add(const OnboardingStartedPressed()),
+                          onPressed: () =>
+                              bloc.add(const OnboardingStartedPressed()),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
                             foregroundColor: const Color(0xFF111110),

@@ -8,11 +8,18 @@ class ProductImageRepositoryImpl extends ProductImageRepository {
   final ProductImageSupabaseService _productImageSupabaseService;
   final ProductImageMapper _productImageMapper;
 
-  ProductImageRepositoryImpl(this._productImageMapper, this._productImageSupabaseService);
+  ProductImageRepositoryImpl(
+    this._productImageMapper,
+    this._productImageSupabaseService,
+  );
 
   @override
-  Future<List<ProductImageEntity>> getProductImages({required String productId}) async {
-    final dtos = await _productImageSupabaseService.getProductImages(productId: productId);
+  Future<List<ProductImageEntity>> getProductImages({
+    required String productId,
+  }) async {
+    final dtos = await _productImageSupabaseService.getProductImages(
+      productId: productId,
+    );
     return _productImageMapper.mapToListEntity(dtos);
   }
 

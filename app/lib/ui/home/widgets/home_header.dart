@@ -2,6 +2,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
 import '../../../../app.dart';
+
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
     required this.onSearchTap,
@@ -46,11 +47,19 @@ class HomeHeader extends StatelessWidget {
       actions: [
         IconButton(
           onPressed: onSearchTap,
-          icon: Icon(Icons.search_rounded, size: Dimens.d24.responsive(), color: AppColors.ink),
+          icon: Icon(
+            Icons.search_rounded,
+            size: Dimens.d24.responsive(),
+            color: AppColors.ink,
+          ),
         ),
         IconButton(
           onPressed: onNotificationTap,
-          icon: Icon(Icons.notifications_none_rounded, size: Dimens.d24.responsive(), color: AppColors.ink),
+          icon: Icon(
+            Icons.notifications_none_rounded,
+            size: Dimens.d24.responsive(),
+            color: AppColors.ink,
+          ),
         ),
         SizedBox(width: Dimens.d12.responsive()),
       ],

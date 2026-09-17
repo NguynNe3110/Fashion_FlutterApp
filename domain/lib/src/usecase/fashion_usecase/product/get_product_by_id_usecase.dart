@@ -5,7 +5,8 @@ import 'package:injectable/injectable.dart';
 part 'get_product_by_id_usecase.freezed.dart';
 
 @Injectable()
-class GetProductByIdUseCase extends BaseFutureUseCase<GetProductByIdInput, GetProductByIdOutput> {
+class GetProductByIdUseCase
+    extends BaseFutureUseCase<GetProductByIdInput, GetProductByIdOutput> {
   final ProductRepository _repository;
 
   const GetProductByIdUseCase(this._repository);
@@ -13,7 +14,9 @@ class GetProductByIdUseCase extends BaseFutureUseCase<GetProductByIdInput, GetPr
   @protected
   @override
   Future<GetProductByIdOutput> buildUseCase(GetProductByIdInput input) async {
-    final product = await _repository.getProductById(id: input.id); // repo trả Future phải await
+    final product = await _repository.getProductById(
+      id: input.id,
+    ); // repo trả Future phải await
     return GetProductByIdOutput(product: product);
   }
 }
@@ -21,15 +24,14 @@ class GetProductByIdUseCase extends BaseFutureUseCase<GetProductByIdInput, GetPr
 @freezed
 sealed class GetProductByIdInput extends BaseInput with _$GetProductByIdInput {
   const GetProductByIdInput._();
-  const factory GetProductByIdInput({
-    required String id,
-  }) = _GetProductByIdInput;
+  const factory GetProductByIdInput({required String id}) =
+      _GetProductByIdInput;
 }
 
 @freezed
-sealed class GetProductByIdOutput extends BaseOutput with _$GetProductByIdOutput {
+sealed class GetProductByIdOutput extends BaseOutput
+    with _$GetProductByIdOutput {
   const GetProductByIdOutput._();
-  const factory GetProductByIdOutput({
-    required ProductEntity product,
-  }) = _GetProductByIdOutput;
+  const factory GetProductByIdOutput({required ProductEntity product}) =
+      _GetProductByIdOutput;
 }

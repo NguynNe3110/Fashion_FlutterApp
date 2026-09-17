@@ -6,8 +6,9 @@ import '../../../domain.dart';
 part 'get_initial_home_data_use_case.freezed.dart';
 
 @Injectable()
-class GetInitialHomeDataUseCase extends BaseFutureUseCase<
-    GetInitialHomeDataInput, GetInitialHomeDataOutput> {
+class GetInitialHomeDataUseCase
+    extends
+        BaseFutureUseCase<GetInitialHomeDataInput, GetInitialHomeDataOutput> {
   GetInitialHomeDataUseCase(this._repository);
 
   final Repository _repository;
@@ -15,7 +16,8 @@ class GetInitialHomeDataUseCase extends BaseFutureUseCase<
   @protected
   @override
   Future<GetInitialHomeDataOutput> buildUseCase(
-      GetInitialHomeDataInput input) async {
+    GetInitialHomeDataInput input,
+  ) async {
     final isLoggedIn = _repository.isLoggedIn;
     final isFirstLaunchApp = _repository.isFirstLaunchApp;
 

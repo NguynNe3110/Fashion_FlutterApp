@@ -22,7 +22,8 @@ class RemoteException extends AppException {
       -1;
 
   String? get generalServerErrorId =>
-      serverError?.generalServerErrorId ?? serverError?.errors.firstOrNull?.serverErrorId;
+      serverError?.generalServerErrorId ??
+      serverError?.errors.firstOrNull?.serverErrorId;
 
   String? get generalServerMessage =>
       serverError?.generalMessage ?? serverError?.errors.firstOrNull?.message;

@@ -12,9 +12,15 @@ sealed class OrderResponseDto with _$OrderResponseDto {
   const factory OrderResponseDto({
     @JsonKey(name: 'id') required String id,
     @JsonKey(name: 'user_id') required String userId,
-    @JsonKey(name: 'status') @Default(OrderStatusResponseDto.pending) OrderStatusResponseDto status,
-    @JsonKey(name: 'payment_method') @Default(PaymentMethodResponseDto.cod) PaymentMethodResponseDto paymentMethod,
-    @JsonKey(name: 'payment_status') @Default(PaymentStatusResponseDto.unpaid) PaymentStatusResponseDto paymentStatus,
+    @JsonKey(name: 'status')
+    @Default(OrderStatusResponseDto.pending)
+    OrderStatusResponseDto status,
+    @JsonKey(name: 'payment_method')
+    @Default(PaymentMethodResponseDto.cod)
+    PaymentMethodResponseDto paymentMethod,
+    @JsonKey(name: 'payment_status')
+    @Default(PaymentStatusResponseDto.unpaid)
+    PaymentStatusResponseDto paymentStatus,
     @JsonKey(name: 'subtotal_price') @Default(0) double subtotalPrice,
     @JsonKey(name: 'shipping_fee') @Default(0) double shippingFee,
     @JsonKey(name: 'discount_amount') @Default(0) double discountAmount,

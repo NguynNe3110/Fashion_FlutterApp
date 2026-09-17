@@ -4,7 +4,8 @@ import 'package:injectable/injectable.dart';
 import '../../../../../data.dart';
 
 @Injectable()
-class LocalImageUrlDataMapper extends BaseDataMapper<LocalImageUrlData, ImageUrl>
+class LocalImageUrlDataMapper
+    extends BaseDataMapper<LocalImageUrlData, ImageUrl>
     with DataMapperMixin {
   @override
   ImageUrl mapToEntity(LocalImageUrlData? data) {

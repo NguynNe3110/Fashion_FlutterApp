@@ -18,7 +18,9 @@ class OrderItemSupabaseService {
             .order('created_at', ascending: true);
 
         return (response as List<dynamic>)
-            .map((e) => OrderItemResponseDto.fromJson(e as Map<String, dynamic>))
+            .map(
+              (e) => OrderItemResponseDto.fromJson(e as Map<String, dynamic>),
+            )
             .toList();
       },
     );
@@ -38,7 +40,9 @@ class OrderItemSupabaseService {
     );
   }
 
-  Future<List<OrderItemResponseDto>> createOrderItems({required List<Map<String, dynamic>> data}) {
+  Future<List<OrderItemResponseDto>> createOrderItems({
+    required List<Map<String, dynamic>> data,
+  }) {
     return runSupabaseCatching(
       action: () async {
         final response = await _supabaseClient
@@ -47,7 +51,9 @@ class OrderItemSupabaseService {
             .select();
 
         return (response as List<dynamic>)
-            .map((e) => OrderItemResponseDto.fromJson(e as Map<String, dynamic>))
+            .map(
+              (e) => OrderItemResponseDto.fromJson(e as Map<String, dynamic>),
+            )
             .toList();
       },
     );

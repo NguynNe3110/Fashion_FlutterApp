@@ -10,7 +10,8 @@ import 'forgot_password.dart';
 @injectable
 class ForgotPasswordBloc
     extends BaseBloc<ForgotPasswordEvent, ForgotPasswordState> {
-  ForgotPasswordBloc(this._forgotPasswordUseCase) : super(const ForgotPasswordState()) {
+  ForgotPasswordBloc(this._forgotPasswordUseCase)
+    : super(const ForgotPasswordState()) {
     on<ForgotPasswordEmailChanged>(_onForgotPasswordEmailChanged);
     on<SendResetCodePressed>(_onSendResetCodePressed);
   }
@@ -21,10 +22,12 @@ class ForgotPasswordBloc
     ForgotPasswordEmailChanged event,
     Emitter<ForgotPasswordState> emit,
   ) {
-    emit(state.copyWith(
-      email: event.email,
-      isButtonEnabled: event.email.trim().isNotEmpty,
-    ));
+    emit(
+      state.copyWith(
+        email: event.email,
+        isButtonEnabled: event.email.trim().isNotEmpty,
+      ),
+    );
   }
 
   FutureOr<void> _onSendResetCodePressed(
@@ -33,7 +36,9 @@ class ForgotPasswordBloc
   ) async {
     return runBlocCatching(
       action: () async {
-        await _forgotPasswordUseCase.execute(ForgotPasswordInput(email: state.email));
+        await _forgotPasswordUseCase.execute(
+          ForgotPasswordInput(email: state.email),
+        );
         emit(state.copyWith(isEmailSent: true));
       },
     );

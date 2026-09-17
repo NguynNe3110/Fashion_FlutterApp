@@ -9,8 +9,13 @@ class ProfileMapper extends BaseDataMapper<ProfileResponseDto, ProfileEntity> {
     return ProfileEntity(
       id: data?.id ?? '',
       fullName: data?.fullName ?? '',
+      email: data?.email ?? '',
       phoneNumber: data?.phoneNumber,
       avatarUrl: data?.avatarUrl,
+      dateOfBirth: DateTime.tryParse(data?.dateOfBirth ?? ''),
+      gender: data?.gender,
+      membershipTier: data?.membershipTier ?? 'silver',
+      marketingOptIn: data?.marketingOptIn ?? false,
       createdAt: DateTime.tryParse(data?.createdAt ?? ''),
       updatedAt: DateTime.tryParse(data?.updatedAt ?? ''),
     );
@@ -21,6 +26,9 @@ class ProfileMapper extends BaseDataMapper<ProfileResponseDto, ProfileEntity> {
       fullName: data.fullName,
       phoneNumber: data.phoneNumber,
       avatarUrl: data.avatarUrl,
+      dateOfBirth: data.dateOfBirth?.toIso8601String().split('T').first,
+      gender: data.gender,
+      marketingOptIn: data.marketingOptIn,
     );
   }
 }

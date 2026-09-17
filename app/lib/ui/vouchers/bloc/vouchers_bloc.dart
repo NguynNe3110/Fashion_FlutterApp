@@ -46,7 +46,8 @@ class VouchersBloc extends BaseBloc<VouchersEvent, VouchersState> {
         emit(state.copyWith(vouchers: mockVouchers));
       },
       doOnSubscribe: () async => emit(state.copyWith(isShimmerLoading: true)),
-      doOnSuccessOrError: () async => emit(state.copyWith(isShimmerLoading: false)),
+      doOnSuccessOrError: () async =>
+          emit(state.copyWith(isShimmerLoading: false)),
       handleLoading: false,
     );
   }

@@ -20,7 +20,9 @@ class IsLoggedInUseCase
 }
 
 @Freezed(
-    when: FreezedWhenOptions(when: true), map: FreezedMapOptions(map: true))
+  when: FreezedWhenOptions(when: true),
+  map: FreezedMapOptions(map: true),
+)
 sealed class IsLoggedInInput extends BaseInput with _$IsLoggedInInput {
   const IsLoggedInInput._();
   const factory IsLoggedInInput() = _IsLoggedInInput;
@@ -30,7 +32,6 @@ sealed class IsLoggedInInput extends BaseInput with _$IsLoggedInInput {
 sealed class IsLoggedInOutput extends BaseOutput with _$IsLoggedInOutput {
   const IsLoggedInOutput._();
 
-  const factory IsLoggedInOutput({
-    @Default(false) bool isLoggedIn,
-  }) = _IsLoggedInOutput;
+  const factory IsLoggedInOutput({@Default(false) bool isLoggedIn}) =
+      _IsLoggedInOutput;
 }

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Shimmer extends StatefulWidget {
-  const Shimmer({
-    this.child,
-    super.key,
-  });
+  const Shimmer({this.child, super.key});
 
   final Widget? child;
   static _ShimmerState? of(BuildContext context) {
@@ -19,28 +16,22 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
   late AnimationController _shimmerController;
 
   static const _shimmerGradient = LinearGradient(
-    colors: [
-      Color(0xFFEBEBF4),
-      Color(0xFFF4F4F4),
-      Color(0xFFEBEBF4),
-    ],
-    stops: [
-      0.1,
-      0.3,
-      0.4,
-    ],
+    colors: [Color(0xFFEBEBF4), Color(0xFFF4F4F4), Color(0xFFEBEBF4)],
+    stops: [0.1, 0.3, 0.4],
     begin: Alignment(-1.0, -0.3),
     end: Alignment(1.0, 0.3),
     tileMode: TileMode.clamp,
   );
 
   LinearGradient get gradient => LinearGradient(
-        colors: _shimmerGradient.colors,
-        stops: _shimmerGradient.stops,
-        begin: _shimmerGradient.begin,
-        end: _shimmerGradient.end,
-        transform: _SlidingGradientTransform(slidePercent: _shimmerController.value),
-      );
+    colors: _shimmerGradient.colors,
+    stops: _shimmerGradient.stops,
+    begin: _shimmerGradient.begin,
+    end: _shimmerGradient.end,
+    transform: _SlidingGradientTransform(
+      slidePercent: _shimmerController.value,
+    ),
+  );
 
   bool get isSized => (context.findRenderObject() as RenderBox).hasSize;
 
@@ -77,9 +68,7 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
 }
 
 class _SlidingGradientTransform extends GradientTransform {
-  const _SlidingGradientTransform({
-    required this.slidePercent,
-  });
+  const _SlidingGradientTransform({required this.slidePercent});
 
   final double slidePercent;
 

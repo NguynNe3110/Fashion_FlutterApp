@@ -7,11 +7,15 @@ import 'package:shared/shared.dart';
 import '../../app.dart';
 
 abstract class BaseBloc<E extends BaseBlocEvent, S extends BaseBlocState>
-    extends BaseBlocDelegate<E, S> with EventTransformerMixin, LogMixin {
+    extends BaseBlocDelegate<E, S>
+    with EventTransformerMixin, LogMixin {
   BaseBloc(super.initialState);
 }
 
-abstract class BaseBlocDelegate<E extends BaseBlocEvent, S extends BaseBlocState>
+abstract class BaseBlocDelegate<
+  E extends BaseBlocEvent,
+  S extends BaseBlocState
+>
     extends Bloc<E, S> {
   BaseBlocDelegate(super.initialState);
 
@@ -27,23 +31,26 @@ abstract class BaseBlocDelegate<E extends BaseBlocEvent, S extends BaseBlocState
     _commonBloc = commonBloc;
   }
 
-  CommonBloc get commonBloc => this is CommonBloc ? this as CommonBloc : _commonBloc;
+  CommonBloc get commonBloc =>
+      this is CommonBloc ? this as CommonBloc : _commonBloc;
 
   @override
   void add(E event) {
     if (!isClosed) {
       super.add(event);
     } else {
-      Log.e('Cannot machine_learning new event $event because $runtimeType was closed');
+      Log.e(
+        'Cannot machine_learning new event $event because $runtimeType was closed',
+      );
     }
   }
 
   Future<void> addException(AppExceptionWrapper appExceptionWrapper) async {
-    commonBloc.add(ExceptionEmitted(
-      appExceptionWrapper: appExceptionWrapper,
-    ));
+    commonBloc.add(ExceptionEmitted(appExceptionWrapper: appExceptionWrapper));
 
-    return appExceptionWrapper.exceptionCompleter?.future; // đoạn này khá khó hiểu
+    return appExceptionWrapper
+        .exceptionCompleter
+        ?.future; // đoạn này khá khó hiểu
   }
 
   void showLoading() {
@@ -90,32 +97,36 @@ abstract class BaseBlocDelegate<E extends BaseBlocEvent, S extends BaseBlocState
       await doOnError?.call(e);
 
       if (handleError || (forceHandleError?.call(e) ?? _forceHandleError(e))) {
-        await addException(AppExceptionWrapper( // có liên quan đến phần trên
-          appException: e,
-          doOnRetry: doOnRetry ??
-              (handleRetry && maxRetries != 1
-                  ? () async {
-                      recursion = Completer();
-                      await runBlocCatching(
-                        action: action,
-                        doOnEventCompleted: doOnEventCompleted,
-                        doOnSubscribe: doOnSubscribe,
-                        doOnSuccessOrError: doOnSuccessOrError,
-                        doOnError: doOnError,
-                        doOnRetry: doOnRetry,
-                        forceHandleError: forceHandleError,
-                        handleError: handleError,
-                        handleLoading: handleLoading,
-                        handleRetry: handleRetry,
-                        overrideErrorMessage: overrideErrorMessage,
-                        maxRetries: maxRetries?.minus(1),
-                      );
-                      recursion?.complete();
-                    }
-                  : null),
-          exceptionCompleter: Completer<void>(),
-          overrideMessage: overrideErrorMessage,
-        ));
+        await addException(
+          AppExceptionWrapper(
+            // có liên quan đến phần trên
+            appException: e,
+            doOnRetry:
+                doOnRetry ??
+                (handleRetry && maxRetries != 1
+                    ? () async {
+                        recursion = Completer();
+                        await runBlocCatching(
+                          action: action,
+                          doOnEventCompleted: doOnEventCompleted,
+                          doOnSubscribe: doOnSubscribe,
+                          doOnSuccessOrError: doOnSuccessOrError,
+                          doOnError: doOnError,
+                          doOnRetry: doOnRetry,
+                          forceHandleError: forceHandleError,
+                          handleError: handleError,
+                          handleLoading: handleLoading,
+                          handleRetry: handleRetry,
+                          overrideErrorMessage: overrideErrorMessage,
+                          maxRetries: maxRetries?.minus(1),
+                        );
+                        recursion?.complete();
+                      }
+                    : null),
+            exceptionCompleter: Completer<void>(),
+            overrideMessage: overrideErrorMessage,
+          ),
+        );
       }
     } finally {
       await recursion?.future;

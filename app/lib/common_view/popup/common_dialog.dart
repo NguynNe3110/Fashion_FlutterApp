@@ -21,12 +21,12 @@ class CommonDialog extends StatelessWidget {
     String? message,
     Key? key,
   }) : this(
-          commonPopupType: PopupType.android,
-          actions: actions,
-          title: title,
-          message: message,
-          key: key,
-        );
+         commonPopupType: PopupType.android,
+         actions: actions,
+         title: title,
+         message: message,
+         key: key,
+       );
 
   const CommonDialog.ios({
     List<PopupButton> actions = const <PopupButton>[],
@@ -34,12 +34,12 @@ class CommonDialog extends StatelessWidget {
     String? message,
     Key? key,
   }) : this(
-          commonPopupType: PopupType.ios,
-          actions: actions,
-          title: title,
-          message: message,
-          key: key,
-        );
+         commonPopupType: PopupType.ios,
+         actions: actions,
+         title: title,
+         message: message,
+         key: key,
+       );
 
   const CommonDialog.adaptive({
     List<PopupButton> actions = const <PopupButton>[],
@@ -47,12 +47,12 @@ class CommonDialog extends StatelessWidget {
     String? message,
     Key? key,
   }) : this(
-          commonPopupType: PopupType.adaptive,
-          actions: actions,
-          title: title,
-          message: message,
-          key: key,
-        );
+         commonPopupType: PopupType.adaptive,
+         actions: actions,
+         title: title,
+         message: message,
+         key: key,
+       );
 
   final PopupType commonPopupType;
   final List<PopupButton> actions;
@@ -79,23 +79,18 @@ class CommonDialog extends StatelessWidget {
               onPressed: e.onPressed?.function,
               child: Text(
                 e.text ?? S.current.ok,
-                style:
-                    e.isDefault ? AppTextStyles.s14w400Secondary() : AppTextStyles.s14w400Primary(),
+                style: e.isDefault
+                    ? AppTextStyles.s14w400Secondary()
+                    : AppTextStyles.s14w400Primary(),
               ),
             ),
           )
           .toList(growable: false),
       title: title != null
-          ? Text(
-              title ?? '',
-              style: AppTextStyles.s14w400Primary(),
-            )
+          ? Text(title ?? '', style: AppTextStyles.s14w400Primary())
           : null,
       content: message != null
-          ? Text(
-              message ?? '',
-              style: AppTextStyles.s14w400Primary(),
-            )
+          ? Text(message ?? '', style: AppTextStyles.s14w400Primary())
           : null,
     );
   }
@@ -103,27 +98,23 @@ class CommonDialog extends StatelessWidget {
   Widget _buildIosDialog() {
     return CupertinoAlertDialog(
       actions: actions
-          .map((e) => CupertinoDialogAction(
-                onPressed: e.onPressed?.function,
-                child: Text(
-                  e.text ?? S.current.ok,
-                  style: e.isDefault
-                      ? AppTextStyles.s14w400Secondary()
-                      : AppTextStyles.s14w400Primary(),
-                ),
-              ))
+          .map(
+            (e) => CupertinoDialogAction(
+              onPressed: e.onPressed?.function,
+              child: Text(
+                e.text ?? S.current.ok,
+                style: e.isDefault
+                    ? AppTextStyles.s14w400Secondary()
+                    : AppTextStyles.s14w400Primary(),
+              ),
+            ),
+          )
           .toList(growable: false),
       title: title != null
-          ? Text(
-              title ?? '',
-              style: AppTextStyles.s14w400Primary(),
-            )
+          ? Text(title ?? '', style: AppTextStyles.s14w400Primary())
           : null,
       content: message != null
-          ? Text(
-              message ?? '',
-              style: AppTextStyles.s14w400Primary(),
-            )
+          ? Text(message ?? '', style: AppTextStyles.s14w400Primary())
           : null,
     );
   }

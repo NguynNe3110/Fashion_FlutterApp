@@ -33,7 +33,6 @@ class ReviewImageResponseDto {
     required this.imageUrl,
     this.sortOrder = 0,
     required this.createAt,
-
   });
 
   factory ReviewImageResponseDto.fromJson(Map<String, dynamic> json) {
@@ -44,8 +43,6 @@ class ReviewImageResponseDto {
       // TH thieu field hoac null
       sortOrder: (json['sort_order'] as num?)?.toInt() ?? 0,
       createAt: json['create_at'] as String,
-
     );
   }
-
 }

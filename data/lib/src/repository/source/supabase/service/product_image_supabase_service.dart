@@ -8,7 +8,9 @@ class ProductImageSupabaseService {
 
   ProductImageSupabaseService(this._supabaseClient);
 
-  Future<List<ProductImageResponseDto>> getProductImages({required String productId}) {
+  Future<List<ProductImageResponseDto>> getProductImages({
+    required String productId,
+  }) {
     return runSupabaseCatching(
       action: () async {
         final response = await _supabaseClient
@@ -18,7 +20,10 @@ class ProductImageSupabaseService {
             .order('sort_order', ascending: true);
 
         return (response as List<dynamic>)
-            .map((e) => ProductImageResponseDto.fromJson(e as Map<String, dynamic>))
+            .map(
+              (e) =>
+                  ProductImageResponseDto.fromJson(e as Map<String, dynamic>),
+            )
             .toList();
       },
     );
@@ -33,7 +38,9 @@ class ProductImageSupabaseService {
             .eq('id', id)
             .single();
 
-        return ProductImageResponseDto.fromJson(response as Map<String, dynamic>);
+        return ProductImageResponseDto.fromJson(
+          response as Map<String, dynamic>,
+        );
       },
     );
   }

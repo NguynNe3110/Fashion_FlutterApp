@@ -5,7 +5,9 @@ import 'package:injectable/injectable.dart';
 part 'get_cart_items_use_case.freezed.dart';
 
 @Injectable()
-class GetCartItemsUseCase extends BaseFutureUseCase<GetCartItemsUseCaseInput, GetCartItemsUseCaseOutput> {
+class GetCartItemsUseCase
+    extends
+        BaseFutureUseCase<GetCartItemsUseCaseInput, GetCartItemsUseCaseOutput> {
   final CartItemRepository _cartItemRepository;
   final ProductRepository _productRepository;
 
@@ -13,11 +15,17 @@ class GetCartItemsUseCase extends BaseFutureUseCase<GetCartItemsUseCaseInput, Ge
 
   @protected
   @override
-  Future<GetCartItemsUseCaseOutput> buildUseCase(GetCartItemsUseCaseInput input) async {
-    final cartItems = await _cartItemRepository.getCartItems(userId: input.userId);
+  Future<GetCartItemsUseCaseOutput> buildUseCase(
+    GetCartItemsUseCaseInput input,
+  ) async {
+    final cartItems = await _cartItemRepository.getCartItems(
+      userId: input.userId,
+    );
 
     // lấy product theo từng productId trong cart
-    final productIds = cartItems.map((e) => e.productId).toSet(); // k biet  có nen viet ơ bloc k
+    final productIds = cartItems
+        .map((e) => e.productId)
+        .toSet(); // k biet  có nen viet ơ bloc k
     final products = await Future.wait(
       productIds.map((id) => _productRepository.getProductById(id: id)),
     );
@@ -28,20 +36,25 @@ class GetCartItemsUseCase extends BaseFutureUseCase<GetCartItemsUseCaseInput, Ge
       products: products,
     );
 
-    return GetCartItemsUseCaseOutput(cartItems: cartItems, products: products, summary: summary);
+    return GetCartItemsUseCaseOutput(
+      cartItems: cartItems,
+      products: products,
+      summary: summary,
+    );
   }
 }
 
 @freezed
-sealed class GetCartItemsUseCaseInput extends BaseInput with _$GetCartItemsUseCaseInput {
+sealed class GetCartItemsUseCaseInput extends BaseInput
+    with _$GetCartItemsUseCaseInput {
   const GetCartItemsUseCaseInput._();
-  const factory GetCartItemsUseCaseInput({
-    required String userId,
-  }) = _GetCartItemsUseCaseInput;
+  const factory GetCartItemsUseCaseInput({required String userId}) =
+      _GetCartItemsUseCaseInput;
 }
 
 @freezed
-sealed class GetCartItemsUseCaseOutput extends BaseOutput with _$GetCartItemsUseCaseOutput {
+sealed class GetCartItemsUseCaseOutput extends BaseOutput
+    with _$GetCartItemsUseCaseOutput {
   const GetCartItemsUseCaseOutput._();
   const factory GetCartItemsUseCaseOutput({
     required List<CartItemEntity> cartItems,

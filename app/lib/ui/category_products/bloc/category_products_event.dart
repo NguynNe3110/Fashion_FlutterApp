@@ -9,10 +9,15 @@ abstract class CategoryProductsEvent extends BaseBlocEvent {
 }
 
 @freezed
-class CategoryProductsPageInitiated extends CategoryProductsEvent
-    with _$CategoryProductsPageInitiated {
-  const factory CategoryProductsPageInitiated({
-    required String categoryId,
-  }) = _CategoryProductsPageInitiated;
+class CategoryProductsCategorySelected extends CategoryProductsEvent
+    with _$CategoryProductsCategorySelected {
+  const factory CategoryProductsCategorySelected({required String categoryId}) =
+      _CategoryProductsCategorySelected;
 }
 
+@freezed
+class CategoryProductsPageInitiated extends CategoryProductsEvent
+    with _$CategoryProductsPageInitiated {
+  const factory CategoryProductsPageInitiated({required String categoryId}) =
+      _CategoryProductsPageInitiated;
+}

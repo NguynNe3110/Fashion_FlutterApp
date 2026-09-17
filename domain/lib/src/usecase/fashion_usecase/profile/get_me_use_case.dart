@@ -5,7 +5,8 @@ import 'package:injectable/injectable.dart';
 part 'get_me_use_case.freezed.dart';
 
 @Injectable()
-class GetMeUseCase extends BaseFutureUseCase<GetMeUseCaseInput, GetMeUseCaseOutput> {
+class GetMeUseCase
+    extends BaseFutureUseCase<GetMeUseCaseInput, GetMeUseCaseOutput> {
   final ProfileRepository _profileRepository;
 
   GetMeUseCase(this._profileRepository);
@@ -27,7 +28,6 @@ sealed class GetMeUseCaseInput extends BaseInput with _$GetMeUseCaseInput {
 @freezed
 sealed class GetMeUseCaseOutput extends BaseOutput with _$GetMeUseCaseOutput {
   const GetMeUseCaseOutput._();
-  const factory GetMeUseCaseOutput({
-    required ProfileEntity profile,
-  }) = _GetMeUseCaseOutput;
+  const factory GetMeUseCaseOutput({required ProfileEntity profile}) =
+      _GetMeUseCaseOutput;
 }

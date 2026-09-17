@@ -12,6 +12,7 @@ sealed class SearchState extends BaseBlocState with _$SearchState {
   const factory SearchState({
     @Default('') String keyword,
     @Default([]) List<ProductEntity> searchResults,
+    @Default([]) List<ProductEntity> suggestedProducts,
     @Default(false) bool isShimmerLoading,
     AppException? loadException,
   }) = _SearchState;

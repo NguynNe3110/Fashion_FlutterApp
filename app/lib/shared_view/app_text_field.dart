@@ -26,10 +26,7 @@ class AppTextField extends StatelessWidget {
       children: [
         Align(
           alignment: Alignment.centerLeft,
-          child: Text(
-            title,
-            style: AppTextStyles.s14w400Secondary(),
-          ),
+          child: Text(title, style: AppTextStyles.s14w400Secondary()),
         ),
         SizedBox(height: Dimens.d8.responsive()),
         TextField(

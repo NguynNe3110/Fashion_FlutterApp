@@ -24,7 +24,8 @@ class ResetPasswordUseCase
     }
     if (input.password != input.confirmPassword) {
       throw const ValidationException(
-          ValidationExceptionKind.passwordsAreNotMatch);
+        ValidationExceptionKind.passwordsAreNotMatch,
+      );
     }
     if (!ValidationUtils.isValidEmail(input.email)) {
       throw const ValidationException(ValidationExceptionKind.invalidEmail);

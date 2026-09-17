@@ -1,4 +1,3 @@
-
 /// Design Token: Độ bo góc (Border Radius)
 class AppRadius {
   AppRadius._();

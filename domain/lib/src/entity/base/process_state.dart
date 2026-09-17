@@ -2,13 +2,12 @@ import 'package:shared/shared.dart';
 
 @Deprecated('outdated. Use class Result instead')
 class ProcessState<T> {
-  const ProcessState._({
-    this.data,
-    this.exception,
-  }) : assert(data != null || exception != null);
+  const ProcessState._({this.data, this.exception})
+    : assert(data != null || exception != null);
 
   const ProcessState.success(T data) : this._(data: data);
-  const ProcessState.failure(AppException exception) : this._(exception: exception);
+  const ProcessState.failure(AppException exception)
+    : this._(exception: exception);
 
   final T? data;
   final AppException? exception;
@@ -31,10 +30,7 @@ class ProcessState<T> {
     return this;
   }
 
-  ProcessState<T> copyWith({
-    T? data,
-    AppException? exception,
-  }) {
+  ProcessState<T> copyWith({T? data, AppException? exception}) {
     return ProcessState<T>._(
       data: data ?? this.data,
       exception: exception ?? this.exception,
@@ -50,6 +46,8 @@ class ProcessState<T> {
       return true;
     }
 
-    return other is ProcessState<T> && other.data == data && other.exception == exception;
+    return other is ProcessState<T> &&
+        other.data == data &&
+        other.exception == exception;
   }
 }

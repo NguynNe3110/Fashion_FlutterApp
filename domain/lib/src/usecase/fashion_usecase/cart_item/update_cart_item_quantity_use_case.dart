@@ -5,21 +5,32 @@ import 'package:injectable/injectable.dart';
 part 'update_cart_item_quantity_use_case.freezed.dart';
 
 @Injectable()
-class UpdateCartItemQuantityUseCase extends BaseFutureUseCase<UpdateCartItemQuantityUseCaseInput, UpdateCartItemQuantityUseCaseOutput> {
+class UpdateCartItemQuantityUseCase
+    extends
+        BaseFutureUseCase<
+          UpdateCartItemQuantityUseCaseInput,
+          UpdateCartItemQuantityUseCaseOutput
+        > {
   final CartItemRepository _cartItemRepository;
 
   UpdateCartItemQuantityUseCase(this._cartItemRepository);
 
   @protected
   @override
-  Future<UpdateCartItemQuantityUseCaseOutput> buildUseCase(UpdateCartItemQuantityUseCaseInput input) async {
-    final cartItem = await _cartItemRepository.updateCartItemQuantity(id: input.cartItemId, quantity: input.quantity);
+  Future<UpdateCartItemQuantityUseCaseOutput> buildUseCase(
+    UpdateCartItemQuantityUseCaseInput input,
+  ) async {
+    final cartItem = await _cartItemRepository.updateCartItemQuantity(
+      id: input.cartItemId,
+      quantity: input.quantity,
+    );
     return UpdateCartItemQuantityUseCaseOutput(cartItem: cartItem);
   }
 }
 
 @freezed
-sealed class UpdateCartItemQuantityUseCaseInput extends BaseInput with _$UpdateCartItemQuantityUseCaseInput {
+sealed class UpdateCartItemQuantityUseCaseInput extends BaseInput
+    with _$UpdateCartItemQuantityUseCaseInput {
   const UpdateCartItemQuantityUseCaseInput._();
   const factory UpdateCartItemQuantityUseCaseInput({
     required String cartItemId,
@@ -28,7 +39,8 @@ sealed class UpdateCartItemQuantityUseCaseInput extends BaseInput with _$UpdateC
 }
 
 @freezed
-sealed class UpdateCartItemQuantityUseCaseOutput extends BaseOutput with _$UpdateCartItemQuantityUseCaseOutput {
+sealed class UpdateCartItemQuantityUseCaseOutput extends BaseOutput
+    with _$UpdateCartItemQuantityUseCaseOutput {
   const UpdateCartItemQuantityUseCaseOutput._();
   const factory UpdateCartItemQuantityUseCaseOutput({
     required CartItemEntity cartItem,

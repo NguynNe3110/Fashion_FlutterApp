@@ -11,6 +11,10 @@ class ProfileRepositoryImpl extends ProfileRepository {
   ProfileRepositoryImpl(this._profileMapper, this._profileSupabaseService);
 
   @override
+  Future<AccountStatsEntity> getAccountStats({required String userId}) =>
+      _profileSupabaseService.getAccountStats(userId: userId);
+
+  @override
   Future<ProfileEntity> getProfileById({required String userId}) async {
     final dto = await _profileSupabaseService.getProfileById(userId: userId);
     return _profileMapper.mapToEntity(dto);

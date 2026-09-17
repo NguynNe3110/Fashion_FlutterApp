@@ -35,23 +35,20 @@ abstract class BaseSuccessResponseMapper<I extends Object, O extends Object> {
   }
 
   // ignore: avoid-dynamic
-  O? map({
-    required dynamic response,
-    Decoder<I>? decoder,
-  }) {
+  O? map({required dynamic response, Decoder<I>? decoder}) {
     assert(response != null);
     try {
       return mapToDataModel(response: response, decoder: decoder);
     } on RemoteException catch (_) {
       rethrow;
     } catch (e) {
-      throw RemoteException(kind: RemoteExceptionKind.decodeError, rootException: e);
+      throw RemoteException(
+        kind: RemoteExceptionKind.decodeError,
+        rootException: e,
+      );
     }
   }
 
   // ignore: avoid-dynamic
-  O? mapToDataModel({
-    required dynamic response,
-    Decoder<I>? decoder,
-  });
+  O? mapToDataModel({required dynamic response, Decoder<I>? decoder});
 }

@@ -23,9 +23,7 @@ abstract class ServiceModule {
   @preResolve
   Future<FlutterSecureStorage> get secureStorage async {
     return const FlutterSecureStorage(
-      aOptions: AndroidOptions(
-        encryptedSharedPreferences: true,
-      ),
+      aOptions: AndroidOptions(encryptedSharedPreferences: true),
     );
   }
 
@@ -33,8 +31,10 @@ abstract class ServiceModule {
   Future<Store> getStore() async {
     final dir = await getApplicationDocumentsDirectory();
 
-    return Store(getObjectBoxModel(),
-        directory: '${dir.path}/${DatabaseConstants.databaseName}');
+    return Store(
+      getObjectBoxModel(),
+      directory: '${dir.path}/${DatabaseConstants.databaseName}',
+    );
   }
 }
 

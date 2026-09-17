@@ -4,10 +4,4 @@ abstract class AppException implements Exception {
   final AppExceptionType appExceptionType;
 }
 
-enum AppExceptionType {
-  remote,
-  parse,
-  remoteConfig,
-  uncaught,
-  validation,
-}
+enum AppExceptionType { remote, parse, remoteConfig, uncaught, validation }

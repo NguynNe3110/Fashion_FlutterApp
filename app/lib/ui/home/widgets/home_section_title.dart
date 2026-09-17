@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
 import '../../../../app.dart';
+
 class HomeSectionTitle extends StatelessWidget {
-  const HomeSectionTitle({
-    required this.title,
-    this.eyebrow,
-    super.key,
-  });
+  const HomeSectionTitle({required this.title, this.eyebrow, super.key});
 
   final String title;
   final String? eyebrow;

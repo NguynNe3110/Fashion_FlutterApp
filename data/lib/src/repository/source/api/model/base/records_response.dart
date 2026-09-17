@@ -16,6 +16,7 @@ sealed class RecordsListResponse<T> with _$RecordsListResponse<T> {
   }) = _RecordsListResponse;
 
   factory RecordsListResponse.fromJson(
-          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$RecordsListResponseFromJson(json, fromJsonT);
+    Map<String, dynamic> json,
+    T Function(Object?) fromJsonT,
+  ) => _$RecordsListResponseFromJson(json, fromJsonT);
 }

@@ -27,7 +27,8 @@ abstract class BaseErrorResponseMapper<T extends Object> {
       case ErrorResponseMapperType.goong:
         return GoongErrorResponseMapper() as BaseErrorResponseMapper<T>;
       case ErrorResponseMapperType.firebaseStorage:
-        return FirebaseStorageErrorResponseMapper() as BaseErrorResponseMapper<T>;
+        return FirebaseStorageErrorResponseMapper()
+            as BaseErrorResponseMapper<T>;
     }
   }
 
@@ -46,7 +47,10 @@ abstract class BaseErrorResponseMapper<T extends Object> {
     } on RemoteException catch (_) {
       rethrow;
     } catch (e) {
-      throw RemoteException(kind: RemoteExceptionKind.decodeError, rootException: e);
+      throw RemoteException(
+        kind: RemoteExceptionKind.decodeError,
+        rootException: e,
+      );
     }
   }
 

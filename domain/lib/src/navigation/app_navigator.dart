@@ -35,8 +35,10 @@ abstract class AppNavigator {
     bool useRootNavigator = false,
   });
 
-  Future<void> popAndPushAll(List<AppRouteInfo> listAppRouteInfo,
-      {bool useRootNavigator = false});
+  Future<void> popAndPushAll(
+    List<AppRouteInfo> listAppRouteInfo, {
+    bool useRootNavigator = false,
+  });
 
   void popUntilRoot({bool useRootNavigator = false});
 
@@ -58,7 +60,7 @@ abstract class AppNavigator {
   Future<T?> showGeneralDialog<T extends Object?>(
     AppPopupInfo appPopupInfo, {
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transitionBuilder,
+    transitionBuilder,
     Duration transitionDuration =
         DurationConstants.defaultGeneralDialogTransitionDuration,
     bool barrierDismissible = true,

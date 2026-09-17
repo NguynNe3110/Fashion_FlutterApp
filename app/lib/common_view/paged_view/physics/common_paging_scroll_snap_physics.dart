@@ -40,20 +40,30 @@ class CommonPagingScrollSnapPhysics extends ScrollPhysics {
   }
 
   @override
-  Simulation? createBallisticSimulation(ScrollMetrics position, double velocity) {
+  Simulation? createBallisticSimulation(
+    ScrollMetrics position,
+    double velocity,
+  ) {
     if ((velocity <= 0.0 && position.pixels <= position.minScrollExtent) ||
         (velocity >= 0.0 && position.pixels >= position.maxScrollExtent)) {
       return super.createBallisticSimulation(position, velocity);
     }
 
-    final Tolerance tolerance = toleranceFor(FixedScrollMetrics(
-      minScrollExtent: null,
-      maxScrollExtent: null,
-      pixels: null,
-      viewportDimension: null,
-      axisDirection: AxisDirection.down,
-      devicePixelRatio: WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio,
-    ));
+    final Tolerance tolerance = toleranceFor(
+      FixedScrollMetrics(
+        minScrollExtent: null,
+        maxScrollExtent: null,
+        pixels: null,
+        viewportDimension: null,
+        axisDirection: AxisDirection.down,
+        devicePixelRatio: WidgetsBinding
+            .instance
+            .platformDispatcher
+            .views
+            .first
+            .devicePixelRatio,
+      ),
+    );
     final double target = _getTargetPixels(position, tolerance, velocity);
 
     if (target != position.pixels) {
@@ -106,16 +116,17 @@ class CommonPagingScrollSnapPhysics extends ScrollPhysics {
   /// `( 2 * 110 ) -  132.5 = 87.5` =>>> pixels anchor is `87.5`
   double _getPixels(ScrollMetrics position, double page) {
     return min(
-      max(
-        page * itemSize - max(0, _getPadding()),
-        position.minScrollExtent,
-      ),
+      max(page * itemSize - max(0, _getPadding()), position.minScrollExtent),
       position.maxScrollExtent,
     );
   }
 
   /// Caltulator target pixels
-  double _getTargetPixels(ScrollMetrics position, Tolerance tolerance, double velocity) {
+  double _getTargetPixels(
+    ScrollMetrics position,
+    Tolerance tolerance,
+    double velocity,
+  ) {
     double page = _getPage(position);
     if (velocity < -tolerance.velocity) {
       page -= 0.5;

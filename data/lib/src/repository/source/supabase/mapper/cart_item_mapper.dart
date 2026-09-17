@@ -3,7 +3,8 @@ import 'package:domain/domain.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable()
-class CartItemMapper extends BaseDataMapper<CartItemResponseDto, CartItemEntity> {
+class CartItemMapper
+    extends BaseDataMapper<CartItemResponseDto, CartItemEntity> {
   @override
   CartItemEntity mapToEntity(CartItemResponseDto? data) {
     return CartItemEntity(

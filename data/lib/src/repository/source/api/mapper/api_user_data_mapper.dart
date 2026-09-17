@@ -6,10 +6,7 @@ import '../../../../../data.dart';
 
 @Injectable()
 class ApiUserDataMapper extends BaseDataMapper<ApiUserData, User> {
-  ApiUserDataMapper(
-    this._genderDataMapper,
-    this._apiImageUrlDataMapper,
-  );
+  ApiUserDataMapper(this._genderDataMapper, this._apiImageUrlDataMapper);
 
   final GenderDataMapper _genderDataMapper;
   final ApiImageUrlDataMapper _apiImageUrlDataMapper;
@@ -20,7 +17,8 @@ class ApiUserDataMapper extends BaseDataMapper<ApiUserData, User> {
       id: data?.id ?? User.defaultId,
       email: data?.email ?? User.defaultEmail,
       money: BigDecimal.tryParse(data?.money) ?? User.defaultMoney,
-      birthday: DateTimeUtils.tryParse(
+      birthday:
+          DateTimeUtils.tryParse(
             date: data?.birthday,
             format: DateTimeFormatConstants.appServerResponse,
           ) ??

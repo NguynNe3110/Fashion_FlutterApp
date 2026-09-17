@@ -44,13 +44,16 @@ class LocalPushNotificationHelper with LogMixin {
     /// default FCM channel to enable heads up notifications.
     await FlutterLocalNotificationsPlugin()
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(const AndroidNotificationChannel(
-          _channelId,
-          _channelName,
-          description: _channelDescription,
-          importance: Importance.high,
-        ));
+          AndroidFlutterLocalNotificationsPlugin
+        >()
+        ?.createNotificationChannel(
+          const AndroidNotificationChannel(
+            _channelId,
+            _channelName,
+            description: _channelDescription,
+            importance: Importance.high,
+          ),
+        );
   }
 
   Future<void> notify(AppNotification notification) async {
@@ -92,7 +95,8 @@ class LocalPushNotificationHelper with LogMixin {
           platformChannelSpecifics,
           // TODO(minh): handle later payload: jsonEncode(data),
         )
-        .onError((error, stackTrace) =>
-            logE('Can not show notification cause $error'));
+        .onError(
+          (error, stackTrace) => logE('Can not show notification cause $error'),
+        );
   }
 }

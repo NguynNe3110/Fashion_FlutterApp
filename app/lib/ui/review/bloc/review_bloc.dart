@@ -37,23 +37,18 @@ class ReviewBloc extends BaseBloc<ReviewEvent, ReviewState> {
         emit(state.copyWith(reviews: output.reviews));
       },
       doOnSubscribe: () async => emit(state.copyWith(isShimmerLoading: true)),
-      doOnSuccessOrError: () async => emit(state.copyWith(isShimmerLoading: false)),
+      doOnSuccessOrError: () async =>
+          emit(state.copyWith(isShimmerLoading: false)),
       doOnError: (e) async => emit(state.copyWith(loadException: e)),
       handleLoading: false,
     );
   }
 
-  void _onRatingChanged(
-    RatingChanged event,
-    Emitter<ReviewState> emit,
-  ) {
+  void _onRatingChanged(RatingChanged event, Emitter<ReviewState> emit) {
     emit(state.copyWith(selectedRating: event.rating));
   }
 
-  void _onCommentChanged(
-    CommentChanged event,
-    Emitter<ReviewState> emit,
-  ) {
+  void _onCommentChanged(CommentChanged event, Emitter<ReviewState> emit) {
     emit(state.copyWith(comment: event.comment));
   }
 

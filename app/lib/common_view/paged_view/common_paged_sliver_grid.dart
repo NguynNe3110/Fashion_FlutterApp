@@ -29,11 +29,7 @@ class CommonPagedSliverGrid<T> extends StatelessWidget {
   });
 
   final CommonPagingController<T> pagingController;
-  final Widget Function(
-    BuildContext context,
-    T item,
-    int index,
-  ) itemBuilder;
+  final Widget Function(BuildContext context, T item, int index) itemBuilder;
   final bool animateTransitions;
   final Duration transitionDuration;
   final Widget? firstPageErrorIndicator;

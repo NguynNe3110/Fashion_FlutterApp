@@ -347,7 +347,8 @@ class AppNavigatorImpl extends AppNavigator with LogMixin {
       _rootRouterContext,
       message,
       duration: duration,
-      // backgroundColor: AppColors.current.primaryColor,
+      backgroundColor: AppColors.sale,
+      icon: m.Icons.error_outline_rounded,
     );
   }
 
@@ -357,7 +358,8 @@ class AppNavigatorImpl extends AppNavigator with LogMixin {
       _rootRouterContext,
       message,
       duration: duration,
-      // backgroundColor: AppColors.current.primaryColor,
+      backgroundColor: AppColors.ink,
+      icon: m.Icons.check_circle_outline_rounded,
     );
   }
 }

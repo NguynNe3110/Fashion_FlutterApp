@@ -210,7 +210,12 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
   void _onNotificationTap() =>
       navigator.push(const AppRouteInfo.notification());
   void _onFlashSaleTap() => navigator.push(const AppRouteInfo.search());
-  void _onSeeAllCategories() => navigator.push(const AppRouteInfo.search());
+  void _onSeeAllCategories() => navigator.push(
+    const AppRouteInfo.categoryProducts(
+      categoryId: '',
+      categoryName: 'Danh mục',
+    ),
+  );
 
   void _onCategoryTap(CategoryEntity category) {
     navigator.push(

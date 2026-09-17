@@ -36,9 +36,7 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.titleTextStyle,
     this.systemOverlayStyle,
     this.leadingIconColor,
-  }) : preferredSize = Size.fromHeight(
-          height ?? Dimens.d56.responsive(),
-        );
+  }) : preferredSize = Size.fromHeight(height ?? Dimens.d56.responsive());
 
   final String? text;
   final VoidCallback? onLeadingPressed;
@@ -91,18 +89,27 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
       bottomOpacity: bottomOpacity,
       leadingWidth: leadingWidth,
       systemOverlayStyle: systemOverlayStyle,
-      leading: leadingIcon == LeadingIcon.hambuger ||
-              leadingIcon == LeadingIcon.none
+      leading:
+          leadingIcon == LeadingIcon.hambuger || leadingIcon == LeadingIcon.none
           ? null
-          : GestureDetector(
-              onTap:
-                  onLeadingPressed ?? () => context.read<AppNavigator>().pop(),
-              child: Padding(
-                padding: EdgeInsets.only(left: Dimens.d16.responsive()),
-                child: _buildIcon(
+          : Padding(
+              padding: EdgeInsets.only(left: Dimens.d8.responsive()),
+              child: IconButton(
+                tooltip: leadingIcon == LeadingIcon.close ? 'Đóng' : 'Quay lại',
+                onPressed:
+                    onLeadingPressed ??
+                    () => context.read<AppNavigator>().pop(),
+                style: IconButton.styleFrom(
+                  backgroundColor: AppColors.surface,
+                  foregroundColor: AppColors.ink,
+                  side: const BorderSide(color: AppColors.line),
+                  shape: const CircleBorder(),
+                ),
+                icon: Icon(
                   leadingIcon == LeadingIcon.close
-                      ? Assets.images.iconClose
-                      : Assets.images.iconBack,
+                      ? Icons.close_rounded
+                      : Icons.arrow_back_rounded,
+                  size: Dimens.d20.responsive(),
                 ),
               ),
             ),
@@ -113,8 +120,8 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: titleType == AppBarTitle.text
             ? Text(text ?? '', style: titleTextStyle)
             : titleType == AppBarTitle.logo
-                ? _buildIcon(Assets.images.logo)
-                : null,
+            ? _buildIcon(Assets.images.logo)
+            : null,
       ),
       actions: actions,
       elevation: elevation,
@@ -123,23 +130,15 @@ class CommonAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   Widget _buildIcon(SvgGenImage svg) {
     return svg.svg(
-      colorFilter:
-          leadingIconColor?.let((it) => ColorFilter.mode(it, BlendMode.srcIn)),
+      colorFilter: leadingIconColor?.let(
+        (it) => ColorFilter.mode(it, BlendMode.srcIn),
+      ),
       width: Dimens.d24.responsive(),
       height: Dimens.d24.responsive(),
     );
   }
 }
 
-enum LeadingIcon {
-  back,
-  close,
-  hambuger,
-  none,
-}
+enum LeadingIcon { back, close, hambuger, none }
 
-enum AppBarTitle {
-  logo,
-  text,
-  none,
-}
+enum AppBarTitle { logo, text, none }
