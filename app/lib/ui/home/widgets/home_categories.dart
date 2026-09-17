@@ -38,10 +38,13 @@ class HomeCategories extends StatelessWidget {
           SizedBox(
             height: Dimens.d110.responsive(),
             child: ListView.separated(
-              padding: EdgeInsets.symmetric(horizontal: Dimens.d20.responsive()),
+              padding: EdgeInsets.symmetric(
+                horizontal: Dimens.d20.responsive(),
+              ),
               scrollDirection: Axis.horizontal,
               itemCount: categories.length,
-              separatorBuilder: (_, __) => SizedBox(width: Dimens.d16.responsive()),
+              separatorBuilder: (_, __) =>
+                  SizedBox(width: Dimens.d16.responsive()),
               itemBuilder: (context, index) {
                 final category = categories[index];
                 return GestureDetector(
@@ -57,15 +60,27 @@ class HomeCategories extends StatelessWidget {
                         ),
                         clipBehavior: Clip.antiAlias,
                         child: category.imageUrl != null
-                            ? Image.network(category.imageUrl!, fit: BoxFit.cover)
-                            : Icon(Icons.category_outlined, color: AppColors.ink4),
+                            ? Image.network(
+                                category.imageUrl!,
+                                fit: BoxFit.cover,
+                              )
+                            : Icon(
+                                Icons.category_outlined,
+                                color: AppColors.ink4,
+                              ),
                       ),
                       SizedBox(height: Dimens.d8.responsive()),
-                      Text(
-                        category.name,
-                        style: AppTextStyles.s14w400Primary().copyWith(
-                          fontSize: Dimens.d12.responsive(),
-                          fontWeight: FontWeight.w500,
+                      SizedBox(
+                        width: Dimens.d76.responsive(),
+                        child: Text(
+                          category.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: AppTextStyles.s14w400Primary().copyWith(
+                            fontSize: Dimens.d12.responsive(),
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ],

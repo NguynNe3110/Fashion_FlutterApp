@@ -41,8 +41,7 @@ class RepositoryImpl implements Repository {
   bool get isFirstLaunchApp => _appPreferences.isFirstLaunchApp;
 
   @override
-  Stream<bool> get onConnectivityChanged => Connectivity()
-      .onConnectivityChanged
+  Stream<bool> get onConnectivityChanged => Connectivity().onConnectivityChanged
       .map((event) => !event.contains(ConnectivityResult.none));
 
   @override
@@ -63,10 +62,7 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<void> login({
-    required String email,
-    required String password,
-  }) async {
+  Future<void> login({required String email, required String password}) async {
     // final response =
     //     await _appApiService.login(email: email, password: password);
     // await Future.wait([
@@ -95,7 +91,6 @@ class RepositoryImpl implements Repository {
 
   @override
   Future<void> logout() async {
-
     // await _appApiService.logout();
 
     await _supabaseClient.auth.signOut();
@@ -109,7 +104,6 @@ class RepositoryImpl implements Repository {
     required String password,
     required String confirmPassword,
   }) async {
-
     // return _appApiService.resetPassword(
     //     token: token,
     //     email: email,
@@ -128,13 +122,12 @@ class RepositoryImpl implements Repository {
   }
 
   @override
-  Future<void> register({
+  Future<bool> register({
     required String username,
     required String email,
     required String password,
     required Gender gender,
   }) async {
-
     // final response = await _appApiService.register(
     //   username: username,
     //   email: email,
@@ -154,16 +147,12 @@ class RepositoryImpl implements Repository {
     final response = await _supabaseClient.auth.signUp(
       email: email,
       password: password,
-      data: {'full_name': username},
+      data: {'full_name': username, 'gender': gender.name},
     );
     if (response.user != null) {
-      await saveUserPreference(
-        User(
-          id: -1,
-          email: response.user?.email ?? '',
-        ),
-      );
+      await saveUserPreference(User(id: -1, email: response.user?.email ?? ''));
     }
+    return response.session != null;
   }
 
   @override
@@ -185,8 +174,20 @@ class RepositoryImpl implements Repository {
 
   @override
   Future<bool> saveLanguageCode(LanguageCode languageCode) {
-    return _appPreferences
-        .saveLanguageCode(_languageCodeDataMapper.mapToData(languageCode));
+    return _appPreferences.saveLanguageCode(
+      _languageCodeDataMapper.mapToData(languageCode),
+    );
+  }
+
+  @override
+  Future<void> addSearchHistory(String keyword, {String? productId}) async {
+    final userId = _supabaseClient.auth.currentUser?.id;
+    if (userId == null || keyword.trim().isEmpty) return;
+    await _supabaseClient.from('search_history').insert({
+      'user_id': userId,
+      'keyword': keyword.trim(),
+      if (productId != null) 'product_id': productId,
+    });
   }
 
   @override
@@ -199,10 +200,7 @@ class RepositoryImpl implements Repository {
     // return _userDataMapper.mapToEntity(response);
 
     final user = _supabaseClient.auth.currentUser;
-    return User(
-      id: -1,
-      email: user?.email ?? '',
-    );
+    return User(id: -1, email: user?.email ?? '');
   }
 
   @override
@@ -227,9 +225,9 @@ class RepositoryImpl implements Repository {
 
   @override
   Stream<List<User>> getLocalUsersStream() {
-    return _appDatabase
-        .getUsersStream()
-        .map((event) => _localUserDataMapper.mapToListEntity(event));
+    return _appDatabase.getUsersStream().map(
+      (event) => _localUserDataMapper.mapToListEntity(event),
+    );
   }
 
   @override
@@ -244,6 +242,7 @@ class RepositoryImpl implements Repository {
       _appPreferences.saveAccessToken(accessToken);
 
   @override
-  Future<bool> saveUserPreference(User user) => _appPreferences
-      .saveCurrentUser(_preferenceUserDataMapper.mapToData(user));
+  Future<bool> saveUserPreference(User user) => _appPreferences.saveCurrentUser(
+    _preferenceUserDataMapper.mapToData(user),
+  );
 }

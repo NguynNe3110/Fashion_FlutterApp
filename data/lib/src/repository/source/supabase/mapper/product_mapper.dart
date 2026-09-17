@@ -4,14 +4,16 @@ import 'package:injectable/injectable.dart';
 import '../../../../../data.dart';
 
 @Injectable()
-class ProductMapper
-    extends BaseDataMapper<ProductResponseDto, ProductEntity> {
+class ProductMapper extends BaseDataMapper<ProductResponseDto, ProductEntity> {
   ProductMapper(this._variantMapper);
 
   final ProductVariantMapper _variantMapper;
 
   @override
   ProductEntity mapToEntity(ProductResponseDto? data) {
+    final images = data?.images.toList() ?? <ProductImageResponseDto>[];
+    images.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+
     return ProductEntity(
       id: data?.id ?? '',
       name: data?.name ?? '',
@@ -21,10 +23,11 @@ class ProductMapper
       discountPrice: data?.discountPrice?.toInt(),
       isFeatured: data?.isFeatured ?? false,
       categoryId: data?.categoryId,
-      categoryName: null, // Không có trong DTO, enrich sau nếu cần
-      imageUrls: const [], // Enrich từ product_images table sau
-      variants: const [], // Enrich từ product_variants table sau
+      categoryName: data?.category?['name'] as String?,
+      imageUrls: images.map((image) => image.imageUrl).toList(growable: false),
+      variants: _variantMapper.mapToListEntity(data?.variants),
+      ratingAverage: data?.ratingAverage ?? 0,
+      reviewCount: data?.reviewCount ?? 0,
     );
   }
 }
-

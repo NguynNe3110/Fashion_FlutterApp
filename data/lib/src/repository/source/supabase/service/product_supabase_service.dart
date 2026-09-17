@@ -13,13 +13,20 @@ class ProductSupabaseService {
   Future<List<ProductResponseDto>> getProducts({
     int limit = 100,
     int offset = 0,
+    String? searchQuery,
   }) {
     return runSupabaseCatching(
       action: () async {
-        final response = await _supabaseClient
+        var query = _supabaseClient
             .from('products')
-            .select()
-            .eq('is_active', true)
+            .select(
+              '*, categories(name), product_images(*), product_variants(*)',
+            )
+            .eq('is_active', true);
+        if (searchQuery?.trim().isNotEmpty == true) {
+          query = query.ilike('name', '%${searchQuery!.trim()}%');
+        }
+        final response = await query
             .order('created_at', ascending: false)
             .range(offset, offset + limit - 1);
 
@@ -31,12 +38,14 @@ class ProductSupabaseService {
   }
 
   //get product by id
-  Future<ProductResponseDto> getProductById({ required String id}) {
+  Future<ProductResponseDto> getProductById({required String id}) {
     return runSupabaseCatching(
       action: () async {
         final response = await _supabaseClient
             .from('products')
-            .select()
+            .select(
+              '*, categories(name), product_images(*), product_variants(*)',
+            )
             .eq('id', id)
             .eq('is_active', true)
             .single();
@@ -47,14 +56,14 @@ class ProductSupabaseService {
   }
 
   // get feature product
-  Future<List<ProductResponseDto>> getFeaturedProducts({
-    int limit = 20,
-  }) {
+  Future<List<ProductResponseDto>> getFeaturedProducts({int limit = 20}) {
     return runSupabaseCatching(
       action: () async {
         final response = await _supabaseClient
             .from('products')
-            .select()
+            .select(
+              '*, categories(name), product_images(*), product_variants(*)',
+            )
             .eq('is_active', true)
             .eq('is_featured', true)
             .order('created_at', ascending: false)
@@ -76,7 +85,9 @@ class ProductSupabaseService {
       action: () async {
         final response = await _supabaseClient
             .from('products')
-            .select()
+            .select(
+              '*, categories(name), product_images(*), product_variants(*)',
+            )
             .eq('is_active', true)
             .eq('category_id', categoryId)
             .order('created_at', ascending: false)

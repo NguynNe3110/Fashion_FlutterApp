@@ -32,8 +32,17 @@ class OrderMapper extends BaseDataMapper<OrderResponseDto, OrderEntity> {
   CreateOrderRequestDto mapToDto(CreateOrderRequestEntity data) {
     return CreateOrderRequestDto(
       userId: data.userId,
+      subtotalPrice: data.subtotalPrice,
+      shippingFee: data.shippingFee,
+      discountAmount: data.discountAmount,
       totalPrice: data.totalPrice,
+      receiverName: data.receiverName,
+      phoneNumber: data.phoneNumber,
       addressLine: data.addressLine,
+      city: data.city,
+      district: data.district,
+      ward: data.ward,
+      postalCode: data.postalCode,
       paymentMethod: data.paymentMethod,
       status: data.status,
       note: data.note,

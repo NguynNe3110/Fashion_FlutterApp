@@ -7,7 +7,8 @@ import '../../../../domain.dart';
 part 'get_products_usecase.freezed.dart';
 
 @Injectable()
-class GetProductsUseCase extends BaseFutureUseCase<GetProductsInput, GetProductsOutput> {
+class GetProductsUseCase
+    extends BaseFutureUseCase<GetProductsInput, GetProductsOutput> {
   const GetProductsUseCase(this._repository);
 
   final ProductRepository _repository;
@@ -18,6 +19,7 @@ class GetProductsUseCase extends BaseFutureUseCase<GetProductsInput, GetProducts
     final products = await _repository.getProducts(
       limit: input.limit,
       offset: input.offset,
+      searchQuery: input.searchQuery,
     );
     return GetProductsOutput(products: products);
   }
@@ -29,13 +31,13 @@ sealed class GetProductsInput extends BaseInput with _$GetProductsInput {
   const factory GetProductsInput({
     @Default(100) int limit,
     @Default(0) int offset,
+    String? searchQuery,
   }) = _GetProductsInput;
 }
 
 @freezed
 sealed class GetProductsOutput extends BaseOutput with _$GetProductsOutput {
   const GetProductsOutput._();
-  const factory GetProductsOutput({
-    required List<ProductEntity> products,
-  }) = _GetProductsOutput;
+  const factory GetProductsOutput({required List<ProductEntity> products}) =
+      _GetProductsOutput;
 }

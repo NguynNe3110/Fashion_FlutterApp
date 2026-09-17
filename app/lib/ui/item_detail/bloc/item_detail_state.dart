@@ -11,5 +11,7 @@ sealed class ItemDetailState extends BaseBlocState with _$ItemDetailState {
   const factory ItemDetailState({
     @Default(false) bool isShimmerLoading,
     @Default(false) bool isAddingToCart,
+    @Default(false) bool isFavorite,
+    @Default(false) bool isUpdatingFavorite,
   }) = _ItemDetailState;
 }

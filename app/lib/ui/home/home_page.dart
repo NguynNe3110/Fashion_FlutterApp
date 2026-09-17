@@ -25,11 +25,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends BasePageState<HomePage, HomeBloc> {
-  late final _pagingController = CommonPagingController<ProductEntity>()..disposeBy(disposeBag);
+  late final _pagingController = CommonPagingController<ProductEntity>()
+    ..disposeBy(disposeBag);
+  late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController()..addListener(_onScroll);
     bloc.add(const HomePageInitiated());
     _pagingController.listen(
       onLoadMore: () => bloc.add(const HomeLoadMoreProducts()),
@@ -37,17 +40,34 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
   }
 
   @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.hasClients &&
+        _scrollController.position.extentAfter < 320) {
+      _pagingController.fetchNextPage();
+    }
+  }
+
+  @override
   Widget buildPageListeners({required Widget child}) {
     return MultiBlocListener(
       listeners: [
         BlocListener<HomeBloc, HomeState>(
-          listenWhen: (previous, current) => previous.products != current.products,
+          listenWhen: (previous, current) =>
+              previous.products != current.products,
           listener: (context, state) {
             _pagingController.appendLoadMoreOutput(state.products);
           },
         ),
         BlocListener<HomeBloc, HomeState>(
-          listenWhen: (previous, current) => previous.loadException != current.loadException,
+          listenWhen: (previous, current) =>
+              previous.loadException != current.loadException,
           listener: (context, state) {
             _pagingController.error = state.loadException;
           },
@@ -78,28 +98,26 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
             return RefreshIndicator(
               onRefresh: () {
                 final completer = Completer<void>();
+                _pagingController.refresh();
                 bloc.add(HomePageRefreshed(completer: completer));
                 return completer.future;
               },
               child: CustomScrollView(
+                controller: _scrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
                   HomeHeader(
                     profile: state.profile,
                     onSearchTap: _onSearchTap,
                     onNotificationTap: _onNotificationTap,
                   ),
-                  HomeFlashSale(
-                    onBuyNowTap: _onFlashSaleTap,
-                  ),
+                  HomeFlashSale(onBuyNowTap: _onFlashSaleTap),
                   HomeCategories(
                     categories: state.categories,
                     onSeeAll: _onSeeAllCategories,
                     onCategoryTap: _onCategoryTap,
                   ),
-                  const HomeSectionTitle(
-                    title: 'Mới về',
-                    eyebrow: 'TUẦN NÀY',
-                  ),
+                  const HomeSectionTitle(title: 'Mới về', eyebrow: 'TUẦN NÀY'),
                   HomeProductGrid(
                     products: state.products.data.take(4).toList(),
                     favoriteProductIds: state.favoriteProductIds,
@@ -112,12 +130,33 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
                     eyebrow: 'PHỔ BIẾN',
                   ),
                   HomeProductGrid(
-                    products: state.products.data.skip(4).take(4).toList(),
+                    products: state.products.data.skip(4).toList(),
                     favoriteProductIds: state.favoriteProductIds,
                     onFavoriteTap: _onToggleFavorite,
                     onProductTap: _onProductTap,
                   ),
-                  SliverToBoxAdapter(child: SizedBox(height: Dimens.d40.responsive())),
+                  SliverToBoxAdapter(
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: state.products.isLastPage
+                          ? const SizedBox.shrink()
+                          : Padding(
+                              key: const ValueKey('home-load-more'),
+                              padding: EdgeInsets.symmetric(
+                                vertical: Dimens.d24.responsive(),
+                              ),
+                              child: const Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.ink,
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(height: Dimens.d40.responsive()),
+                  ),
                 ],
               ),
             );
@@ -134,19 +173,31 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.cloud_off_rounded, size: Dimens.d60.responsive(), color: AppColors.ink4),
+            Icon(
+              Icons.cloud_off_rounded,
+              size: Dimens.d60.responsive(),
+              color: AppColors.ink4,
+            ),
             SizedBox(height: Dimens.d12.responsive()),
             Text('Không thể kết nối', style: AppTextStyles.h2Serif()),
             SizedBox(height: Dimens.d20.responsive()),
             GestureDetector(
               onTap: () => bloc.add(const HomePageInitiated()),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: Dimens.d32.responsive(), vertical: Dimens.d12.responsive()),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Dimens.d32.responsive(),
+                  vertical: Dimens.d12.responsive(),
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.ink,
                   borderRadius: BorderRadius.circular(Dimens.d100.responsive()),
                 ),
-                child: Text('Thử lại', style: AppTextStyles.s14w400Primary().copyWith(color: Colors.white)),
+                child: Text(
+                  'Thử lại',
+                  style: AppTextStyles.s14w400Primary().copyWith(
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
           ],
@@ -156,19 +207,24 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
   }
 
   void _onSearchTap() => navigator.push(const AppRouteInfo.search());
-  void _onNotificationTap() => navigator.push(const AppRouteInfo.notification());
+  void _onNotificationTap() =>
+      navigator.push(const AppRouteInfo.notification());
   void _onFlashSaleTap() => navigator.push(const AppRouteInfo.search());
   void _onSeeAllCategories() => navigator.push(const AppRouteInfo.search());
-  
+
   void _onCategoryTap(CategoryEntity category) {
-    navigator.push(AppRouteInfo.categoryProducts(
-      categoryId: category.id,
-      categoryName: category.name,
-    ));
+    navigator.push(
+      AppRouteInfo.categoryProducts(
+        categoryId: category.id,
+        categoryName: category.name,
+      ),
+    );
   }
 
   void _onToggleFavorite(ProductEntity product, bool isFavorited) {
-    bloc.add(HomeToggleFavorite(productId: product.id, isFavorited: isFavorited));
+    bloc.add(
+      HomeToggleFavorite(productId: product.id, isFavorited: isFavorited),
+    );
   }
 
   void _onProductTap(ProductEntity product) {

@@ -6,7 +6,8 @@ import '../../../../domain.dart';
 part 'add_to_cart_use_case.freezed.dart';
 
 @Injectable()
-class AddToCartUseCase extends BaseFutureUseCase<AddToCartInput, AddToCartOutput> {
+class AddToCartUseCase
+    extends BaseFutureUseCase<AddToCartInput, AddToCartOutput> {
   final CartItemRepository _cartItemRepository;
 
   AddToCartUseCase(this._cartItemRepository);
@@ -14,8 +15,25 @@ class AddToCartUseCase extends BaseFutureUseCase<AddToCartInput, AddToCartOutput
   @protected
   @override
   Future<AddToCartOutput> buildUseCase(AddToCartInput input) async {
-    // TODO: implement call to repository to add item
-    return AddToCartOutput();
+    if (input.quantity < 1) {
+      throw ArgumentError.value(
+        input.quantity,
+        'quantity',
+        'must be greater than zero',
+      );
+    }
+
+    await _cartItemRepository.addCartItem(
+      cartItem: CartItemEntity(
+        id: '',
+        userId: input.userId,
+        productId: input.productId,
+        variantId: input.variantId,
+        quantity: input.quantity,
+      ),
+    );
+
+    return const AddToCartOutput();
   }
 }
 

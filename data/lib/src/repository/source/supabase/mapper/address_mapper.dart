@@ -35,7 +35,7 @@ class AddressMapper extends BaseDataMapper<AddressResponseDto, AddressEntity> {
       district: entity.district,
       ward: entity.ward,
       postalCode: entity.postalCode,
-      isDefault: entity.isDefault ?? false,
+      isDefault: entity.isDefault,
       createdAt: entity.createdAt?.toIso8601String() ?? '',
       updatedAt: entity.updatedAt?.toIso8601String() ?? '',
     );

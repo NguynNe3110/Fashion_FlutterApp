@@ -9,14 +9,20 @@ import 'onboarding.dart';
 
 @injectable
 class OnboardingBloc extends BaseBloc<OnboardingEvent, OnboardingState> {
-  OnboardingBloc() : super(const OnboardingState()) {
+  OnboardingBloc(this._saveIsFirstLaunchAppUseCase)
+    : super(const OnboardingState()) {
     on<OnboardingStartedPressed>(_onOnboardingStartedPressed);
   }
+
+  final SaveIsFirstLaunchAppUseCase _saveIsFirstLaunchAppUseCase;
 
   FutureOr<void> _onOnboardingStartedPressed(
     OnboardingStartedPressed event,
     Emitter<OnboardingState> emit,
   ) async {
+    await _saveIsFirstLaunchAppUseCase.execute(
+      const SaveIsFirstLaunchAppInput(isFirstLaunchApp: false),
+    );
     await navigator.replace(const AppRouteInfo.login());
   }
 }

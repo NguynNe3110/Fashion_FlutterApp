@@ -14,7 +14,8 @@ class AppRouteInfo with _$AppRouteInfo {
 
   const factory AppRouteInfo.address() = _Address;
 
-  const factory AppRouteInfo.orderDetail({required String orderId}) = _OrderDetail;
+  const factory AppRouteInfo.orderDetail({required String orderId}) =
+      _OrderDetail;
 
   const factory AppRouteInfo.categoryProducts({
     required String categoryId,
@@ -30,7 +31,8 @@ class AppRouteInfo with _$AppRouteInfo {
 
   const factory AppRouteInfo.forgotPassword() = _ForgotPassword;
 
-  const factory AppRouteInfo.orderSuccess({required String orderCode}) = _OrderSuccess;
+  const factory AppRouteInfo.orderSuccess({required String orderCode}) =
+      _OrderSuccess;
 
   const factory AppRouteInfo.vouchers() = _Vouchers;
 
@@ -51,9 +53,13 @@ class AppRouteInfo with _$AppRouteInfo {
     required List<ProductEntity> products,
     required CartSummaryEntity summary,
   }) = _Checkout;
-  
+
   const factory AppRouteInfo.orderHistory() = _OrderHistory;
   const factory AppRouteInfo.search() = _Search;
-  
+
   const factory AppRouteInfo.notification() = _Notification;
+
+  const factory AppRouteInfo.personalInfo() = _PersonalInfo;
+
+  const factory AppRouteInfo.help() = _Help;
 }

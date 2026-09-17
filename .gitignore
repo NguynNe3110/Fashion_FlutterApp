@@ -57,4 +57,6 @@ pubspec_overrides.yaml
 *.gr.dart
 
 /afolder/
-.ps1
+*.ps1
+*.sql
+*/seed_output/

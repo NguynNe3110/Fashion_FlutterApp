@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
 import '../../../../app.dart';
+
 class HomeFlashSale extends StatelessWidget {
-  const HomeFlashSale({
-    required this.onBuyNowTap,
-    super.key,
-  });
+  const HomeFlashSale({required this.onBuyNowTap, super.key});
 
   final VoidCallback onBuyNowTap;
 
@@ -36,13 +34,17 @@ class HomeFlashSale extends StatelessWidget {
               SizedBox(height: Dimens.d16.responsive()),
               Row(
                 children: [
-                  Text(
-                    'Ưu đãi đến 50%',
-                    style: AppTextStyles.s14w400Primary().copyWith(
-                      fontWeight: FontWeight.w600,
+                  Expanded(
+                    child: Text(
+                      'Ưu đãi đến 50%',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.s14w400Primary().copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
-                  const Spacer(),
+                  SizedBox(width: Dimens.d12.responsive()),
                   GestureDetector(
                     onTap: onBuyNowTap,
                     child: Container(
@@ -52,7 +54,9 @@ class HomeFlashSale extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: AppColors.ink,
-                        borderRadius: BorderRadius.circular(Dimens.d100.responsive()),
+                        borderRadius: BorderRadius.circular(
+                          Dimens.d100.responsive(),
+                        ),
                       ),
                       child: Text(
                         'Mua ngay',

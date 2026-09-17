@@ -14,10 +14,12 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<List<ProductEntity>> getProducts({
     int limit = 100,
     int offset = 0,
+    String? searchQuery,
   }) async {
     final dtos = await _productSupabaseService.getProducts(
       limit: limit,
       offset: offset,
+      searchQuery: searchQuery,
     );
     return _productMapper.mapToListEntity(dtos);
   }
@@ -29,9 +31,7 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<List<ProductEntity>> getFeaturedProducts({
-    int limit = 20,
-  }) async {
+  Future<List<ProductEntity>> getFeaturedProducts({int limit = 20}) async {
     final dtos = await _productSupabaseService.getFeaturedProducts(
       limit: limit,
     );

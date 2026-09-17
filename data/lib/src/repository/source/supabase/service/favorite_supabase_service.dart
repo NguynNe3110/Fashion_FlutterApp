@@ -38,7 +38,9 @@ class FavoriteSupabaseService {
     );
   }
 
-  Future<FavoriteResponseDto> addFavorite({required Map<String, dynamic> data}) {
+  Future<FavoriteResponseDto> addFavorite({
+    required Map<String, dynamic> data,
+  }) {
     return runSupabaseCatching(
       action: () async {
         final response = await _supabaseClient
@@ -52,7 +54,10 @@ class FavoriteSupabaseService {
     );
   }
 
-  Future<void> deleteFavorite({required String userId, required String productId}) {
+  Future<void> deleteFavorite({
+    required String userId,
+    required String productId,
+  }) {
     return runSupabaseCatching(
       action: () async {
         await _supabaseClient

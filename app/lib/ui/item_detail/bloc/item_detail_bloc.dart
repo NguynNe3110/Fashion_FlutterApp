@@ -16,26 +16,32 @@ class ItemDetailBloc extends BaseBloc<ItemDetailEvent, ItemDetailState> {
   ItemDetailBloc(
     this._getMeUseCase,
     this._addToCartUseCase,
+    this._getFavoritesUseCase,
+    this._toggleFavoriteUseCase,
   ) : super(const ItemDetailState()) {
-    on<ItemDetailPageInitiated>(
-      _onItemDetailPageInitiated,
-      transformer: log(),
-    );
+    on<ItemDetailPageInitiated>(_onItemDetailPageInitiated, transformer: log());
     // Dùng throttle 500ms chặn spam click Add To Cart
     on<ItemDetailAddToCartPressed>(
       _onItemDetailAddToCartPressed,
+      transformer: throttle(const Duration(milliseconds: 500)),
+    );
+    on<ItemDetailFavoritePressed>(
+      _onItemDetailFavoritePressed,
       transformer: throttle(const Duration(milliseconds: 500)),
     );
   }
 
   final GetMeUseCase _getMeUseCase;
   final AddToCartUseCase _addToCartUseCase;
+  final GetFavoritesUseCase _getFavoritesUseCase;
+  final ToggleFavoriteUseCase _toggleFavoriteUseCase;
 
   FutureOr<void> _onItemDetailPageInitiated(
     ItemDetailPageInitiated event,
     Emitter<ItemDetailState> emit,
   ) async {
-    // Logic fetch item detail
+    // Product information is passed by the catalog route. Favorite status is
+    // loaded lazily when the user interacts, avoiding an extra request here.
   }
 
   FutureOr<void> _onItemDetailAddToCartPressed(
@@ -47,19 +53,54 @@ class ItemDetailBloc extends BaseBloc<ItemDetailEvent, ItemDetailState> {
         final user = await _getMeUseCase.execute(GetMeUseCaseInput());
         final userId = user.profile.id.toString();
 
-        await _addToCartUseCase.execute(AddToCartInput(
-          productId: event.productId,
-          variantId: event.variantId,
-          quantity: event.quantity,
-          userId: userId,
-        ));
-        
+        await _addToCartUseCase.execute(
+          AddToCartInput(
+            productId: event.productId,
+            variantId: event.variantId,
+            quantity: event.quantity,
+            userId: userId,
+          ),
+        );
+
         // Gọi thẳng AppNavigator để show snackbar thành công
         navigator.showSuccessSnackBar('Thêm vào giỏ hàng thành công');
       },
       doOnSubscribe: () async => emit(state.copyWith(isAddingToCart: true)),
-      doOnSuccessOrError: () async => emit(state.copyWith(isAddingToCart: false)),
-      handleLoading: false, // Tắt loading toàn màn hình, dùng isAddingToCart ở UI
+      doOnSuccessOrError: () async =>
+          emit(state.copyWith(isAddingToCart: false)),
+      handleLoading:
+          false, // Tắt loading toàn màn hình, dùng isAddingToCart ở UI
+    );
+  }
+
+  FutureOr<void> _onItemDetailFavoritePressed(
+    ItemDetailFavoritePressed event,
+    Emitter<ItemDetailState> emit,
+  ) async {
+    return runBlocCatching(
+      action: () async {
+        final user = await _getMeUseCase.execute(const GetMeUseCaseInput());
+        final userId = user.profile.id;
+        final favorites = await _getFavoritesUseCase.execute(
+          GetFavoritesUseCaseInput(userId: userId),
+        );
+        final wasFavorite = favorites.favorites.any(
+          (item) => item.productId == event.productId,
+        );
+
+        await _toggleFavoriteUseCase.execute(
+          ToggleFavoriteUseCaseInput(
+            userId: userId,
+            productId: event.productId,
+            isFavorited: wasFavorite,
+          ),
+        );
+        emit(state.copyWith(isFavorite: !wasFavorite));
+      },
+      doOnSubscribe: () async => emit(state.copyWith(isUpdatingFavorite: true)),
+      doOnSuccessOrError: () async =>
+          emit(state.copyWith(isUpdatingFavorite: false)),
+      handleLoading: false,
     );
   }
 }

@@ -15,14 +15,14 @@ class RegisterAccountUseCase
   @protected
   @override
   Future<RegisterAccountOutput> buildUseCase(RegisterAccountInput input) async {
-    await _repository.register(
+    final hasActiveSession = await _repository.register(
       email: input.email,
       username: input.username,
       password: input.password,
       gender: input.gender,
     );
 
-    return const RegisterAccountOutput();
+    return RegisterAccountOutput(hasActiveSession: hasActiveSession);
   }
 }
 
@@ -43,5 +43,6 @@ sealed class RegisterAccountOutput extends BaseOutput
     with _$RegisterAccountOutput {
   const RegisterAccountOutput._();
 
-  const factory RegisterAccountOutput() = _RegisterAccountOutput;
+  const factory RegisterAccountOutput({required bool hasActiveSession}) =
+      _RegisterAccountOutput;
 }

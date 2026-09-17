@@ -32,6 +32,8 @@ dependencies:
     infinite_scroll_pagination: ^5.1.1
     injectable: ^2.5.1
     provider: ^6.1.5+1
+    collection: ^1.19.1
+    freezed_annotation: ^2.4.4
 
     # ---------------- Navigation & DI ----------------
     go_router: ^17.3.0
@@ -56,7 +58,6 @@ dev_dependencies:
     injectable_generator: 2.7.0
     riverpod_generator: ^2.6.3
     freezed: ^2.5.7
-    freezed_annotation: ^2.4.4
 
     #env
     flutter_dotenv: ^6.0.0

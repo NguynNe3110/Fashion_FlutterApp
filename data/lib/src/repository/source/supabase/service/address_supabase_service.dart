@@ -39,12 +39,24 @@ class AddressSupabaseService {
     );
   }
 
-  Future<AddressResponseDto> createAddress({required Map<String, dynamic> data}) {
+  Future<AddressResponseDto> createAddress({
+    required Map<String, dynamic> data,
+  }) {
     return runSupabaseCatching(
       action: () async {
+        final payload = Map<String, dynamic>.from(data)
+          ..remove('id')
+          ..remove('created_at')
+          ..remove('updated_at');
+        if (payload['is_default'] == true) {
+          await _supabaseClient
+              .from('addresses')
+              .update({'is_default': false})
+              .eq('user_id', payload['user_id'] as String);
+        }
         final response = await _supabaseClient
             .from('addresses')
-            .insert(data)
+            .insert(payload)
             .select()
             .single();
 
@@ -59,14 +71,29 @@ class AddressSupabaseService {
   }) {
     return runSupabaseCatching(
       action: () async {
+        final payload = Map<String, dynamic>.from(data)
+          ..remove('id')
+          ..remove('user_id')
+          ..remove('created_at')
+          ..remove('updated_at');
+        if (payload['is_default'] == true) {
+          final userId = _supabaseClient.auth.currentUser?.id;
+          if (userId != null) {
+            await _supabaseClient
+                .from('addresses')
+                .update({'is_default': false})
+                .eq('user_id', userId)
+                .neq('id', id);
+          }
+        }
         final response = await _supabaseClient
             .from('addresses')
-            .update(data)
+            .update(payload)
             .eq('id', id)
             .select()
             .single();
 
-        return AddressResponseDto.fromJson(response );
+        return AddressResponseDto.fromJson(response);
       },
     );
   }
@@ -74,10 +101,7 @@ class AddressSupabaseService {
   Future<void> deleteAddress({required String id}) {
     return runSupabaseCatching(
       action: () async {
-        await _supabaseClient
-            .from('addresses')
-            .delete()
-            .eq('id', id);
+        await _supabaseClient.from('addresses').delete().eq('id', id);
       },
     );
   }

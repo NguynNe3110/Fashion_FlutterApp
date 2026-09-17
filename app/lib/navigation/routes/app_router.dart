@@ -10,64 +10,65 @@ import '../../app.dart';
   replaceInRouteName: 'Page,Route', // tự động thay thế nameclass
 )
 @LazySingleton()
-class AppRouter extends RootStackRouter { // có thể hiểu là khai báo router
+class AppRouter extends RootStackRouter {
+  // có thể hiểu là khai báo router
   @override
   RouteType get defaultRouteType => const RouteType.adaptive();
 
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: LoginRoute.page),
-        AutoRoute(page: RegisterRoute.page),
-        AutoRoute(page: AddressRoute.page),
-        AutoRoute(page: OrderDetailRoute.page),
-        AutoRoute(page: CategoryProductsRoute.page),
-        AutoRoute(page: ReviewRoute.page),
-        AutoRoute(page: OnboardingRoute.page),
-        AutoRoute(page: ForgotPasswordRoute.page),
-        AutoRoute(page: OrderSuccessRoute.page),
-        AutoRoute(page: VouchersRoute.page),
-        AutoRoute(page: PaymentMethodsRoute.page),
-        AutoRoute(page: CheckoutRoute.page),
+    AutoRoute(page: LoginRoute.page),
+    AutoRoute(page: RegisterRoute.page),
+    AutoRoute(page: AddressRoute.page),
+    AutoRoute(page: OrderDetailRoute.page),
+    AutoRoute(page: CategoryProductsRoute.page),
+    AutoRoute(page: ReviewRoute.page),
+    AutoRoute(page: OnboardingRoute.page),
+    AutoRoute(page: ForgotPasswordRoute.page),
+    AutoRoute(page: OrderSuccessRoute.page),
+    AutoRoute(page: VouchersRoute.page),
+    AutoRoute(page: PaymentMethodsRoute.page),
+    AutoRoute(page: CheckoutRoute.page),
 
-        AutoRoute(page: OrderHistoryRoute.page),
-        AutoRoute(page: SearchRoute.page),
-        AutoRoute(page: NotificationRoute.page),
+    AutoRoute(page: OrderHistoryRoute.page),
+    AutoRoute(page: SearchRoute.page),
+    AutoRoute(page: NotificationRoute.page),
+    AutoRoute(page: PersonalInfoRoute.page),
+    AutoRoute(page: HelpRoute.page),
 
-        AutoRoute(page: MainRoute.page, children: [ // nếu lồng thì lồng bằng children
-          AutoRoute(
-            page: HomeTab.page,
-            maintainState: true,
-            children: [
-              AutoRoute(page: HomeRoute.page, initial: true),
-              AutoRoute(
-                page: ItemDetailRoute.page,
-                guards: [RouteGuard(GetIt.instance.get<IsLoggedInUseCase>())],
-              ),
-            ],
-          ),
-          AutoRoute(
-            page: FavoriteTab.page,
-            maintainState: true,
-            children: [
-              AutoRoute(page: FavoriteRoute.page, initial: true),
-            ],
-          ),
-          AutoRoute(
-            page: CartTab.page,
-            maintainState: true,
-            children: [
-              AutoRoute(page: CartRoute.page, initial: true),
-            ],
-          ),
-          AutoRoute(
-            page: MyPageTab.page,
-            maintainState: true,
-            children: [
-              AutoRoute(page: MyPageRoute.page, initial: true),
-            ],
-          ),
-        ]),
-      ];
+    AutoRoute(
+      page: MainRoute.page,
+      children: [
+        // nếu lồng thì lồng bằng children
+        AutoRoute(
+          page: HomeTab.page,
+          maintainState: true,
+          children: [
+            AutoRoute(page: HomeRoute.page, initial: true),
+            AutoRoute(
+              page: ItemDetailRoute.page,
+              guards: [RouteGuard(GetIt.instance.get<IsLoggedInUseCase>())],
+            ),
+          ],
+        ),
+        AutoRoute(
+          page: FavoriteTab.page,
+          maintainState: true,
+          children: [AutoRoute(page: FavoriteRoute.page, initial: true)],
+        ),
+        AutoRoute(
+          page: CartTab.page,
+          maintainState: true,
+          children: [AutoRoute(page: CartRoute.page, initial: true)],
+        ),
+        AutoRoute(
+          page: MyPageTab.page,
+          maintainState: true,
+          children: [AutoRoute(page: MyPageRoute.page, initial: true)],
+        ),
+      ],
+    ),
+  ];
 }
 
 @RoutePage(name: 'HomeTab')

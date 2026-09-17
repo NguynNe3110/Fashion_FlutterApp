@@ -2,6 +2,7 @@ import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:shared/shared.dart';
 import '../../../../app.dart';
+
 class ProductCard extends StatelessWidget {
   const ProductCard({
     required this.product,
@@ -30,12 +31,22 @@ class ProductCard extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     color: AppColors.surface2,
-                    borderRadius: BorderRadius.circular(Dimens.d12.responsive()),
+                    borderRadius: BorderRadius.circular(
+                      Dimens.d12.responsive(),
+                    ),
                   ),
                   clipBehavior: Clip.antiAlias,
                   child: product.primaryImageUrl != null
-                      ? Image.network(product.primaryImageUrl!, fit: BoxFit.cover)
-                      : const Center(child: Icon(Icons.image_outlined, color: AppColors.ink4)),
+                      ? Image.network(
+                          product.primaryImageUrl!,
+                          fit: BoxFit.cover,
+                        )
+                      : const Center(
+                          child: Icon(
+                            Icons.image_outlined,
+                            color: AppColors.ink4,
+                          ),
+                        ),
                 ),
               ),
               Positioned(
@@ -50,7 +61,9 @@ class ProductCard extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                      isFavorited ? Icons.favorite_rounded : Icons.favorite_border_rounded,
+                      isFavorited
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_border_rounded,
                       size: Dimens.d18.responsive(),
                       color: isFavorited ? AppColors.sale : AppColors.ink,
                     ),
@@ -68,7 +81,9 @@ class ProductCard extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: AppColors.sale,
-                      borderRadius: BorderRadius.circular(Dimens.d4.responsive()),
+                      borderRadius: BorderRadius.circular(
+                        Dimens.d4.responsive(),
+                      ),
                     ),
                     child: Text(
                       'SALE',
@@ -84,7 +99,9 @@ class ProductCard extends StatelessWidget {
           SizedBox(height: Dimens.d12.responsive()),
           Text(
             product.categoryName?.toUpperCase() ?? 'COLLECTION',
-            style: AppTextStyles.eyebrow().copyWith(fontSize: Dimens.d9.responsive()),
+            style: AppTextStyles.eyebrow().copyWith(
+              fontSize: Dimens.d9.responsive(),
+            ),
           ),
           SizedBox(height: Dimens.d4.responsive()),
           Text(
@@ -97,7 +114,10 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: Dimens.d6.responsive()),
-          Row(
+          Wrap(
+            spacing: Dimens.d8.responsive(),
+            runSpacing: Dimens.d2.responsive(),
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               Text(
                 NumberFormatUtils.formatYen(product.effectivePrice.toDouble()),
@@ -107,7 +127,6 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
               if (product.hasDiscount) ...[
-                SizedBox(width: Dimens.d8.responsive()),
                 Text(
                   NumberFormatUtils.formatYen(product.price.toDouble()),
                   style: AppTextStyles.s14w400Secondary().copyWith(

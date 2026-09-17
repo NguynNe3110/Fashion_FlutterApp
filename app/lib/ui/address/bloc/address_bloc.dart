@@ -14,16 +14,19 @@ class AddressBloc extends BaseBloc<AddressEvent, AddressState> {
     this._getAddressesUseCase,
     this._deleteAddressUseCase,
     this._updateAddressUseCase,
+    this._createAddressUseCase,
     this._getMeUseCase,
   ) : super(const AddressState()) {
     on<AddressPageInitiated>(_onAddressPageInitiated);
     on<DeleteAddressPressed>(_onDeleteAddressPressed);
     on<SetDefaultAddressPressed>(_onSetDefaultAddressPressed);
+    on<AddAddressSubmitted>(_onAddAddressSubmitted);
   }
 
   final GetAddressesUseCase _getAddressesUseCase;
   final DeleteAddressUseCase _deleteAddressUseCase;
   final UpdateAddressUseCase _updateAddressUseCase;
+  final CreateAddressUseCase _createAddressUseCase;
   final GetMeUseCase _getMeUseCase;
 
   FutureOr<void> _onAddressPageInitiated(
@@ -36,11 +39,14 @@ class AddressBloc extends BaseBloc<AddressEvent, AddressState> {
         final user = await _getMeUseCase.execute(const GetMeUseCaseInput());
         final userId = user.profile.id.toString();
 
-        final output = await _getAddressesUseCase.execute(GetAddressesUseCaseInput(userId: userId));
+        final output = await _getAddressesUseCase.execute(
+          GetAddressesUseCaseInput(userId: userId),
+        );
         emit(state.copyWith(addresses: output.addresses));
       },
       doOnSubscribe: () async => emit(state.copyWith(isShimmerLoading: true)),
-      doOnSuccessOrError: () async => emit(state.copyWith(isShimmerLoading: false)),
+      doOnSuccessOrError: () async =>
+          emit(state.copyWith(isShimmerLoading: false)),
       doOnError: (e) async => emit(state.copyWith(loadException: e)),
       handleLoading: false,
     );
@@ -52,7 +58,9 @@ class AddressBloc extends BaseBloc<AddressEvent, AddressState> {
   ) async {
     return runBlocCatching(
       action: () async {
-        await _deleteAddressUseCase.execute(DeleteAddressUseCaseInput(id: event.id));
+        await _deleteAddressUseCase.execute(
+          DeleteAddressUseCaseInput(id: event.id),
+        );
         add(const AddressPageInitiated());
       },
     );
@@ -64,11 +72,41 @@ class AddressBloc extends BaseBloc<AddressEvent, AddressState> {
   ) async {
     return runBlocCatching(
       action: () async {
-        final address = state.addresses.firstWhereOrNull((a) => a.id == event.id);
+        final address = state.addresses.firstWhereOrNull(
+          (a) => a.id == event.id,
+        );
         if (address == null) return;
 
         await _updateAddressUseCase.execute(
           UpdateAddressUseCaseInput(address: address.copyWith(isDefault: true)),
+        );
+        add(const AddressPageInitiated());
+      },
+    );
+  }
+
+  FutureOr<void> _onAddAddressSubmitted(
+    AddAddressSubmitted event,
+    Emitter<AddressState> emit,
+  ) async {
+    return runBlocCatching(
+      action: () async {
+        final user = await _getMeUseCase.execute(const GetMeUseCaseInput());
+        await _createAddressUseCase.execute(
+          CreateAddressUseCaseInput(
+            address: AddressEntity(
+              id: '',
+              userId: user.profile.id,
+              label: event.label,
+              receiverName: event.receiverName,
+              phoneNumber: event.phoneNumber,
+              addressLine: event.addressLine,
+              city: event.city,
+              district: event.district,
+              ward: event.ward,
+              isDefault: event.isDefault || state.addresses.isEmpty,
+            ),
+          ),
         );
         add(const AddressPageInitiated());
       },

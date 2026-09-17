@@ -13,6 +13,8 @@ sealed class MyPageState extends BaseBlocState with _$MyPageState {
   const factory MyPageState({
     ProfileEntity? profile,
     @Default(false) bool isShimmerLoading,
+    @Default(false) bool isSaving,
+    @Default(false) bool saveSucceeded,
     AppException? loadException,
   }) = _MyPageState;
 }

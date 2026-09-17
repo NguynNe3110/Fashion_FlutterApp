@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:resources/resources.dart';
 import 'package:shared/shared.dart';
 
-enum InitialAppRoute {
-  login,
-  main,
-}
+enum InitialAppRoute { onboarding, login, main }
 
 enum Gender {
   male(ServerRequestResponseConstants.male),
@@ -29,10 +26,7 @@ enum LanguageCode {
     serverValue: ServerRequestResponseConstants.ja,
   );
 
-  const LanguageCode({
-    required this.localeCode,
-    required this.serverValue,
-  });
+  const LanguageCode({required this.localeCode, required this.serverValue});
   final String localeCode;
   final String serverValue;
 
@@ -49,14 +43,20 @@ enum NotificationType {
 
 enum BottomTab {
   home(icon: Icon(Icons.home_outlined), activeIcon: Icon(Icons.home_rounded)),
-  favorite(icon: Icon(Icons.favorite_outline_rounded), activeIcon: Icon(Icons.favorite_rounded)),
-  cart(icon: Icon(Icons.shopping_cart_outlined), activeIcon: Icon(Icons.shopping_cart)),
-  myPage(icon: Icon(Icons.person_outline_rounded), activeIcon: Icon(Icons.person_rounded));
+  favorite(
+    icon: Icon(Icons.favorite_outline_rounded),
+    activeIcon: Icon(Icons.favorite_rounded),
+  ),
+  cart(
+    icon: Icon(Icons.shopping_cart_outlined),
+    activeIcon: Icon(Icons.shopping_cart),
+  ),
+  myPage(
+    icon: Icon(Icons.person_outline_rounded),
+    activeIcon: Icon(Icons.person_rounded),
+  );
 
-  const BottomTab({
-    required this.icon,
-    required this.activeIcon,
-  });
+  const BottomTab({required this.icon, required this.activeIcon});
   final Icon icon;
   final Icon activeIcon;
 

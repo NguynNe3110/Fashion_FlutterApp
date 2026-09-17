@@ -6,10 +6,9 @@ import '../../data.dart';
 @LazySingleton(as: OrderRepository)
 class OrderRepositoryImpl extends OrderRepository {
   final OrderSupabaseService _orderSupabaseService;
-  final OrderItemSupabaseService _orderItemSupabaseService;
   final OrderMapper _orderMapper;
 
-  OrderRepositoryImpl(this._orderMapper, this._orderSupabaseService, this._orderItemSupabaseService);
+  OrderRepositoryImpl(this._orderMapper, this._orderSupabaseService);
 
   @override
   Future<List<OrderEntity>> getOrders({required String userId}) async {
@@ -24,25 +23,30 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   @override
-  Future<List<OrderEntity>> getOrderHistory({required String userId, int page = 0, int limit = 20}) async {
-    // ponytail: pagination not implemented, returns all. Add when needed.
-    return getOrders(userId: userId);
+  Future<List<OrderEntity>> getOrderHistory({
+    required String userId,
+    int page = 0,
+    int limit = 20,
+  }) async {
+    final dtos = await _orderSupabaseService.getOrderHistory(
+      userId: userId,
+      page: page,
+      limit: limit,
+    );
+    return _orderMapper.mapToListEntity(dtos);
   }
 
   @override
-  Future<void> createOrder({
+  Future<OrderEntity> createOrder({
     required CreateOrderRequestEntity orderData,
-    required List<OrderItemEntity> orderItems,
   }) async {
-    final orderDto = _orderMapper.mapToDto(orderData);
-    final responseDto = await _orderSupabaseService.createOrder(data: orderDto.toJson());
-    final orderId = responseDto.id;
-
-    final orderItemDtos = orderItems.map((item) {
-      final dto = _orderMapper.mapOrderItemToDto(item);
-      return dto.copyWith(orderId: orderId).toJson();
-    }).toList();
-
-    await _orderItemSupabaseService.createOrderItems(data: orderItemDtos);
+    final responseDto = await _orderSupabaseService.checkout(
+      addressId: orderData.addressId,
+      selectedCartItemIds: orderData.selectedCartItemIds,
+      shippingFee: orderData.shippingFee,
+      paymentMethod: orderData.paymentMethod ?? 'cod',
+      note: orderData.note,
+    );
+    return _orderMapper.mapToEntity(responseDto);
   }
 }

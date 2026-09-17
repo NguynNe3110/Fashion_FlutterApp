@@ -4,6 +4,7 @@ import 'package:shared/shared.dart';
 
 import 'product_card.dart';
 import '../../../../app.dart';
+
 class HomeProductGrid extends StatelessWidget {
   const HomeProductGrid({
     required this.products,
@@ -21,27 +22,27 @@ class HomeProductGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: Dimens.d20.responsive(), vertical: Dimens.d16.responsive()),
+      padding: EdgeInsets.symmetric(
+        horizontal: Dimens.d20.responsive(),
+        vertical: Dimens.d16.responsive(),
+      ),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: Dimens.d24.responsive(),
           crossAxisSpacing: Dimens.d12.responsive(),
-          childAspectRatio: 0.6,
+          childAspectRatio: 0.52,
         ),
-        delegate: SliverChildBuilderDelegate(
-          (context, index) {
-            final product = products[index];
-            final isFavorited = favoriteProductIds.contains(product.id);
-            return ProductCard(
-              product: product,
-              isFavorited: isFavorited,
-              onFavoriteTap: () => onFavoriteTap(product, isFavorited),
-              onTap: () => onProductTap(product),
-            );
-          },
-          childCount: products.length,
-        ),
+        delegate: SliverChildBuilderDelegate((context, index) {
+          final product = products[index];
+          final isFavorited = favoriteProductIds.contains(product.id);
+          return ProductCard(
+            product: product,
+            isFavorited: isFavorited,
+            onFavoriteTap: () => onFavoriteTap(product, isFavorited),
+            onTap: () => onProductTap(product),
+          );
+        }, childCount: products.length),
       ),
     );
   }

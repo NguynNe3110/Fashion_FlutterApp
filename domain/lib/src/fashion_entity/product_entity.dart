@@ -6,7 +6,6 @@ part 'product_entity.freezed.dart';
 
 @freezed
 sealed class ProductEntity with _$ProductEntity {
-
   const ProductEntity._(); // bat buoc khi muon tự viết get/set
 
   const factory ProductEntity({
@@ -21,9 +20,12 @@ sealed class ProductEntity with _$ProductEntity {
     String? categoryName,
     @Default([]) List<String> imageUrls,
     @Default([]) List<ProductVariantEntity> variants,
+    @Default(0) double ratingAverage,
+    @Default(0) int reviewCount,
   }) = _ProductEntity;
 
-  int get effectivePrice => discountPrice ?? price; // phai co private constructor mới get duoc
+  int get effectivePrice =>
+      discountPrice ?? price; // phai co private constructor mới get duoc
 
   bool get hasDiscount => discountPrice != null && discountPrice! < price;
 

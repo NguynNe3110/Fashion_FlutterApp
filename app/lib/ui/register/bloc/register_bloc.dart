@@ -9,9 +9,7 @@ import 'register.dart';
 
 @injectable
 class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
-  RegisterBloc(
-    this._registerAccountUseCase,
-  ) : super(const RegisterState()) {
+  RegisterBloc(this._registerAccountUseCase) : super(const RegisterState()) {
     on<NameTextFieldChanged>(_onNameTextFieldChanged);
     on<EmailTextFieldRegisterChanged>(_onEmailTextFieldChanged);
     on<PasswordTextFieldRegisterChanged>(_onPasswordTextFieldChanged);
@@ -41,63 +39,71 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
     NameTextFieldChanged event,
     Emitter<RegisterState> emit,
   ) {
-    emit(state.copyWith(
-      name: event.name,
-      isRegisterButtonEnabled: _checkCanRegister(
-        email: state.email,
-        password: state.password,
-        confirmPassword: state.confirmPassword,
-        isTermsAccepted: state.isTermsAccepted,
+    emit(
+      state.copyWith(
+        name: event.name,
+        isRegisterButtonEnabled: _checkCanRegister(
+          email: state.email,
+          password: state.password,
+          confirmPassword: state.confirmPassword,
+          isTermsAccepted: state.isTermsAccepted,
+        ),
       ),
-    ));
+    );
   }
 
   void _onEmailTextFieldChanged(
     EmailTextFieldRegisterChanged event,
     Emitter<RegisterState> emit,
   ) {
-    emit(state.copyWith(
-      email: event.email,
-      onPageError: '',
-      isRegisterButtonEnabled: _checkCanRegister(
+    emit(
+      state.copyWith(
         email: event.email,
-        password: state.password,
-        confirmPassword: state.confirmPassword,
-        isTermsAccepted: state.isTermsAccepted,
+        onPageError: '',
+        isRegisterButtonEnabled: _checkCanRegister(
+          email: event.email,
+          password: state.password,
+          confirmPassword: state.confirmPassword,
+          isTermsAccepted: state.isTermsAccepted,
+        ),
       ),
-    ));
+    );
   }
 
   void _onPasswordTextFieldChanged(
     PasswordTextFieldRegisterChanged event,
     Emitter<RegisterState> emit,
   ) {
-    emit(state.copyWith(
-      password: event.password,
-      onPageError: '',
-      isRegisterButtonEnabled: _checkCanRegister(
-        email: state.email,
+    emit(
+      state.copyWith(
         password: event.password,
-        confirmPassword: state.confirmPassword,
-        isTermsAccepted: state.isTermsAccepted,
+        onPageError: '',
+        isRegisterButtonEnabled: _checkCanRegister(
+          email: state.email,
+          password: event.password,
+          confirmPassword: state.confirmPassword,
+          isTermsAccepted: state.isTermsAccepted,
+        ),
       ),
-    ));
+    );
   }
 
   void _onConfirmPasswordTextFieldChanged(
     ConfirmPasswordTextFieldChanged event,
     Emitter<RegisterState> emit,
   ) {
-    emit(state.copyWith(
-      confirmPassword: event.confirmPassword,
-      onPageError: '',
-      isRegisterButtonEnabled: _checkCanRegister(
-        email: state.email,
-        password: state.password,
+    emit(
+      state.copyWith(
         confirmPassword: event.confirmPassword,
-        isTermsAccepted: state.isTermsAccepted,
+        onPageError: '',
+        isRegisterButtonEnabled: _checkCanRegister(
+          email: state.email,
+          password: state.password,
+          confirmPassword: event.confirmPassword,
+          isTermsAccepted: state.isTermsAccepted,
+        ),
       ),
-    ));
+    );
   }
 
   void _onEyeIconPressed(
@@ -118,15 +124,17 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
     TermsCheckboxToggled event,
     Emitter<RegisterState> emit,
   ) {
-    emit(state.copyWith(
-      isTermsAccepted: event.isAccepted,
-      isRegisterButtonEnabled: _checkCanRegister(
-        email: state.email,
-        password: state.password,
-        confirmPassword: state.confirmPassword,
+    emit(
+      state.copyWith(
         isTermsAccepted: event.isAccepted,
+        isRegisterButtonEnabled: _checkCanRegister(
+          email: state.email,
+          password: state.password,
+          confirmPassword: state.confirmPassword,
+          isTermsAccepted: event.isAccepted,
+        ),
       ),
-    ));
+    );
   }
 
   FutureOr<void> _onRegisterButtonPressed(
@@ -138,7 +146,7 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
         final username = state.name.trim().isNotEmpty
             ? state.name.trim()
             : state.email.trim().split('@').first;
-        await _registerAccountUseCase.execute(
+        final output = await _registerAccountUseCase.execute(
           RegisterAccountInput(
             username: username,
             email: state.email.trim(),
@@ -146,7 +154,14 @@ class RegisterBloc extends BaseBloc<RegisterEvent, RegisterState> {
             gender: Gender.other,
           ),
         );
-        await navigator.replace(const AppRouteInfo.main());
+        if (output.hasActiveSession) {
+          await navigator.replace(const AppRouteInfo.main());
+        } else {
+          navigator.showSuccessSnackBar(
+            'Vui lòng kiểm tra email để xác nhận tài khoản trước khi đăng nhập.',
+          );
+          await navigator.replace(const AppRouteInfo.login());
+        }
       },
       doOnError: (e) async {
         emit(state.copyWith(onPageError: e.toString()));

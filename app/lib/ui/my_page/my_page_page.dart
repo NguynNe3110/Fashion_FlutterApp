@@ -2,8 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared/shared.dart';
-
 import '../../app.dart';
 import 'bloc/my_page.dart';
 
@@ -36,24 +34,35 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
         leadingIcon: LeadingIcon.none,
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.settings_outlined, size: Dimens.d24.responsive(), color: AppColors.ink),
+            onPressed: () => navigator.push(const AppRouteInfo.personalInfo()),
+            icon: Icon(
+              Icons.settings_outlined,
+              size: Dimens.d24.responsive(),
+              color: AppColors.ink,
+            ),
           ),
           SizedBox(width: Dimens.d8.responsive()),
         ],
       ),
       body: BlocBuilder<MyPageBloc, MyPageState>(
         buildWhen: (prev, curr) =>
-            prev.profile != curr.profile || prev.isShimmerLoading != curr.isShimmerLoading,
+            prev.profile != curr.profile ||
+            prev.isShimmerLoading != curr.isShimmerLoading,
         builder: (context, state) {
           if (state.isShimmerLoading && state.profile == null) {
-            return const Center(child: CircularProgressIndicator(color: AppColors.ink));
+            return const Center(
+              child: CircularProgressIndicator(color: AppColors.ink),
+            );
           }
 
           return SingleChildScrollView(
             child: Column(
               children: [
-                _buildProfileHeader(state.profile),
+                InkWell(
+                  onTap: () =>
+                      navigator.push(const AppRouteInfo.personalInfo()),
+                  child: _buildProfileHeader(state.profile),
+                ),
                 _buildStatsGrid(),
                 _buildMenuSection(),
                 _buildLogoutButton(),
@@ -85,7 +94,11 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
                 clipBehavior: Clip.antiAlias,
                 child: profile?.avatarUrl != null
                     ? Image.network(profile!.avatarUrl!, fit: BoxFit.cover)
-                    : Icon(Icons.person_outline_rounded, size: Dimens.d40.responsive(), color: Colors.white),
+                    : Icon(
+                        Icons.person_outline_rounded,
+                        size: Dimens.d40.responsive(),
+                        color: Colors.white,
+                      ),
               ),
               Positioned(
                 bottom: 0,
@@ -97,7 +110,11 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 2),
                   ),
-                  child: Icon(Icons.add_rounded, size: Dimens.d16.responsive(), color: Colors.white),
+                  child: Icon(
+                    Icons.add_rounded,
+                    size: Dimens.d16.responsive(),
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
@@ -109,14 +126,20 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
           ),
           SizedBox(height: Dimens.d4.responsive()),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: Dimens.d12.responsive(), vertical: Dimens.d4.responsive()),
+            padding: EdgeInsets.symmetric(
+              horizontal: Dimens.d12.responsive(),
+              vertical: Dimens.d4.responsive(),
+            ),
             decoration: BoxDecoration(
               color: AppColors.surface2,
               borderRadius: BorderRadius.circular(Dimens.d99.responsive()),
             ),
             child: Text(
               'THÀNH VIÊN BẠC',
-              style: AppTextStyles.eyebrow().copyWith(fontSize: Dimens.d8.responsive(), color: AppColors.ink2),
+              style: AppTextStyles.eyebrow().copyWith(
+                fontSize: Dimens.d8.responsive(),
+                color: AppColors.ink2,
+              ),
             ),
           ),
         ],
@@ -153,7 +176,9 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
           SizedBox(height: Dimens.d4.responsive()),
           Text(
             label.toUpperCase(),
-            style: AppTextStyles.eyebrow().copyWith(fontSize: Dimens.d8.responsive()),
+            style: AppTextStyles.eyebrow().copyWith(
+              fontSize: Dimens.d8.responsive(),
+            ),
           ),
         ],
       ),
@@ -173,33 +198,70 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
       padding: EdgeInsets.symmetric(vertical: Dimens.d32.responsive()),
       child: Column(
         children: [
-          _menuItem(Icons.shopping_bag_outlined, 'Lịch sử mua hàng'),
-          _menuItem(Icons.location_on_outlined, 'Sổ địa chỉ'),
-          _menuItem(Icons.payment_outlined, 'Phương thức thanh toán'),
-          _menuItem(Icons.star_outline_rounded, 'Đánh giá của tôi'),
-          _menuItem(Icons.help_outline_rounded, 'Trung tâm trợ giúp'),
+          _menuItem(
+            Icons.shopping_bag_outlined,
+            'Lịch sử mua hàng',
+            () => navigator.push(const AppRouteInfo.orderHistory()),
+          ),
+          _menuItem(
+            Icons.location_on_outlined,
+            'Sổ địa chỉ',
+            () => navigator.push(const AppRouteInfo.address()),
+          ),
+          _menuItem(
+            Icons.payment_outlined,
+            'Phương thức thanh toán',
+            () => navigator.push(const AppRouteInfo.paymentMethods()),
+          ),
+          _menuItem(
+            Icons.confirmation_number_outlined,
+            'Voucher của tôi',
+            () => navigator.push(const AppRouteInfo.vouchers()),
+          ),
+          _menuItem(
+            Icons.notifications_none_rounded,
+            'Thông báo',
+            () => navigator.push(const AppRouteInfo.notification()),
+          ),
+          _menuItem(
+            Icons.help_outline_rounded,
+            'Trung tâm trợ giúp',
+            () => navigator.push(const AppRouteInfo.help()),
+          ),
         ],
       ),
     );
   }
 
-  Widget _menuItem(IconData icon, String title) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: Dimens.d24.responsive(), vertical: Dimens.d16.responsive()),
-      decoration: const BoxDecoration(
-        border: Border(bottom: BorderSide(color: AppColors.line)),
-      ),
-      child: Row(
-        children: [
-          Icon(icon, size: Dimens.d22.responsive(), color: AppColors.ink2),
-          SizedBox(width: Dimens.d16.responsive()),
-          Text(
-            title,
-            style: AppTextStyles.s14w400Primary().copyWith(fontSize: Dimens.d15.responsive()),
-          ),
-          const Spacer(),
-          Icon(Icons.chevron_right_rounded, size: Dimens.d20.responsive(), color: AppColors.ink4),
-        ],
+  Widget _menuItem(IconData icon, String title, VoidCallback onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: Dimens.d24.responsive(),
+          vertical: Dimens.d16.responsive(),
+        ),
+        decoration: const BoxDecoration(
+          border: Border(bottom: BorderSide(color: AppColors.line)),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: Dimens.d22.responsive(), color: AppColors.ink2),
+            SizedBox(width: Dimens.d16.responsive()),
+            Text(
+              title,
+              style: AppTextStyles.s14w400Primary().copyWith(
+                fontSize: Dimens.d15.responsive(),
+              ),
+            ),
+            const Spacer(),
+            Icon(
+              Icons.chevron_right_rounded,
+              size: Dimens.d20.responsive(),
+              color: AppColors.ink4,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -232,7 +294,9 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
   Widget _buildVersionInfo() {
     return Text(
       'Phiên bản 1.0.0 (Build 240916)',
-      style: AppTextStyles.s14w400Secondary().copyWith(fontSize: Dimens.d11.responsive()),
+      style: AppTextStyles.s14w400Secondary().copyWith(
+        fontSize: Dimens.d11.responsive(),
+      ),
     );
   }
 }

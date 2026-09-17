@@ -8,17 +8,27 @@ abstract class ItemDetailEvent extends BaseBlocEvent {
 }
 
 @freezed
-sealed class ItemDetailPageInitiated extends ItemDetailEvent with _$ItemDetailPageInitiated {
+sealed class ItemDetailPageInitiated extends ItemDetailEvent
+    with _$ItemDetailPageInitiated {
   const ItemDetailPageInitiated._();
   const factory ItemDetailPageInitiated() = _ItemDetailPageInitiated;
 }
 
 @freezed
-sealed class ItemDetailAddToCartPressed extends ItemDetailEvent with _$ItemDetailAddToCartPressed {
+sealed class ItemDetailAddToCartPressed extends ItemDetailEvent
+    with _$ItemDetailAddToCartPressed {
   const ItemDetailAddToCartPressed._();
   const factory ItemDetailAddToCartPressed({
     required String productId,
     required String variantId,
     required int quantity,
   }) = _ItemDetailAddToCartPressed;
+}
+
+@freezed
+sealed class ItemDetailFavoritePressed extends ItemDetailEvent
+    with _$ItemDetailFavoritePressed {
+  const ItemDetailFavoritePressed._();
+  const factory ItemDetailFavoritePressed({required String productId}) =
+      _ItemDetailFavoritePressed;
 }

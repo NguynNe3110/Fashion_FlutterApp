@@ -13,10 +13,7 @@ abstract class Repository {
 
   Stream<bool> get onConnectivityChanged;
 
-  Future<void> login({
-    required String email,
-    required String password,
-  });
+  Future<void> login({required String email, required String password});
 
   Future<void> logout();
 
@@ -29,7 +26,7 @@ abstract class Repository {
 
   Future<void> forgotPassword(String email);
 
-  Future<void> register({
+  Future<bool> register({
     required String username,
     required String email,
     required String password,
@@ -44,10 +41,7 @@ abstract class Repository {
 
   Future<bool> saveIsFirstLaunchApp(bool isFirstLaunchApp);
 
-  Future<PagedList<User>> getUsers({
-    required int page,
-    required int? limit,
-  });
+  Future<PagedList<User>> getUsers({required int page, required int? limit});
 
   Future<bool> saveIsDarkMode(bool isDarkMode);
 
@@ -56,6 +50,8 @@ abstract class Repository {
   Future<void> saveAccessToken(String accessToken);
 
   Future<bool> saveUserPreference(User user);
+
+  Future<void> addSearchHistory(String keyword, {String? productId});
 
   Future<User> getMe();
 

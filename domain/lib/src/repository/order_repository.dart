@@ -4,10 +4,13 @@ abstract class OrderRepository {
   Future<List<OrderEntity>> getOrders({required String userId});
   Future<OrderEntity> getOrderById({required String id});
 
-  Future<List<OrderEntity>> getOrderHistory({required String userId, int page = 0, int limit = 20});
+  Future<List<OrderEntity>> getOrderHistory({
+    required String userId,
+    int page = 0,
+    int limit = 20,
+  });
 
-  Future<void> createOrder({
+  Future<OrderEntity> createOrder({
     required CreateOrderRequestEntity orderData,
-    required List<OrderItemEntity> orderItems,
   });
 }

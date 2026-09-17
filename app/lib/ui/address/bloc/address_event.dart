@@ -15,10 +15,27 @@ class AddressPageInitiated extends AddressEvent with _$AddressPageInitiated {
 
 @freezed
 class DeleteAddressPressed extends AddressEvent with _$DeleteAddressPressed {
-  const factory DeleteAddressPressed({required String id}) = _DeleteAddressPressed;
+  const factory DeleteAddressPressed({required String id}) =
+      _DeleteAddressPressed;
 }
 
 @freezed
-class SetDefaultAddressPressed extends AddressEvent with _$SetDefaultAddressPressed {
-  const factory SetDefaultAddressPressed({required String id}) = _SetDefaultAddressPressed;
+class SetDefaultAddressPressed extends AddressEvent
+    with _$SetDefaultAddressPressed {
+  const factory SetDefaultAddressPressed({required String id}) =
+      _SetDefaultAddressPressed;
+}
+
+@freezed
+class AddAddressSubmitted extends AddressEvent with _$AddAddressSubmitted {
+  const factory AddAddressSubmitted({
+    required String label,
+    required String receiverName,
+    required String phoneNumber,
+    required String addressLine,
+    required String city,
+    required String district,
+    String? ward,
+    @Default(false) bool isDefault,
+  }) = _AddAddressSubmitted;
 }

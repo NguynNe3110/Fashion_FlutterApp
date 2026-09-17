@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared/shared.dart';
 
 import '../../app.dart';
+
 @RoutePage()
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -32,7 +33,9 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
           fontStyle: FontStyle.italic,
         ),
         centerTitle: true,
-        leadingIcon: LeadingIcon.none,
+        leadingIcon: LeadingIcon.back,
+        onLeadingPressed: () =>
+            navigator.navigateToBottomTab(BottomTab.home.index),
       ),
       body: BlocBuilder<CartBloc, CartState>(
         buildWhen: (prev, curr) =>
@@ -87,7 +90,9 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
                             ? Icons.check_box_rounded
                             : Icons.check_box_outline_blank_rounded,
                         size: Dimens.d20.responsive(),
-                        color: state.isAllSelected ? AppColors.ink : AppColors.ink4,
+                        color: state.isAllSelected
+                            ? AppColors.ink
+                            : AppColors.ink4,
                       ),
                       SizedBox(width: Dimens.d8.responsive()),
                       Text(
@@ -105,7 +110,9 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
                     onTap: () => bloc.add(const CartSelectedItemsRemoved()),
                     child: Text(
                       'Xóa',
-                      style: AppTextStyles.linkText().copyWith(color: AppColors.sale),
+                      style: AppTextStyles.linkText().copyWith(
+                        color: AppColors.sale,
+                      ),
                     ),
                   ),
               ],
@@ -113,25 +120,18 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
           ),
         ),
         SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              final item = state.items[index];
-              return _buildCartItem(item, state);
-            },
-            childCount: state.items.length,
-          ),
+          delegate: SliverChildBuilderDelegate((context, index) {
+            final item = state.items[index];
+            return _buildCartItem(item, state);
+          }, childCount: state.items.length),
         ),
         SliverPadding(
           padding: EdgeInsets.all(Dimens.d20.responsive()),
-          sliver: SliverToBoxAdapter(
-            child: _buildPromoCodeSection(),
-          ),
+          sliver: SliverToBoxAdapter(child: _buildPromoCodeSection()),
         ),
         SliverPadding(
           padding: EdgeInsets.symmetric(horizontal: Dimens.d20.responsive()),
-          sliver: SliverToBoxAdapter(
-            child: _buildSummarySection(state),
-          ),
+          sliver: SliverToBoxAdapter(child: _buildSummarySection(state)),
         ),
         SliverToBoxAdapter(child: SizedBox(height: Dimens.d32.responsive())),
       ],
@@ -139,7 +139,12 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
   }
 
   Widget _buildCartItem(CartItemEntity item, CartState state) {
-    final product = state.products.firstWhereOrNull((p) => p.id == item.productId);
+    final product = state.products.firstWhereOrNull(
+      (p) => p.id == item.productId,
+    );
+    final variant = product?.variants.firstWhereOrNull(
+      (value) => value.id == item.variantId,
+    );
     final isSelected = state.isItemSelected(item.id);
 
     return Container(
@@ -151,11 +156,14 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           GestureDetector(
-            onTap: () => bloc.add(CartItemSelectionToggled(cartItemId: item.id)),
+            onTap: () =>
+                bloc.add(CartItemSelectionToggled(cartItemId: item.id)),
             child: Padding(
               padding: EdgeInsets.only(top: Dimens.d40.responsive()),
               child: Icon(
-                isSelected ? Icons.check_box_rounded : Icons.check_box_outline_blank_rounded,
+                isSelected
+                    ? Icons.check_box_rounded
+                    : Icons.check_box_outline_blank_rounded,
                 size: Dimens.d20.responsive(),
                 color: isSelected ? AppColors.ink : AppColors.ink4,
               ),
@@ -181,7 +189,9 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
               children: [
                 Text(
                   product?.categoryName?.toUpperCase() ?? 'BRAND',
-                  style: AppTextStyles.eyebrow().copyWith(fontSize: Dimens.d9.responsive()),
+                  style: AppTextStyles.eyebrow().copyWith(
+                    fontSize: Dimens.d9.responsive(),
+                  ),
                 ),
                 SizedBox(height: Dimens.d4.responsive()),
                 Text(
@@ -192,17 +202,22 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
                   ),
                 ),
                 SizedBox(height: Dimens.d8.responsive()),
-                // TODO(nals): Fetch variant details (size, color) from DB
                 Text(
-                  'Mặc định',
-                  style: AppTextStyles.s14w400Secondary().copyWith(fontSize: Dimens.d12.responsive()),
+                  variant == null
+                      ? 'Mặc định'
+                      : 'Size ${variant.size} · Màu ${variant.color}',
+                  style: AppTextStyles.s14w400Secondary().copyWith(
+                    fontSize: Dimens.d12.responsive(),
+                  ),
                 ),
                 SizedBox(height: Dimens.d12.responsive()),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      NumberFormatUtils.formatYen(product?.effectivePrice.toDouble() ?? 0),
+                      NumberFormatUtils.formatYen(
+                        product?.effectivePrice.toDouble() ?? 0,
+                      ),
                       style: AppTextStyles.s14w400Primary().copyWith(
                         fontSize: Dimens.d16.responsive(),
                         fontWeight: FontWeight.w600,
@@ -229,7 +244,9 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
         children: [
           _stepperButton(
             Icons.remove_rounded,
-            () => bloc.add(CartItemQuantityChanged(cartItemId: item.id, delta: -1)),
+            () => bloc.add(
+              CartItemQuantityChanged(cartItemId: item.id, delta: -1),
+            ),
           ),
           SizedBox(
             width: Dimens.d32.responsive(),
@@ -244,7 +261,9 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
           ),
           _stepperButton(
             Icons.add_rounded,
-            () => bloc.add(CartItemQuantityChanged(cartItemId: item.id, delta: 1)),
+            () => bloc.add(
+              CartItemQuantityChanged(cartItemId: item.id, delta: 1),
+            ),
           ),
         ],
       ),
@@ -271,27 +290,37 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
           children: [
             Expanded(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: Dimens.d16.responsive(), vertical: Dimens.d14.responsive()),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Dimens.d16.responsive(),
+                  vertical: Dimens.d14.responsive(),
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.surface2,
                   borderRadius: BorderRadius.circular(Dimens.d100.responsive()),
                 ),
                 child: Text(
                   'Nhập mã của bạn',
-                  style: AppTextStyles.s14w400Secondary().copyWith(color: AppColors.ink4),
+                  style: AppTextStyles.s14w400Secondary().copyWith(
+                    color: AppColors.ink4,
+                  ),
                 ),
               ),
             ),
             SizedBox(width: Dimens.d12.responsive()),
             Container(
-              padding: EdgeInsets.symmetric(horizontal: Dimens.d24.responsive(), vertical: Dimens.d14.responsive()),
+              padding: EdgeInsets.symmetric(
+                horizontal: Dimens.d24.responsive(),
+                vertical: Dimens.d14.responsive(),
+              ),
               decoration: BoxDecoration(
                 border: Border.all(color: AppColors.line2),
                 borderRadius: BorderRadius.circular(Dimens.d100.responsive()),
               ),
               child: Text(
                 'Áp dụng',
-                style: AppTextStyles.s14w400Primary().copyWith(fontWeight: FontWeight.w600),
+                style: AppTextStyles.s14w400Primary().copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],
@@ -362,11 +391,18 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
             ),
           ),
           GestureDetector(
-            onTap: state.selectedItemIds.isEmpty ? null : () => bloc.add(const CartCheckOutPressed()),
+            onTap: state.selectedItemIds.isEmpty
+                ? null
+                : () => bloc.add(const CartCheckOutPressed()),
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: Dimens.d40.responsive(), vertical: Dimens.d16.responsive()),
+              padding: EdgeInsets.symmetric(
+                horizontal: Dimens.d40.responsive(),
+                vertical: Dimens.d16.responsive(),
+              ),
               decoration: BoxDecoration(
-                color: state.selectedItemIds.isEmpty ? AppColors.ink4 : AppColors.ink,
+                color: state.selectedItemIds.isEmpty
+                    ? AppColors.ink4
+                    : AppColors.ink,
                 borderRadius: BorderRadius.circular(Dimens.d100.responsive()),
               ),
               child: Text(
@@ -390,7 +426,11 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.shopping_bag_outlined, size: Dimens.d64.responsive(), color: AppColors.ink4),
+            Icon(
+              Icons.shopping_bag_outlined,
+              size: Dimens.d64.responsive(),
+              color: AppColors.ink4,
+            ),
             SizedBox(height: Dimens.d24.responsive()),
             Text('Giỏ hàng trống', style: AppTextStyles.h2Serif()),
             SizedBox(height: Dimens.d12.responsive()),
@@ -401,16 +441,22 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
             ),
             SizedBox(height: Dimens.d32.responsive()),
             GestureDetector(
-              onTap: () => navigator.popUntilRootOfCurrentBottomTab(),
+              onTap: () => navigator.navigateToBottomTab(BottomTab.home.index),
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: Dimens.d32.responsive(), vertical: Dimens.d16.responsive()),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Dimens.d32.responsive(),
+                  vertical: Dimens.d16.responsive(),
+                ),
                 decoration: BoxDecoration(
                   color: AppColors.ink,
                   borderRadius: BorderRadius.circular(Dimens.d100.responsive()),
                 ),
                 child: Text(
                   'Tiếp tục mua sắm',
-                  style: AppTextStyles.s14w400Primary().copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+                  style: AppTextStyles.s14w400Primary().copyWith(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),

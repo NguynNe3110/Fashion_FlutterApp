@@ -17,9 +17,19 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
     on<CartPageInitiated>(_onCartPageInitiated, transformer: log());
     on<CartItemQuantityChanged>(_onCartItemQuantityChanged, transformer: log());
     on<CartItemRemoved>(_onCartItemRemoved, transformer: log());
-    on<CartItemSelectionToggled>(_onCartItemSelectionToggled, transformer: log());
+    on<CartItemSelectionToggled>(
+      _onCartItemSelectionToggled,
+      transformer: log(),
+    );
+    on<CartAllItemsSelectionToggled>(
+      _onCartAllItemsSelectionToggled,
+      transformer: log(),
+    );
     on<CartCheckOutPressed>(_onCartCheckOutPressed, transformer: log());
-    on<CartSelectedItemsRemoved>(_onCartSelectedItemsRemoved, transformer: log());
+    on<CartSelectedItemsRemoved>(
+      _onCartSelectedItemsRemoved,
+      transformer: log(),
+    );
   }
 
   final DeleteCartItemUseCase _deleteCartItemUseCase;
@@ -41,14 +51,18 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
           GetCartItemsUseCaseInput(userId: userId),
         );
 
-        emit(state.copyWith(
-          items: cartItemOutput.cartItems,
-          products: cartItemOutput.products,
-          summary: cartItemOutput.summary,
-        ));
+        emit(
+          state.copyWith(
+            items: cartItemOutput.cartItems,
+            products: cartItemOutput.products,
+            summary: cartItemOutput.summary,
+          ),
+        );
       },
-      doOnSubscribe: () async => emit(state.copyWith(isShimmerLoading: true)), // trước action
-      doOnSuccessOrError: () async => emit(state.copyWith(isShimmerLoading: false)), // sau action
+      doOnSubscribe: () async =>
+          emit(state.copyWith(isShimmerLoading: true)), // trước action
+      doOnSuccessOrError: () async =>
+          emit(state.copyWith(isShimmerLoading: false)), // sau action
       doOnError: (e) async => emit(state.copyWith(loadException: e)),
       handleLoading: false, // tự xử lý loading
     );
@@ -61,7 +75,9 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
     return runBlocCatching(
       action: () async {
         // tìm item đang click
-        final itemIndex = state.items.indexWhere((i) => i.id == event.cartItemId);
+        final itemIndex = state.items.indexWhere(
+          (i) => i.id == event.cartItemId,
+        );
         if (itemIndex == -1) return;
 
         final currentItem = state.items[itemIndex];
@@ -84,10 +100,7 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
           products: state.products,
         );
 
-        emit(state.copyWith(
-          items: updatedItems,
-          summary: newSummary,
-        ));
+        emit(state.copyWith(items: updatedItems, summary: newSummary));
       },
       handleLoading: false, // k  cần
     );
@@ -106,19 +119,46 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
       updatedIds.add(event.cartItemId);
     }
 
-    final selectedItems = state.items.where((i) => updatedIds.contains(i.id)).toList();
+    final selectedItems = state.items
+        .where((i) => updatedIds.contains(i.id))
+        .toList();
     final newSummary = CartSummaryEntity.calculateTotalPrice(
       cartItems: selectedItems,
       products: state.products,
     );
 
-    emit(state.copyWith(
-      selectedItemIds: updatedIds, //here
-      summary: newSummary,
-    ));
+    emit(
+      state.copyWith(
+        selectedItemIds: updatedIds, //here
+        summary: newSummary,
+      ),
+    );
   }
 
-  FutureOr<void> _onCartItemRemoved( //xóa r update
+  void _onCartAllItemsSelectionToggled(
+    CartAllItemsSelectionToggled event,
+    Emitter<CartState> emit,
+  ) {
+    final selectedIds = state.isAllSelected
+        ? <String>[]
+        : state.items.map((item) => item.id).toList(growable: false);
+    final selectedItems = state.items
+        .where((item) => selectedIds.contains(item.id))
+        .toList(growable: false);
+
+    emit(
+      state.copyWith(
+        selectedItemIds: selectedIds,
+        summary: CartSummaryEntity.calculateTotalPrice(
+          cartItems: selectedItems,
+          products: state.products,
+        ),
+      ),
+    );
+  }
+
+  FutureOr<void> _onCartItemRemoved(
+    //xóa r update
     CartItemRemoved event,
     Emitter<CartState> emit,
   ) async {
@@ -128,20 +168,28 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
           DeleteCartItemUseCaseInput(cartItemId: event.cartItemId),
         );
 
-        final updatedItems = state.items.where((i) => i.id != event.cartItemId).toList();
-        final updatedSelectedIds = state.selectedItemIds.where((id) => id != event.cartItemId).toList();
+        final updatedItems = state.items
+            .where((i) => i.id != event.cartItemId)
+            .toList();
+        final updatedSelectedIds = state.selectedItemIds
+            .where((id) => id != event.cartItemId)
+            .toList();
 
-        final selectedItems = updatedItems.where((i) => updatedSelectedIds.contains(i.id)).toList();
+        final selectedItems = updatedItems
+            .where((i) => updatedSelectedIds.contains(i.id))
+            .toList();
         final newSummary = CartSummaryEntity.calculateTotalPrice(
           cartItems: selectedItems,
           products: state.products,
         );
 
-        emit(state.copyWith(
-          items: updatedItems,
-          selectedItemIds: updatedSelectedIds,
-          summary: newSummary,
-        ));
+        emit(
+          state.copyWith(
+            items: updatedItems,
+            selectedItemIds: updatedSelectedIds,
+            summary: newSummary,
+          ),
+        );
       },
       handleLoading: false,
     );
@@ -153,11 +201,13 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
   ) async {
     if (state.selectedItemIds.isEmpty) return;
 
-    await navigator.push(AppRouteInfo.checkout(
-      selectedItems: state.selectedItems,
-      products: state.products,
-      summary: state.summary,
-    ));
+    await navigator.push(
+      AppRouteInfo.checkout(
+        selectedItems: state.selectedItems,
+        products: state.products,
+        summary: state.summary,
+      ),
+    );
   }
 
   FutureOr<void> _onCartSelectedItemsRemoved(
@@ -174,17 +224,21 @@ class CartBloc extends BaseBloc<CartEvent, CartState> {
           );
         }
 
-        final remainingItems = state.items.where((i) => !state.selectedItemIds.contains(i.id)).toList();
+        final remainingItems = state.items
+            .where((i) => !state.selectedItemIds.contains(i.id))
+            .toList();
         final newSummary = CartSummaryEntity.calculateTotalPrice(
           cartItems: remainingItems,
           products: state.products,
         );
 
-        emit(state.copyWith(
-          items: remainingItems,
-          selectedItemIds: [],
-          summary: newSummary,
-        ));
+        emit(
+          state.copyWith(
+            items: remainingItems,
+            selectedItemIds: [],
+            summary: newSummary,
+          ),
+        );
       },
     );
   }

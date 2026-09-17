@@ -2,7 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:domain/domain.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../app.dart' hide EyeIconPressed, PasswordTextFieldChanged, EmailTextFieldChanged;
+import '../../app.dart'
+    hide EyeIconPressed, PasswordTextFieldChanged, EmailTextFieldChanged;
 import 'bloc/login.dart';
 
 @RoutePage()
@@ -24,18 +25,15 @@ class _LoginPageState extends BasePageState<LoginPage, LoginBloc> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: Dimens.d24.responsive(),
-            ),
+            padding: EdgeInsets.symmetric(horizontal: Dimens.d24.responsive()),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: Dimens.d12.responsive()),
                 // Back button
                 GestureDetector(
-                  onTap: () => navigator.canPopSelfOrChildren
-                      ? navigator.pop()
-                      : null,
+                  onTap: () =>
+                      navigator.canPopSelfOrChildren ? navigator.pop() : null,
                   child: Icon(
                     Icons.arrow_back,
                     size: Dimens.d20.responsive(),
@@ -87,18 +85,16 @@ class _LoginPageState extends BasePageState<LoginPage, LoginBloc> {
                 _buildLabel('Mật khẩu'),
                 SizedBox(height: Dimens.d6.responsive()),
                 BlocBuilder<LoginBloc, LoginState>(
-                  buildWhen: (prev, cur) =>
-                      prev.obscureText != cur.obscureText,
+                  buildWhen: (prev, cur) => prev.obscureText != cur.obscureText,
                   builder: (context, state) {
                     return TextField(
-                      onChanged: (pass) => bloc
-                          .add(PasswordTextFieldChanged(password: pass)),
+                      onChanged: (pass) =>
+                          bloc.add(PasswordTextFieldChanged(password: pass)),
                       obscureText: !state.obscureText,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: _inputDecoration('••••••••').copyWith(
                         suffixIcon: GestureDetector(
-                          onTap: () =>
-                              bloc.add(const EyeIconPressed()),
+                          onTap: () => bloc.add(const EyeIconPressed()),
                           child: Icon(
                             state.obscureText
                                 ? Icons.visibility
@@ -140,9 +136,8 @@ class _LoginPageState extends BasePageState<LoginPage, LoginBloc> {
                       ],
                     ),
                     GestureDetector(
-                      onTap: () {
-                        // ponytail: navigate to forgot password when route exists
-                      },
+                      onTap: () =>
+                          navigator.push(const AppRouteInfo.forgotPassword()),
                       child: Text(
                         'Quên mật khẩu?',
                         style: TextStyle(
@@ -157,15 +152,13 @@ class _LoginPageState extends BasePageState<LoginPage, LoginBloc> {
                 SizedBox(height: Dimens.d24.responsive()),
                 // Error text
                 BlocBuilder<LoginBloc, LoginState>(
-                  buildWhen: (prev, cur) =>
-                      prev.onPageError != cur.onPageError,
+                  buildWhen: (prev, cur) => prev.onPageError != cur.onPageError,
                   builder: (_, state) {
                     if (state.onPageError.isEmpty) {
                       return const SizedBox.shrink();
                     }
                     return Padding(
-                      padding:
-                          EdgeInsets.only(bottom: Dimens.d12.responsive()),
+                      padding: EdgeInsets.only(bottom: Dimens.d12.responsive()),
                       child: Text(
                         state.onPageError,
                         style: TextStyle(
@@ -179,25 +172,25 @@ class _LoginPageState extends BasePageState<LoginPage, LoginBloc> {
                 // Login button
                 BlocBuilder<LoginBloc, LoginState>(
                   buildWhen: (prev, cur) =>
-                      prev.isLoginButtonEnabled !=
-                      cur.isLoginButtonEnabled,
+                      prev.isLoginButtonEnabled != cur.isLoginButtonEnabled,
                   builder: (context, state) {
                     return SizedBox(
                       width: double.infinity,
                       height: Dimens.d48.responsive(),
                       child: ElevatedButton(
                         onPressed: state.isLoginButtonEnabled
-                            ? () =>
-                                bloc.add(const LoginButtonPressed())
+                            ? () => bloc.add(const LoginButtonPressed())
                             : null,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFF111110),
-                          disabledBackgroundColor:
-                              const Color(0xFF111110).withValues(alpha: 0.4),
+                          disabledBackgroundColor: const Color(
+                            0xFF111110,
+                          ).withValues(alpha: 0.4),
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(
-                                Dimens.d8.responsive()),
+                              Dimens.d8.responsive(),
+                            ),
                           ),
                           elevation: 0,
                         ),
@@ -216,11 +209,11 @@ class _LoginPageState extends BasePageState<LoginPage, LoginBloc> {
                 // Divider "hoặc"
                 Row(
                   children: [
-                    const Expanded(
-                        child: Divider(color: Color(0xFFE8E5DE))),
+                    const Expanded(child: Divider(color: Color(0xFFE8E5DE))),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: Dimens.d12.responsive()),
+                        horizontal: Dimens.d12.responsive(),
+                      ),
                       child: Text(
                         'HOẶC',
                         style: TextStyle(
@@ -230,8 +223,7 @@ class _LoginPageState extends BasePageState<LoginPage, LoginBloc> {
                         ),
                       ),
                     ),
-                    const Expanded(
-                        child: Divider(color: Color(0xFFE8E5DE))),
+                    const Expanded(child: Divider(color: Color(0xFFE8E5DE))),
                   ],
                 ),
                 SizedBox(height: Dimens.d16.responsive()),
@@ -328,10 +320,7 @@ class _LoginPageState extends BasePageState<LoginPage, LoginBloc> {
           // ponytail: social login, add when backend supports
         },
         icon: Icon(icon, size: Dimens.d18.responsive()),
-        label: Text(
-          label,
-          style: TextStyle(fontSize: Dimens.d14.responsive()),
-        ),
+        label: Text(label, style: TextStyle(fontSize: Dimens.d14.responsive())),
         style: OutlinedButton.styleFrom(
           foregroundColor: const Color(0xFF111110),
           side: const BorderSide(color: Color(0xFFE8E5DE)),

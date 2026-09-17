@@ -51,7 +51,9 @@ class CartItemSupabaseService {
             .select()
             .single(); // luôn trả về Map<String, dynamic>
 
-        return CartItemResponseDto.fromJson(response as Map<String, dynamic>); // có thể khoogn cần as..., Nhugnw vẫn nên thêm vào cho  đẳng cắp
+        return CartItemResponseDto.fromJson(
+          response,
+        ); // có thể khoogn cần as..., Nhugnw vẫn nên thêm vào cho  đẳng cắp
       },
     );
   }
@@ -59,25 +61,48 @@ class CartItemSupabaseService {
   Future<void> deleteCartItem({required String id}) {
     return runSupabaseCatching(
       action: () async {
-        await _supabaseClient
-            .from('cart_items')
-            .delete()
-            .eq('id', id);
+        await _supabaseClient.from('cart_items').delete().eq('id', id);
       },
     );
   }
 
-  Future<CartItemResponseDto> addCartItem({required Map<String, dynamic> data}) {
+  Future<CartItemResponseDto> addCartItem({
+    required Map<String, dynamic> data,
+  }) {
     return runSupabaseCatching(
       action: () async {
-        final response = await _supabaseClient
+        final userId = data['user_id'] as String;
+        final variantId = data['variant_id'] as String;
+        final quantity = data['quantity'] as int;
+        final existing = await _supabaseClient
             .from('cart_items')
-            .insert(data)
-            .select()
-            .single();
-        return CartItemResponseDto.fromJson(response as Map<String, dynamic>);
+            .select('id, quantity')
+            .eq('user_id', userId)
+            .eq('variant_id', variantId)
+            .maybeSingle();
+
+        final Map<String, dynamic> response;
+        if (existing == null) {
+          response = await _supabaseClient
+              .from('cart_items')
+              .insert({
+                'user_id': userId,
+                'product_id': data['product_id'],
+                'variant_id': variantId,
+                'quantity': quantity,
+              })
+              .select()
+              .single();
+        } else {
+          response = await _supabaseClient
+              .from('cart_items')
+              .update({'quantity': (existing['quantity'] as int) + quantity})
+              .eq('id', existing['id'] as String)
+              .select()
+              .single();
+        }
+        return CartItemResponseDto.fromJson(response);
       },
     );
   }
-
 }

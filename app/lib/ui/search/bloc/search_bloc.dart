@@ -9,7 +9,8 @@ import 'package:collection/collection.dart';
 
 @injectable
 class SearchBloc extends BaseBloc<SearchEvent, SearchState> {
-  SearchBloc(this._getProductsUseCase, this._addSearchHistoryUseCase) : super(const SearchState()) {
+  SearchBloc(this._getProductsUseCase, this._addSearchHistoryUseCase)
+    : super(const SearchState()) {
     on<SearchPageInitiated>(_onSearchPageInitiated, transformer: log());
     on<SearchKeywordChanged>(_onSearchKeywordChanged, transformer: log());
     on<SearchKeywordSubmitted>(_onSearchKeywordSubmitted, transformer: log());
@@ -43,13 +44,18 @@ class SearchBloc extends BaseBloc<SearchEvent, SearchState> {
     return runBlocCatching(
       action: () async {
         // Lưu lịch sử khi submit
-        await _addSearchHistoryUseCase.execute(AddSearchHistoryInput(keyword: keyword));
-        
-        final output = await _getProductsUseCase.execute(const GetProductsInput(offset: 0)); // TODO: truyền keyword khi API hỗ trợ
+        await _addSearchHistoryUseCase.execute(
+          AddSearchHistoryInput(keyword: keyword),
+        );
+
+        final output = await _getProductsUseCase.execute(
+          GetProductsInput(offset: 0, searchQuery: keyword),
+        );
         emit(state.copyWith(searchResults: output.products, keyword: keyword));
       },
       doOnSubscribe: () async => emit(state.copyWith(isShimmerLoading: true)),
-      doOnSuccessOrError: () async => emit(state.copyWith(isShimmerLoading: false)),
+      doOnSuccessOrError: () async =>
+          emit(state.copyWith(isShimmerLoading: false)),
       handleLoading: false,
     );
   }
@@ -58,7 +64,9 @@ class SearchBloc extends BaseBloc<SearchEvent, SearchState> {
     SearchProductClicked event,
     Emitter<SearchState> emit,
   ) async {
-    final product = state.searchResults.firstWhereOrNull((p) => p.id == event.productId);
+    final product = state.searchResults.firstWhereOrNull(
+      (p) => p.id == event.productId,
+    );
     if (product != null) {
       await navigator.push(AppRouteInfo.itemDetail(product));
     }

@@ -10,12 +10,14 @@ class AppRouteInfoMapper extends BaseRouteInfoMapper {
   @override
   PageRouteInfo map(AppRouteInfo appRouteInfo) {
     return appRouteInfo.when(
-      login: () => const LoginRoute(),      // Map định danh 'login' sang trang Login
+      login: () => const LoginRoute(), // Map định danh 'login' sang trang Login
       register: () => const RegisterRoute(),
       address: () => const AddressRoute(),
       orderDetail: (orderId) => OrderDetailRoute(orderId: orderId),
-      categoryProducts: (categoryId, categoryName) =>
-          CategoryProductsRoute(categoryId: categoryId, categoryName: categoryName),
+      categoryProducts: (categoryId, categoryName) => CategoryProductsRoute(
+        categoryId: categoryId,
+        categoryName: categoryName,
+      ),
       review: (productId, productName) =>
           ReviewRoute(productId: productId, productName: productName),
       onboarding: () => const OnboardingRoute(),
@@ -35,7 +37,8 @@ class AppRouteInfoMapper extends BaseRouteInfoMapper {
       orderHistory: () => const OrderHistoryRoute(),
       search: () => const SearchRoute(),
       notification: () => const NotificationRoute(),
-
+      personalInfo: () => const PersonalInfoRoute(),
+      help: () => const HelpRoute(),
     );
   }
 }

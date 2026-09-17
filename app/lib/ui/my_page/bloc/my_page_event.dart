@@ -9,13 +9,24 @@ abstract class MyPageEvent extends BaseBlocEvent {
 }
 
 @freezed
-sealed class MyPagePageInitiated extends MyPageEvent with _$MyPagePageInitiated {
+sealed class MyPagePageInitiated extends MyPageEvent
+    with _$MyPagePageInitiated {
   const MyPagePageInitiated._();
   const factory MyPagePageInitiated() = _MyPagePageInitiated;
 }
 
 @freezed
-sealed class LogoutButtonPressed extends MyPageEvent with _$LogoutButtonPressed {
+sealed class LogoutButtonPressed extends MyPageEvent
+    with _$LogoutButtonPressed {
   const LogoutButtonPressed._();
   const factory LogoutButtonPressed() = _LogoutButtonPressed;
+}
+
+@freezed
+sealed class ProfileSavePressed extends MyPageEvent with _$ProfileSavePressed {
+  const ProfileSavePressed._();
+  const factory ProfileSavePressed({
+    required String fullName,
+    required String phoneNumber,
+  }) = _ProfileSavePressed;
 }

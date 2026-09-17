@@ -99,17 +99,14 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
-    gh.factory<_i1027.GetOrderHistoryUseCase>(
-      () => _i1027.GetOrderHistoryUseCase(),
-    );
-    gh.factory<_i715.AddSearchHistoryUseCase>(
-      () => _i715.AddSearchHistoryUseCase(),
-    );
     gh.factory<_i155.GetOrdersUseCase>(
       () => _i155.GetOrdersUseCase(gh<_i494.OrderRepository>()),
     );
     gh.factory<_i479.GetOrderByIdUseCase>(
       () => _i479.GetOrderByIdUseCase(gh<_i494.OrderRepository>()),
+    );
+    gh.factory<_i1027.GetOrderHistoryUseCase>(
+      () => _i1027.GetOrderHistoryUseCase(gh<_i494.OrderRepository>()),
     );
     gh.factory<_i1051.CreateReviewUseCase>(
       () => _i1051.CreateReviewUseCase(gh<_i494.ReviewRepository>()),
@@ -219,6 +216,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i95.SaveLanguageCodeUseCase>(
       () => _i95.SaveLanguageCodeUseCase(gh<_i494.Repository>()),
+    );
+    gh.factory<_i715.AddSearchHistoryUseCase>(
+      () => _i715.AddSearchHistoryUseCase(gh<_i494.Repository>()),
     );
     gh.factory<_i529.GetProfileUseCase>(
       () => _i529.GetProfileUseCase(gh<_i494.ProfileRepository>()),

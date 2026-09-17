@@ -22,22 +22,34 @@ class _MainPageState extends BasePageState<MainPage, MainBloc> {
       bottomNavigationBuilder: (_, tabsRouter) {
         (navigator as AppNavigatorImpl).tabsRouter = tabsRouter;
 
+        // Cart has its own sticky checkout bar. Keep it full-screen so the two
+        // bottom actions never overlap or compete for space.
+        if (tabsRouter.activeIndex == BottomTab.cart.index) {
+          return const SizedBox.shrink();
+        }
+
         return SafeArea(
           bottom: true,
           child: Container(
-            margin: EdgeInsets.all(Dimens.d16.responsive()),
+            margin: EdgeInsets.fromLTRB(
+              Dimens.d16.responsive(),
+              Dimens.d6.responsive(),
+              Dimens.d16.responsive(),
+              Dimens.d10.responsive(),
+            ),
             padding: EdgeInsets.symmetric(
-              horizontal: Dimens.d12.responsive(),
+              horizontal: Dimens.d10.responsive(),
               vertical: Dimens.d8.responsive(),
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.surface,
+              border: Border.all(color: AppColors.line),
               borderRadius: BorderRadius.circular(Dimens.d40.responsive()),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 10,
-                  offset: const Offset(0, 4),
+                  color: AppColors.ink.withValues(alpha: 0.08),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
                 ),
               ],
             ),
@@ -49,19 +61,26 @@ class _MainPageState extends BasePageState<MainPage, MainBloc> {
                 return GestureDetector(
                   onTap: () {
                     if (isSelected) {
-                      (navigator as AppNavigatorImpl).popUntilRootOfCurrentBottomTab();
+                      (navigator as AppNavigatorImpl)
+                          .popUntilRootOfCurrentBottomTab();
                     }
                     tabsRouter.setActiveIndex(tab.index);
                   },
                   child: AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
                     padding: EdgeInsets.symmetric(
-                      horizontal: isSelected ? Dimens.d16.responsive() : Dimens.d12.responsive(),
+                      horizontal: isSelected
+                          ? Dimens.d16.responsive()
+                          : Dimens.d12.responsive(),
                       vertical: Dimens.d8.responsive(),
                     ),
                     decoration: BoxDecoration(
-                      color: isSelected ? const Color(0xFFF0F9F6) : Colors.transparent,
-                      borderRadius: BorderRadius.circular(Dimens.d30.responsive()),
+                      color: isSelected
+                          ? AppColors.surface2
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(
+                        Dimens.d30.responsive(),
+                      ),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -71,8 +90,10 @@ class _MainPageState extends BasePageState<MainPage, MainBloc> {
                           SizedBox(width: Dimens.d8.responsive()),
                           Text(
                             tab.title,
+                            maxLines: 1,
                             style: AppTextStyles.s14w400Primary().copyWith(
-                              color: const Color(0xFF7EB6A7),
+                              fontSize: Dimens.d12.responsive(),
+                              color: AppColors.ink,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -90,44 +111,9 @@ class _MainPageState extends BasePageState<MainPage, MainBloc> {
   }
 
   Widget _buildIcon(BottomTab tab, bool isSelected) {
-    final iconColor = isSelected ? const Color(0xFF7EB6A7) : const Color(0xFFA5A199);
+    final iconColor = isSelected ? AppColors.ink : AppColors.ink4;
     final iconData = (isSelected ? tab.activeIcon : tab.icon).icon;
 
-    Widget iconWidget = Icon(
-      iconData,
-      color: iconColor,
-      size: Dimens.d24.responsive(),
-    );
-
-    // Dummy badge for cart
-    if (tab == BottomTab.cart) {
-      return Stack(
-        clipBehavior: Clip.none,
-        children: [
-          iconWidget,
-          Positioned(
-            right: -4,
-            top: -4,
-            child: Container(
-              padding: const EdgeInsets.all(4),
-              decoration: const BoxDecoration(
-                color: Color(0xFFE57373),
-                shape: BoxShape.circle,
-              ),
-              child: Text(
-                '6',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: Dimens.d10.responsive(),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-
-    return iconWidget;
+    return Icon(iconData, color: iconColor, size: Dimens.d24.responsive());
   }
 }

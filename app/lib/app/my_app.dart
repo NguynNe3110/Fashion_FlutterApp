@@ -34,8 +34,10 @@ class _MyAppState extends BasePageState<MyApp, AppBloc> {
   @override
   Widget buildPage(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(DeviceConstants.designDeviceWidth,
-          DeviceConstants.designDeviceHeight),
+      designSize: const Size(
+        DeviceConstants.designDeviceWidth,
+        DeviceConstants.designDeviceHeight,
+      ),
       builder: (context, _) => BlocBuilder<AppBloc, AppState>(
         buildWhen: (previous, current) =>
             previous.isDarkTheme != current.isDarkTheme ||
@@ -66,8 +68,8 @@ class _MyAppState extends BasePageState<MyApp, AppBloc> {
             localeResolutionCallback:
                 (Locale? locale, Iterable<Locale> supportedLocales) =>
                     supportedLocales.contains(locale)
-                        ? locale
-                        : const Locale(LocaleConstants.defaultLocale),
+                    ? locale
+                    : const Locale(LocaleConstants.defaultLocale),
             locale: Locale(state.languageCode.localeCode),
             supportedLocales: S.delegate.supportedLocales,
             localizationsDelegates: const [
@@ -83,13 +85,17 @@ class _MyAppState extends BasePageState<MyApp, AppBloc> {
   }
 
   List<PageRouteInfo> _mapRouteToPageRouteInfo() {
-    return widget.initialResource.initialRoutes.map<PageRouteInfo>((e) {
-      switch (e) {
-        case InitialAppRoute.login:
-          return const LoginRoute();
-        case InitialAppRoute.main:
-          return const MainRoute();
-      }
-    }).toList(growable: false);
+    return widget.initialResource.initialRoutes
+        .map<PageRouteInfo>((e) {
+          switch (e) {
+            case InitialAppRoute.onboarding:
+              return const OnboardingRoute();
+            case InitialAppRoute.login:
+              return const LoginRoute();
+            case InitialAppRoute.main:
+              return const MainRoute();
+          }
+        })
+        .toList(growable: false);
   }
 }

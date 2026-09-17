@@ -1,5 +1,6 @@
 class SymbolConstants {
   const SymbolConstants._();
 
-  static const String yen = '￥';
+  /// Vietnamese đồng. Kept under the legacy name to avoid breaking callers.
+  static const String yen = '₫';
 }

@@ -9,34 +9,23 @@ import 'home.dart';
 
 @injectable
 class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
+  static const _pageSize = 8;
+
   HomeBloc(
-      this._getProductsUseCase,
-      this._getCategoriesUseCase,
-      this._getProfileUseCase,
-      this._getFavoritesUseCase,
-      this._toggleFavoriteUseCase,
-      this._getMeUseCase,
+    this._getProductsUseCase,
+    this._getCategoriesUseCase,
+    this._getProfileUseCase,
+    this._getFavoritesUseCase,
+    this._toggleFavoriteUseCase,
+    this._getMeUseCase,
+  ) : super(HomeState()) {
+    on<HomePageInitiated>(_onHomePageInitiated, transformer: log());
 
-      ) : super(HomeState()) {
-    on<HomePageInitiated>(
-      _onHomePageInitiated,
-      transformer: log(),
-    );
+    on<HomePageRefreshed>(_onHomePageRefreshed, transformer: log());
 
-    on<HomePageRefreshed>(
-      _onHomePageRefreshed,
-      transformer: log(),
-    );
+    on<HomeLoadMoreProducts>(_onHomeLoadMoreProducts, transformer: log());
 
-    on<HomeLoadMoreProducts>(
-      _onHomeLoadMoreProducts,
-      transformer: log(),
-    );
-
-    on<HomeToggleFavorite>(
-      _onHomeToggleFavorite,
-      transformer: log(),
-    );
+    on<HomeToggleFavorite>(_onHomeToggleFavorite, transformer: log());
   }
 
   final GetProductsUseCase _getProductsUseCase;
@@ -45,11 +34,12 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
   final GetFavoritesUseCase _getFavoritesUseCase;
   final ToggleFavoriteUseCase _toggleFavoriteUseCase;
   final GetMeUseCase _getMeUseCase;
+  bool _isLoadingProducts = false;
 
   FutureOr<void> _onHomePageInitiated(
-      HomePageInitiated event,
-      Emitter<HomeState> emit,
-      ) async {
+    HomePageInitiated event,
+    Emitter<HomeState> emit,
+  ) async {
     await _loadHomeData(
       emit: emit,
       isInitialLoad: true,
@@ -60,9 +50,9 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _onHomePageRefreshed(
-      HomePageRefreshed event,
-      Emitter<HomeState> emit,
-      ) async {
+    HomePageRefreshed event,
+    Emitter<HomeState> emit,
+  ) async {
     await _loadHomeData(
       emit: emit,
       isInitialLoad: true,
@@ -77,19 +67,23 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _onHomeLoadMoreProducts(
-      HomeLoadMoreProducts event,
-      Emitter<HomeState> emit,
-      ) async {
-    await _loadHomeData(
-      emit: emit,
-      isInitialLoad: false,
-    );
+    HomeLoadMoreProducts event,
+    Emitter<HomeState> emit,
+  ) async {
+    if (_isLoadingProducts || state.products.isLastPage) return;
+
+    _isLoadingProducts = true;
+    try {
+      await _loadHomeData(emit: emit, isInitialLoad: false);
+    } finally {
+      _isLoadingProducts = false;
+    }
   }
 
   FutureOr<void> _onHomeToggleFavorite(
-      HomeToggleFavorite event,
-      Emitter<HomeState> emit,
-      ) async {
+    HomeToggleFavorite event,
+    Emitter<HomeState> emit,
+  ) async {
     return runBlocCatching(
       action: () async {
         final user = await _getMeUseCase.execute(GetMeUseCaseInput());
@@ -97,18 +91,20 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
 
         final updatedFavs = Set<String>.from(state.favoriteProductIds);
         if (event.isFavorited) {
-        updatedFavs.remove(event.productId);
+          updatedFavs.remove(event.productId);
         } else {
-        updatedFavs.add(event.productId);
+          updatedFavs.add(event.productId);
         }
         // Optimistic update
         emit(state.copyWith(favoriteProductIds: updatedFavs));
 
-        await _toggleFavoriteUseCase.execute(ToggleFavoriteUseCaseInput(
-        userId: userId,
-        productId: event.productId,
-        isFavorited: event.isFavorited,
-        ));
+        await _toggleFavoriteUseCase.execute(
+          ToggleFavoriteUseCaseInput(
+            userId: userId,
+            productId: event.productId,
+            isFavorited: event.isFavorited,
+          ),
+        );
       },
       doOnError: (e) async {
         // Revert optimistic update
@@ -144,7 +140,7 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
 
         final results = await Future.wait([
           _getProductsUseCase.execute(
-            GetProductsInput(offset: offset),
+            GetProductsInput(limit: _pageSize, offset: offset),
           ),
           if (isInitialLoad) ...[
             _getCategoriesUseCase.execute(const GetCategoriesUseCaseInput()),
@@ -162,22 +158,25 @@ class HomeBloc extends BaseBloc<HomeEvent, HomeState> {
           data: newProducts,
           page: state.products.page + 1,
           offset: newProducts.length,
-          isLastPage: productsOutput.products.isEmpty,
+          isLastPage: productsOutput.products.length < _pageSize,
         );
 
         if (isInitialLoad) {
           final categoriesOutput = results[1] as GetCategoriesUseCaseOutput;
           final profileOutput = results[2] as GetProfileUseCaseOutput;
           final favoritesOutput = results[3] as GetFavoritesUseCaseOutput;
-          final favoriteIds =
-          favoritesOutput.favorites.map((f) => f.productId).toSet();
+          final favoriteIds = favoritesOutput.favorites
+              .map((f) => f.productId)
+              .toSet();
 
-          emit(state.copyWith(
-            products: loadMoreOutput,
-            categories: categoriesOutput.categories,
-            profile: profileOutput.profile,
-            favoriteProductIds: favoriteIds,
-          ));
+          emit(
+            state.copyWith(
+              products: loadMoreOutput,
+              categories: categoriesOutput.categories,
+              profile: profileOutput.profile,
+              favoriteProductIds: favoriteIds,
+            ),
+          );
         } else {
           emit(state.copyWith(products: loadMoreOutput));
         }
