@@ -7,9 +7,9 @@ class UiConstants {
   static const shimmerItemCount = 20;
 
   /// material app
-  static const materialAppTitle = 'My App';
-// ignore: avoid_hard_coded_colors
-  static const taskMenuMaterialAppColor = Color.fromARGB(255, 153, 154, 251);
+  static const materialAppTitle = 'Nord';
+  // ignore: avoid_hard_coded_colors
+  static const taskMenuMaterialAppColor = Color(0xFFF8F7F4);
 
   /// orientation
   static const mobileOrientation = [
@@ -27,8 +27,12 @@ class UiConstants {
   /// status bar color
   static const systemUiOverlay = SystemUiOverlayStyle(
     statusBarBrightness: Brightness.light,
-// ignore: avoid_hard_coded_colors
-    statusBarColor: Color.fromARGB(255, 153, 154, 251),
+    statusBarIconBrightness: Brightness.dark,
+    statusBarColor: Color(0x00000000),
+    systemStatusBarContrastEnforced: false,
+    systemNavigationBarColor: Color(0xFFF8F7F4),
+    systemNavigationBarIconBrightness: Brightness.dark,
+    systemNavigationBarContrastEnforced: false,
   );
 
   static const textFieldTextStyleHeight = 1.3;

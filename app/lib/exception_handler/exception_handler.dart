@@ -2,10 +2,7 @@ import 'package:domain/domain.dart';
 import 'package:shared/shared.dart';
 
 class ExceptionHandler {
-  const ExceptionHandler({
-    required this.navigator,
-    required this.listener,
-  });
+  const ExceptionHandler({required this.navigator, required this.listener});
 
   final AppNavigator navigator;
   final ExceptionHandlerListener listener;
@@ -14,7 +11,8 @@ class ExceptionHandler {
     AppExceptionWrapper appExceptionWrapper,
     String commonExceptionMessage,
   ) async {
-    final message = appExceptionWrapper.overrideMessage ?? commonExceptionMessage;
+    final message =
+        appExceptionWrapper.overrideMessage ?? commonExceptionMessage;
 
     switch (appExceptionWrapper.appException.appExceptionType) {
       case AppExceptionType.remote:
@@ -49,7 +47,7 @@ class ExceptionHandler {
       case AppExceptionType.remoteConfig:
         return _showErrorSnackBar(message: message);
       case AppExceptionType.uncaught:
-        return null;
+        return _showErrorSnackBar(message: message);
       case AppExceptionType.validation:
         await _showErrorDialog(message: message);
         break;
@@ -69,25 +67,26 @@ class ExceptionHandler {
     bool isRefreshTokenFailed = false,
   }) async {
     await navigator
-        .showDialog(AppPopupInfo.confirmDialog(
-      message: message,
-      onPressed: onPressed,
-    ))
+        .showDialog(
+          AppPopupInfo.confirmDialog(message: message, onPressed: onPressed),
+        )
         .then((value) {
-      if (isRefreshTokenFailed) {
-        listener.onRefreshTokenFailed();
-      }
-    });
+          if (isRefreshTokenFailed) {
+            listener.onRefreshTokenFailed();
+          }
+        });
   }
 
   Future<void> _showErrorDialogWithRetry({
     required String message,
     required Func0<void>? onRetryPressed,
   }) async {
-    await navigator.showDialog(AppPopupInfo.errorWithRetryDialog(
-      message: message,
-      onRetryPressed: onRetryPressed,
-    ));
+    await navigator.showDialog(
+      AppPopupInfo.errorWithRetryDialog(
+        message: message,
+        onRetryPressed: onRetryPressed,
+      ),
+    );
   }
 }
 

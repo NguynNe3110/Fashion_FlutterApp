@@ -9,19 +9,15 @@ import 'package:shared/shared.dart';
 import '../app.dart';
 
 @LazySingleton(as: AppNavigator) //dùng extend k phải implement
-class AppNavigatorImpl extends AppNavigator with LogMixin { // để định nghĩa giao thức của toàn bộ nav
+class AppNavigatorImpl extends AppNavigator with LogMixin {
+  // để định nghĩa giao thức của toàn bộ nav
   AppNavigatorImpl(
     this._appRouter,
     this._appPopupInfoMapper,
     this._appRouteInfoMapper,
   );
 
-  final tabRoutes = const [
-    HomeTab(),
-    FavoriteTab(),
-    CartTab(),
-    MyPageTab(),
-  ];
+  final tabRoutes = const [HomeTab(), FavoriteTab(), CartTab(), MyPageTab()];
 
   TabsRouter? tabsRouter;
 
@@ -58,12 +54,9 @@ class AppNavigatorImpl extends AppNavigator with LogMixin { // để định ng
   bool get canPopSelfOrChildren => _appRouter.canPop();
 
   @override
-  String getCurrentRouteName({bool useRootNavigator = false}) =>
-      AutoRouter.of(useRootNavigator
-              ? _rootRouterContext
-              : _currentTabContextOrRootContext)
-          .current
-          .name;
+  String getCurrentRouteName({bool useRootNavigator = false}) => AutoRouter.of(
+    useRootNavigator ? _rootRouterContext : _currentTabContextOrRootContext,
+  ).current.name;
 
   @override
   void popUntilRootOfCurrentBottomTab() {
@@ -130,15 +123,22 @@ class AppNavigatorImpl extends AppNavigator with LogMixin { // để định ng
   }
 
   @override
-  Future<void> pop<T extends Object?>(
-      {T? result, bool useRootNavigator = false}) async {
+  Future<void> pop<T extends Object?>({
+    T? result,
+    bool useRootNavigator = false,
+  }) async {
     if (LogConfig.enableNavigatorObserverLog) {
       logD('pop with result = $result, useRootNav = $useRootNavigator');
     }
 
-    return useRootNavigator
-        ? _appRouter.pop<T>(result)
-        : _currentTabRouterOrRootRouter.pop<T>(result);
+    // Pages opened by [push] live on the root stack, while tab details may
+    // live in a nested stack. Always close the visible root route first;
+    // otherwise a back action from Search can remove the tab's root page and
+    // leave a blank screen behind the still-open Search route.
+    if (useRootNavigator || _appRouter.canPop()) {
+      return _appRouter.pop<T>(result);
+    }
+    return _currentTabRouterOrRootRouter.pop<T>(result);
   }
 
   @override
@@ -149,12 +149,15 @@ class AppNavigatorImpl extends AppNavigator with LogMixin { // để định ng
   }) {
     if (LogConfig.enableNavigatorObserverLog) {
       logD(
-          'popAndPush $appRouteInfo with result = $result, useRootNav = $useRootNavigator');
+        'popAndPush $appRouteInfo with result = $result, useRootNav = $useRootNavigator',
+      );
     }
 
     return useRootNavigator
-        ? _appRouter.popAndPush<T, R>(_appRouteInfoMapper.map(appRouteInfo),
-            result: result)
+        ? _appRouter.popAndPush<T, R>(
+            _appRouteInfoMapper.map(appRouteInfo),
+            result: result,
+          )
         : _currentTabRouterOrRootRouter.popAndPush<T, R>(
             _appRouteInfoMapper.map(appRouteInfo),
             result: result,
@@ -200,17 +203,21 @@ class AppNavigatorImpl extends AppNavigator with LogMixin { // để định ng
   }
 
   @override
-  Future<void> popAndPushAll(List<AppRouteInfo> listAppRouteInfo,
-      {bool useRootNavigator = false}) {
+  Future<void> popAndPushAll(
+    List<AppRouteInfo> listAppRouteInfo, {
+    bool useRootNavigator = false,
+  }) {
     if (LogConfig.enableNavigatorObserverLog) {
       logD('popAndPushAll $listAppRouteInfo, useRootNav = $useRootNavigator');
     }
 
     return useRootNavigator
-        ? _appRouter
-            .popAndPushAll(_appRouteInfoMapper.mapList(listAppRouteInfo))
-        : _currentTabRouterOrRootRouter
-            .popAndPushAll(_appRouteInfoMapper.mapList(listAppRouteInfo));
+        ? _appRouter.popAndPushAll(
+            _appRouteInfoMapper.mapList(listAppRouteInfo),
+          )
+        : _currentTabRouterOrRootRouter.popAndPushAll(
+            _appRouteInfoMapper.mapList(listAppRouteInfo),
+          );
   }
 
   @override
@@ -261,8 +268,12 @@ class AppNavigatorImpl extends AppNavigator with LogMixin { // để định ng
     Duration transitionDuration =
         DurationConstants.defaultGeneralDialogTransitionDuration,
     m.Widget Function(
-            m.BuildContext, m.Animation<double>, m.Animation<double>, m.Widget)?
-        transitionBuilder,
+      m.BuildContext,
+      m.Animation<double>,
+      m.Animation<double>,
+      m.Widget,
+    )?
+    transitionBuilder,
     m.Color barrierColor = const m.Color(0x80000000),
     bool barrierDismissible = true,
     bool useRootNavigator = true,
@@ -281,20 +292,20 @@ class AppNavigatorImpl extends AppNavigator with LogMixin { // để định ng
       barrierColor: barrierColor,
       useRootNavigator: useRootNavigator,
       barrierDismissible: barrierDismissible,
-      pageBuilder: (
-        m.BuildContext context,
-        m.Animation<double> animation1,
-        m.Animation<double> animation2,
-      ) =>
-          m.PopScope(
-        onPopInvokedWithResult: (didPop, result) {
-          if (didPop) {
-            logD('Dialog $appPopupInfo dismissed');
-            _shownPopups.remove(appPopupInfo);
-          }
-        },
-        child: _appPopupInfoMapper.map(appPopupInfo, this),
-      ),
+      pageBuilder:
+          (
+            m.BuildContext context,
+            m.Animation<double> animation1,
+            m.Animation<double> animation2,
+          ) => m.PopScope(
+            onPopInvokedWithResult: (didPop, result) {
+              if (didPop) {
+                logD('Dialog $appPopupInfo dismissed');
+                _shownPopups.remove(appPopupInfo);
+              }
+            },
+            child: _appPopupInfoMapper.map(appPopupInfo, this),
+          ),
       transitionBuilder: transitionBuilder,
       transitionDuration: transitionDuration,
     );
@@ -312,7 +323,8 @@ class AppNavigatorImpl extends AppNavigator with LogMixin { // để định ng
   }) {
     if (LogConfig.enableNavigatorObserverLog) {
       logD(
-          'showModalBottomSheet $appPopupInfo, useRootNav = $useRootNavigator');
+        'showModalBottomSheet $appPopupInfo, useRootNav = $useRootNavigator',
+      );
     }
 
     return m.showModalBottomSheet<T>(
