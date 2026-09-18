@@ -19,18 +19,18 @@ class HomeEditorialBanner extends StatelessWidget {
             color: AppColors.phDark,
             borderRadius: BorderRadius.circular(Dimens.d24.responsive()),
           ),
-          clipBehavior: Clip.antiAlias,
+          clipBehavior: Clip.antiAlias, // bo góc theo banner
           child: Stack(
             fit: StackFit.expand,
             children: [
               // Background pattern or image
-              const Center(
-                child: Icon(
-                  Icons.style_outlined,
-                  size: 80,
-                  color: Colors.white24,
-                ),
+              Image.asset(
+                AppImages.banner1,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
               ),
+
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(

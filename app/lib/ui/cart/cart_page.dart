@@ -443,7 +443,7 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: Dimens.d32.responsive(),
-                  vertical: Dimens.d16.responsive(),
+                  vertical: Dimens.d12.responsive(),
                 ),
                 decoration: BoxDecoration(
                   color: AppColors.ink,

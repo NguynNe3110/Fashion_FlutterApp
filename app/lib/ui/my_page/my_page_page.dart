@@ -69,7 +69,7 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
                 _buildLogoutButton(),
                 SizedBox(height: Dimens.d40.responsive()),
                 _buildVersionInfo(),
-                SizedBox(height: Dimens.d32.responsive()),
+                SizedBox(height: Dimens.d128.responsive()),
               ],
             ),
           );
@@ -282,7 +282,7 @@ class _MyPagePageState extends BasePageState<MyPagePage, MyPageBloc> {
         onTap: _confirmLogout,
         child: Container(
           width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: Dimens.d16.responsive()),
+          padding: EdgeInsets.symmetric(vertical: Dimens.d12.responsive()),
           alignment: Alignment.center,
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.line2),

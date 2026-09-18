@@ -37,7 +37,7 @@ class HomeProductGrid extends StatelessWidget {
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: ProductCard.gridCrossAxisCount(context),
-          mainAxisSpacing: Dimens.d24.responsive(),
+          mainAxisSpacing: Dimens.d12.responsive(),
           crossAxisSpacing: crossAxisSpacing,
           mainAxisExtent: itemExtent,
         ),
