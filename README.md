@@ -6,8 +6,8 @@
 <h1 align="center">Nord - Fashion App - Clean Architecture</h1>
 
 <p align="center">
-  <a href="https://flutter.dev" target="_blank"><img src="https://img.shields.io/badge/Flutter-3.13.1-%2302569B.svg?style=flat&logo=Flutter&logoColor=white" alt="Flutter"></a>
-  <a href="https://dart.dev" target="_blank"><img src="https://img.shields.io/badge/Dart-3.1.0-%230175C2.svg?style=flat&logo=dart&logoColor=white" alt="Dart"></a>
+  <a href="https://flutter.dev" target="_blank"><img src="https://img.shields.io/badge/Flutter->=3.10.0-%2302569B.svg?style=flat&logo=Flutter&logoColor=white" alt="Flutter"></a>
+  <a href="https://dart.dev" target="_blank"><img src="https://img.shields.io/badge/Dart->=3.9.0-%230175C2.svg?style=flat&logo=dart&logoColor=white" alt="Dart"></a>
   <a href="https://bloclibrary.dev" target="_blank"><img src="https://img.shields.io/badge/State-BLoC-blue" alt="BLoC"></a>
   <a href="#license"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 </p>
@@ -47,10 +47,14 @@ This project is a high-quality "Base" project designed for scalability and maint
   </tr>
   <tr>
     <td>💾 <b>Local Database</b>: High-performance storage with ObjectBox.</td>
+    <td>☁️ <b>Backend</b>: Supabase integration.</td>
+  </tr>
+  <tr>
+    <td>✨ <b>Shimmer Loading</b>: Custom shimmer effect for smooth loading UX.</td>
     <td>🛠️ <b>Custom Lints</b>: Enforced coding standards via nals_lints.</td>
   </tr>
   <tr>
-    <td>📱 <b>Responsive UI</b>: Adaptive layouts for different screen sizes.</td>
+    <td>📱 <b>Responsive UI</b>: Adaptive layouts with flutter_screenutil.</td>
     <td>🌍 <b>Localization</b>: Internationalization support (i18n).</td>
   </tr>
 </table>
@@ -61,9 +65,9 @@ This project is a high-quality "Base" project designed for scalability and maint
 
 | Core | Navigation & DI | Data & Storage |
 |------|-----------------|----------------|
-| Flutter SDK (3.13.1) | AutoRoute | Dio (HTTP) |
-| Dart (3.1.0) | GetIt | ObjectBox (DB) |
-| Melos (Monorepo) | Injectable | SharedPreferences |
+| Flutter SDK (>=3.10.0) | AutoRoute | Dio (HTTP) |
+| Dart (>=3.9.0) | GetIt | ObjectBox (DB) |
+| Melos (Monorepo) | Injectable | Supabase |
 | flutter_bloc | | Freezed (Data Class) |
 
 ---
@@ -133,7 +137,6 @@ This base focuses on **reusability** through powerful base classes:
 - **`CommonBloc`**: A global state manager for app-wide events like showing a loading overlay or handling session expiration.
 - **`runBlocCatching`**: A robust wrapper that handles `showLoading`, `hideLoading`, `try-catch`, and `automatic retry` logic.
 
-> 💡 For more details, check out the guides in `afolder/machine_learning/` and `afolder/context/`.
 
 ---
 
