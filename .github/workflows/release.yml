@@ -42,6 +42,11 @@ jobs:
           SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
           SUPABASE_AUTH_REDIRECT_URL: ${{ secrets.SUPABASE_AUTH_REDIRECT_URL }}
         run: |
+          if [[ -z "$SUPABASE_URL" || -z "$SUPABASE_PUBLISHABLE_KEY" || -z "$SUPABASE_AUTH_REDIRECT_URL" ]]; then
+            echo "::error::Configure the required Supabase secrets in the repository settings."
+            exit 1
+          fi
+
           printf 'SUPABASE_URL=%s\n' "$SUPABASE_URL" > app/.env
           printf 'SUPABASE_PUBLISHABLE_KEY=%s\n' "$SUPABASE_PUBLISHABLE_KEY" >> app/.env
           printf 'SUPABASE_AUTH_REDIRECT_URL=%s\n' "$SUPABASE_AUTH_REDIRECT_URL" >> app/.env
