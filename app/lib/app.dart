@@ -174,6 +174,7 @@ export 'ui/search/bloc/search_bloc.dart';
 export 'ui/search/bloc/search_event.dart';
 export 'ui/search/bloc/search_state.dart';
 export 'ui/search/search_page.dart';
+export 'ui/splash/splash_page.dart';
 export 'ui/vouchers/bloc/vouchers.dart';
 export 'ui/vouchers/bloc/vouchers_bloc.dart';
 export 'ui/vouchers/bloc/vouchers_event.dart';

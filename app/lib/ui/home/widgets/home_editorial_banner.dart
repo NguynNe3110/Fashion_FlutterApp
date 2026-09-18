@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared/shared.dart';
 import '../../../../app.dart';
 
 class HomeEditorialBanner extends StatelessWidget {

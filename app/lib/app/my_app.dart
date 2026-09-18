@@ -47,12 +47,16 @@ class _MyAppState extends BasePageState<MyApp, AppBloc> {
           return MaterialApp.router(
             builder: (context, child) {
               final MediaQueryData data = MediaQuery.of(context);
+              AppDimen.of(context);
+              AppColors.of(context);
 
               return AnnotatedRegion<SystemUiOverlayStyle>(
                 value: UiConstants.systemUiOverlay,
                 child: MediaQuery(
                   data: data.copyWith(textScaler: const TextScaler.linear(1.0)),
-                  child: child ?? const SizedBox.shrink(),
+                  child: AnimatedAppSplash(
+                    child: child ?? const SizedBox.shrink(),
+                  ),
                 ),
               );
             },
