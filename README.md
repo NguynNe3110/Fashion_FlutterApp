@@ -139,18 +139,36 @@ This base focuses on **reusability** through powerful base classes:
 
 ## 📱 Screenshots
 
-<p align="center">
-  <img src="images/home_screen_1.png" width="180" alt="Home Screen 1"/>
-  <img src="images/home_screen_2.png" width="180" alt="Home Screen 2"/>
-  <img src="images/search_screen.png" width="180" alt="Search Screen"/>
-  <img src="images/favorite_screen.png" width="180" alt="Favorite Screen"/>
-</p>
+<details>
+  <summary>🏠 Home & Search</summary>
+  <p align="center">
+    <img src="images/home_screen_1.png" width="180" alt="Home Screen 1"/>
+    <img src="images/home_screen_2.png" width="180" alt="Home Screen 2"/>
+    <img src="images/search_screen.png" width="180" alt="Search Screen"/>
+  </p>
+</details>
 
-<p align="center">
-  <img src="images/cart_screen.png" width="180" alt="Cart Screen"/>
-  <img src="images/checkout_screen.png" width="180" alt="Checkout Screen"/>
-  <img src="images/mypage_screen.png" width="180" alt="My Page Screen"/>
-</p>
+<details>
+  <summary>❤️ Favorite</summary>
+  <p align="center">
+    <img src="images/favorite_screen.png" width="180" alt="Favorite Screen"/>
+  </p>
+</details>
+
+<details>
+  <summary>🛒 Cart & Checkout</summary>
+  <p align="center">
+    <img src="images/cart_screen.png" width="180" alt="Cart Screen"/>
+    <img src="images/checkout_screen.png" width="180" alt="Checkout Screen"/>
+  </p>
+</details>
+
+<details>
+  <summary>👤 My Page</summary>
+  <p align="center">
+    <img src="images/mypage_screen.png" width="180" alt="My Page Screen"/>
+  </p>
+</details>
 
 ---
 
