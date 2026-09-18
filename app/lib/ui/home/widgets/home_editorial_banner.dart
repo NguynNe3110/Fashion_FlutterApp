@@ -9,7 +9,7 @@ class HomeEditorialBanner extends StatelessWidget {
     return SliverPadding(
       padding: EdgeInsets.symmetric(
         horizontal: Dimens.d20.responsive(),
-        vertical: Dimens.d24.responsive(),
+        vertical: Dimens.d12.responsive(),
       ),
       sliver: SliverToBoxAdapter(
         child: Container(

@@ -32,7 +32,7 @@ class HomeProductGrid extends StatelessWidget {
     return SliverPadding(
       padding: EdgeInsets.symmetric(
         horizontal: Dimens.d20.responsive(),
-        vertical: Dimens.d16.responsive(),
+        vertical: Dimens.d12.responsive(),
       ),
       sliver: SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

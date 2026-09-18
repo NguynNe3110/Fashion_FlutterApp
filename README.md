@@ -1,4 +1,7 @@
 
+<p align="center">
+  <img src="images/app_logo.png" width="160" alt="Architecture Diagram"/>
+</p>
 
 <h1 align="center">Nord - Fashion App - Clean Architecture</h1>
 
@@ -69,6 +72,10 @@ This project is a high-quality "Base" project designed for scalability and maint
 
 The project is structured as a Monorepo to ensure a clear separation of concerns.
 
+<p align="center">
+  <img src="images/project_architecture.png" width="800" alt="Architecture Diagram"/>
+</p>
+
 ```text
 fahion/ (Root)
 ├── 📦 app/            # Presentation Layer: UI, BLoCs, Navigation, Pages
@@ -118,9 +125,7 @@ fahion/ (Root)
 ---
 
 ## 📖 Clean Architecture Deep Dive
-<p align="center">
-  <img src="images/project_architecture.png" width="800" alt="Architecture Diagram"/>
-</p>
+
 This base focuses on **reusability** through powerful base classes:
 
 - **`BaseBloc`**: Handles loading states automatically via `CommonBloc`, provides `runBlocCatching` for unified error handling.
@@ -129,6 +134,23 @@ This base focuses on **reusability** through powerful base classes:
 - **`runBlocCatching`**: A robust wrapper that handles `showLoading`, `hideLoading`, `try-catch`, and `automatic retry` logic.
 
 > 💡 For more details, check out the guides in `afolder/machine_learning/` and `afolder/context/`.
+
+---
+
+## 📱 Screenshots
+
+<p align="center">
+  <img src="images/home_screen_1.png" width="180" alt="Home Screen 1"/>
+  <img src="images/home_screen_2.png" width="180" alt="Home Screen 2"/>
+  <img src="images/search_screen.png" width="180" alt="Search Screen"/>
+  <img src="images/favorite_screen.png" width="180" alt="Favorite Screen"/>
+</p>
+
+<p align="center">
+  <img src="images/cart_screen.png" width="180" alt="Cart Screen"/>
+  <img src="images/checkout_screen.png" width="180" alt="Checkout Screen"/>
+  <img src="images/mypage_screen.png" width="180" alt="My Page Screen"/>
+</p>
 
 ---
 
