@@ -29,7 +29,14 @@ class HomeCategories extends StatelessWidget {
                 Text('Khám phá', style: AppTextStyles.sectionTitle()),
                 GestureDetector(
                   onTap: onSeeAll,
-                  child: Text('Tất cả', style: AppTextStyles.linkText()),
+                  child: Text('Tất cả',
+                    style: AppTextStyles.s14w400Primary().copyWith(
+                      color: AppColors.ink,
+                      fontWeight: FontWeight.w600,
+                      fontSize: Dimens.d14.responsive(),
+                      decoration: TextDecoration.underline
+                  ),
+                  ),
                 ),
               ],
             ),

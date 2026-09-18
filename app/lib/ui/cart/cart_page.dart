@@ -363,7 +363,7 @@ class _CartPageState extends BasePageState<CartPage, CartBloc> {
         Dimens.d20.responsive(),
         Dimens.d16.responsive(),
         Dimens.d20.responsive(),
-        Dimens.d32.responsive(),
+        Dimens.d112.responsive(),
       ),
       decoration: const BoxDecoration(
         color: Colors.white,

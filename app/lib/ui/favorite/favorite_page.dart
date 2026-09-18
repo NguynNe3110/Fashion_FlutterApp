@@ -49,6 +49,7 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
         ],
       ),
       body: SafeArea(
+        bottom: false,
         child: Column(
           children: [
             _buildSubHeader(),
@@ -68,7 +69,12 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
                   }
 
                   return GridView.builder(
-                    padding: EdgeInsets.all(Dimens.d20.responsive()),
+                    padding: EdgeInsets.fromLTRB(
+                      Dimens.d20.responsive(),
+                      Dimens.d20.responsive(),
+                      Dimens.d20.responsive(),
+                      Dimens.d128.responsive(),
+                    ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: ProductCard.gridCrossAxisCount(context),
                       mainAxisSpacing: Dimens.d24.responsive(),
@@ -237,7 +243,12 @@ class _FavoritePageState extends BasePageState<FavoritePage, FavoriteBloc> {
 
   Widget _buildLoader() {
     return GridView.builder(
-      padding: EdgeInsets.all(Dimens.d20.responsive()),
+      padding: EdgeInsets.fromLTRB(
+        Dimens.d20.responsive(),
+        Dimens.d20.responsive(),
+        Dimens.d20.responsive(),
+        Dimens.d128.responsive(),
+      ),
       itemCount: 4,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

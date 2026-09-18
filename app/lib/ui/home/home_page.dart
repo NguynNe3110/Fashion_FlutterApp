@@ -82,6 +82,7 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
     return CommonScaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
+        bottom: false,
         child: BlocBuilder<HomeBloc, HomeState>(
           buildWhen: (previous, current) =>
               previous.products != current.products ||
@@ -155,7 +156,7 @@ class _HomePageState extends BasePageState<HomePage, HomeBloc> {
                     ),
                   ),
                   SliverToBoxAdapter(
-                    child: SizedBox(height: Dimens.d40.responsive()),
+                    child: SizedBox(height: Dimens.d128.responsive()),
                   ),
                 ],
               ),
