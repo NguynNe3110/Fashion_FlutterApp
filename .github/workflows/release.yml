@@ -1,0 +1,66 @@
+name: Build and release Android APK
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: android-release-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-release:
+    name: Build and publish APK
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.44.1"
+          channel: stable
+          cache: true
+
+      - name: Create environment file
+        shell: bash
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+          SUPABASE_AUTH_REDIRECT_URL: ${{ secrets.SUPABASE_AUTH_REDIRECT_URL }}
+        run: |
+          printf 'SUPABASE_URL=%s\n' "$SUPABASE_URL" > app/.env
+          printf 'SUPABASE_PUBLISHABLE_KEY=%s\n' "$SUPABASE_PUBLISHABLE_KEY" >> app/.env
+          printf 'SUPABASE_AUTH_REDIRECT_URL=%s\n' "$SUPABASE_AUTH_REDIRECT_URL" >> app/.env
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze source code
+        run: flutter analyze --no-fatal-warnings --no-fatal-infos
+
+      - name: Build release APK
+        working-directory: app
+        run: flutter build apk --release
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Build ${{ github.run_number }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: app/build/app/outputs/flutter-apk/app-release.apk
