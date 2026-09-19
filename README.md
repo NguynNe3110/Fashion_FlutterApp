@@ -177,4 +177,4 @@ This base focuses on **reusability** through powerful base classes:
 
 ## 📄 License
 
-MIT License © 2024
+MIT License © 2024..
