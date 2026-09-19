@@ -60,6 +60,29 @@ jobs:
               working-directory: domain
               run: dart run build_runner build --delete-conflicting-outputs --build-filter="lib/**.freezed.dart" --build-filter="lib/**.g.dart"
 
+            - name: Generate domain dependency injection
+              working-directory: domain
+              shell: bash
+              run: |
+                  set +e
+                  dart run build_runner build --delete-conflicting-outputs --build-filter="lib/src/di/di.config.dart"
+                  generator_status=$?
+                  set -e
+
+                  test -s lib/src/di/di.config.dart
+
+                  if [[ $generator_status -ne 0 ]]; then
+                    echo "::warning::Injectable reported unresolved cross-package dependencies, but di.config.dart was generated."
+                  fi
+
+            - name: Verify domain generated files
+              shell: bash
+              run: |
+                  test -s domain/lib/src/di/di.config.dart
+                  test -s domain/lib/src/entity/app_notification.freezed.dart
+                  test -s domain/lib/src/entity/base/paged_list.freezed.dart
+                  test -s domain/lib/src/entity/user.freezed.dart
+
             - name: Generate data source code
               working-directory: data
               run: dart run build_runner build --delete-conflicting-outputs

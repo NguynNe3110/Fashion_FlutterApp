@@ -5,5 +5,5 @@ import 'di.config.dart';
 
 final GetIt getIt = GetIt.instance;
 
-@injectableInit
+@InjectableInit(ignoreUnregisteredTypesInPackages: ['domain'])
 void configureInjection() => getIt.init();
