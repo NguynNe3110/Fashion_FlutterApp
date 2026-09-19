@@ -52,6 +52,9 @@ jobs:
             - name: Install dependencies
               run: flutter pub get
 
+            - name: Generate source code
+              run: dart run melos exec --depends-on=build_runner -- "dart run build_runner build --delete-conflicting-outputs"
+
             - name: Analyze source code
               run: flutter analyze --no-fatal-warnings --no-fatal-infos
 
