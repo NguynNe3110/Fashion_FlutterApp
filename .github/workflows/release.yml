@@ -52,12 +52,23 @@ jobs:
             - name: Install dependencies
               run: flutter pub get
 
-            - name: Generate source code
-              continue-on-error: true
-              run: dart run melos exec --depends-on=build_runner -- "dart run build_runner build --delete-conflicting-outputs"
+            - name: Generate shared source code
+              working-directory: shared
+              run: dart run build_runner build --delete-conflicting-outputs
+
+            - name: Generate domain models
+              working-directory: domain
+              run: dart run build_runner build --delete-conflicting-outputs --build-filter="lib/**.freezed.dart" --build-filter="lib/**.g.dart"
+
+            - name: Generate data source code
+              working-directory: data
+              run: dart run build_runner build --delete-conflicting-outputs
+
+            - name: Generate app source code
+              working-directory: app
+              run: dart run build_runner build --delete-conflicting-outputs
 
             - name: Analyze source code
-              continue-on-error: true
               run: flutter analyze --no-fatal-warnings --no-fatal-infos
 
             - name: Build release APK
