@@ -23,4 +23,3 @@ dev_dependencies:
     freezed: ^2.5.7
     injectable_generator: ^2.7.0
 
-    flutter_dotenv: ^6.0.0
