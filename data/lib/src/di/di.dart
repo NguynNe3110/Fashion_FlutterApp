@@ -15,20 +15,20 @@ import 'di.config.dart';
 abstract class ServiceModule {
   // khoi tao supabase client
   @singleton
-  SupabaseClient get supabaseClient => Supabase.instance.client;
+  SupabaseClient get supabaseClient => Supabase.instance.client; //sup
 
   @preResolve // chờ await xong
-  Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
+  Future<SharedPreferences> get prefs => SharedPreferences.getInstance(); // preference
 
   @preResolve
-  Future<FlutterSecureStorage> get secureStorage async {
+  Future<FlutterSecureStorage> get secureStorage async { // SecureStorage
     return const FlutterSecureStorage(
       aOptions: AndroidOptions(encryptedSharedPreferences: true),
     );
   }
 
   @preResolve
-  Future<Store> getStore() async {
+  Future<Store> getStore() async { //objectBox
     final dir = await getApplicationDocumentsDirectory();
 
     return Store(

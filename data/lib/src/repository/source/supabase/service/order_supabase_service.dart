@@ -84,7 +84,7 @@ class OrderSupabaseService {
     return runSupabaseCatching(
       action: () async {
         final response = await _supabaseClient
-            .rpc(
+            .rpc( // hàm rpc - remote procedure call: chạy duy nhất trong 1 transaction
               'checkout_cart',
               params: {
                 'p_address_id': addressId,

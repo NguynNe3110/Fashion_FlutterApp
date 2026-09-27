@@ -49,19 +49,6 @@ class OrderMapper extends BaseDataMapper<OrderResponseDto, OrderEntity> {
     );
   }
 
-  CreateOrderItemRequestDto mapOrderItemToDto(OrderItemEntity entity) {
-    return CreateOrderItemRequestDto(
-      orderId: entity.orderId,
-      productId: entity.productId,
-      variantId: entity.variantId,
-      productNameSnapshot: entity.productNameSnapshot,
-      variantSnapshot: entity.variantSnapshot,
-      priceSnapshot: entity.priceSnapshot.toDouble(),
-      quantity: entity.quantity,
-      imageUrlSnapshot: entity.imageUrlSnapshot,
-    );
-  }
-
   OrderStatus _mapOrderStatus(OrderStatusResponseDto? dto) {
     switch (dto) {
       case OrderStatusResponseDto.pending:

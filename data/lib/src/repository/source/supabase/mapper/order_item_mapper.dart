@@ -20,4 +20,17 @@ class OrderItemMapper
       createdAt: DateTime.tryParse(data?.createdAt ?? ''),
     );
   }
+
+  CreateOrderItemRequestDto mapToDto(OrderItemEntity entity) {
+    return CreateOrderItemRequestDto(
+      orderId: entity.orderId,
+      productId: entity.productId,
+      variantId: entity.variantId,
+      productNameSnapshot: entity.productNameSnapshot,
+      variantSnapshot: entity.variantSnapshot,
+      priceSnapshot: entity.priceSnapshot.toDouble(),
+      quantity: entity.quantity,
+      imageUrlSnapshot: entity.imageUrlSnapshot,
+    );
+  }
 }
