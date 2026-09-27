@@ -62,18 +62,18 @@ abstract class BaseBlocDelegate<
   }
 
   Future<void> runBlocCatching({
-    required Future<void> Function() action,
-    Future<void> Function()? doOnRetry,
-    Future<void> Function(AppException)? doOnError,
-    Future<void> Function()? doOnSubscribe,
-    Future<void> Function()? doOnSuccessOrError,
-    Future<void> Function()? doOnEventCompleted,
-    bool handleLoading = true,
-    bool handleError = true,
-    bool handleRetry = true,
-    bool Function(AppException)? forceHandleError,
-    String? overrideErrorMessage,
-    int? maxRetries,
+    required Future<void> Function() action, // hàm thực thi
+    Future<void> Function()? doOnRetry, // chạy khi user bấm nút retry ở dialog (nếu k gọi thì runBloc tự gọi lại để retry)
+    Future<void> Function(AppException)? doOnError, // chạy khi gặp lỗi, (nếu lỗi thì chạy để revert lại)
+    Future<void> Function()? doOnSubscribe, //  để  reset state cũ, set state trước khi fetch (show shimmer loading)
+    Future<void> Function()? doOnSuccessOrError, // chạy ngay khi action end, để tắt bộ đếm tg, để log tg  hoàn thành task
+    Future<void> Function()? doOnEventCompleted, // chay ở khối finally, để giải phóng bộ  nhớ, biến tạm
+    bool handleLoading = true, // overlay loading (T = tự động hiện )
+    bool handleError = true, // tự động bắt và hiển thị báo lỗi (dialog/toast)
+    bool handleRetry = true, // cấu hình xem lỗi này có cho phép người dùng bấm nút thử lại trên dialog k
+    bool Function(AppException)? forceHandleError, // func nhận AppException trả về bool (nếu tra về true, nó bắt buộc hiển thị dialog)
+    String? overrideErrorMessage,// dùng để ghi đè tbao lỗi, ví dụ be trả về tb qua kĩ thuật thì ghi  đè cho dễ hiểu
+    int? maxRetries, //số lần tự động cho phép retry tối đa (mỗi lần retry đệ quy sẽ -1)
   }) async {
     assert(maxRetries == null || maxRetries > 0, 'maxRetries must be positive');
     Completer<void>? recursion;

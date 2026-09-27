@@ -23,7 +23,7 @@ abstract class BasePageStateDelegate<
   late final AppNavigator navigator = GetIt.instance.get<AppNavigator>(); // Imp
   late final AppBloc appBloc = GetIt.instance.get<AppBloc>(); // Imp
   late final ExceptionMessageMapper exceptionMessageMapper =
-      const ExceptionMessageMapper();
+      const ExceptionMessageMapper(); // map lỗi
   late final ExceptionHandler exceptionHandler = ExceptionHandler(
     // Imp
     navigator: navigator,
@@ -33,7 +33,7 @@ abstract class BasePageStateDelegate<
   // dùng cú pháp cascade(..);
   late final CommonBloc commonBloc =
       GetIt.instance
-          .get<CommonBloc>() // inject cho commonBloc
+          .get<CommonBloc>() // inject cho commonBloc:   lấy commonBLoc ra, và thực hiện cascade
         ..navigator = navigator
         ..disposeBag = disposeBag
         ..appBloc = appBloc
@@ -80,13 +80,13 @@ abstract class BasePageStateDelegate<
                 ? buildPage(context)
                 : Stack(
                     children: [
-                      buildPage(context),
+                      buildPage(context), // giao dien chính của màn hình
                       BlocBuilder<CommonBloc, CommonState>(
                         buildWhen: (previous, current) =>
                             previous.isLoading != current.isLoading,
                         builder: (context, state) => Visibility(
                           visible: state.isLoading,
-                          child: buildPageLoading(),
+                          child: buildPageLoading(), // lớp phủ overlay
                         ),
                       ),
                     ],
