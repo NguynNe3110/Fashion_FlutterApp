@@ -2,8 +2,8 @@ name: Build and release Android APK
 
 on:
     push:
-        branches:
-            - main
+      tags:
+        - 'v*'   # Chỉ build khi push tag dạng v1.0.0
     workflow_dispatch:
 
 permissions:
