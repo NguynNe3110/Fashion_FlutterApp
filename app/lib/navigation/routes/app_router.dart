@@ -37,10 +37,10 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: HelpRoute.page),
     AutoRoute(
       page: ItemDetailRoute.page,
-      guards: [RouteGuard(GetIt.instance.get<IsLoggedInUseCase>())],
+      guards: [RouteGuard(GetIt.instance.get<IsLoggedInUseCase>())], // route có bảo mật (phải đăng nhap moi vao duoc)
     ),
 
-    AutoRoute(
+    AutoRoute( //nest routing cho bottom navigation
       page: MainRoute.page,
       children: [
         // nếu lồng thì lồng bằng children

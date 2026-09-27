@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 
 import 'checkout.dart';
 
-@injectable
+@injectable  // k khác mấy so với @Injectable()
 class CheckoutBloc extends BaseBloc<CheckoutEvent, CheckoutState> {
   CheckoutBloc(
     this._checkoutSelectedItemsUseCase,

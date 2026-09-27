@@ -42,7 +42,7 @@ abstract class BasePageStateDelegate<
 
   late final B bloc =
       GetIt.instance
-          .get<B>() // inject cho bloc
+          .get<B>() // inject cho bloc (khởi tạo bloc)
         ..navigator = navigator
         ..disposeBag = disposeBag
         ..appBloc = appBloc
